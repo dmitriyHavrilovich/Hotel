@@ -8,12 +8,10 @@ import javax.persistence.Id;
 
 @Data
 @Entity
-public class Currency {
+public class DocumentType {
 
     @Id
     private Long id;
-
-    @Column(name = "name")
-    private String name;
-    private MovementDocument movementDocument;
+    @Column(name = "doc_type")
+    private String type;
 }

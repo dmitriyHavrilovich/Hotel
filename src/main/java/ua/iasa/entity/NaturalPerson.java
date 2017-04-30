@@ -6,14 +6,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Data
 @Entity
-public class Currency {
+@Data
+public class NaturalPerson extends Contractor{
 
-    @Id
-    private Long id;
-
-    @Column(name = "name")
     private String name;
-    private MovementDocument movementDocument;
+    private String surname;
+    private String patronymic;
+    @Column(name = "birth_date")
+    private String birthDate;
 }

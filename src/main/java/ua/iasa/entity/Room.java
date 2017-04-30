@@ -5,18 +5,16 @@ import lombok.Data;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
-@Entity
 @Data
-@Table(name = "document")
-public class Document {
+@Entity
+public class Room {
 
     @Id
     private Long id;
-    @Column
-    private String date;
-    private DocumentType documentType;
+    @Column(name = "room_type")
+    private String roomType;
+    @Column(name = "number")
+    private String roomNumber;
     private MovementDocument movementDocument;
-
 }
