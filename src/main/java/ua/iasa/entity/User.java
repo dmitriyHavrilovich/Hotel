@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user")
+@Table(name = "users")
 public class User implements Serializable{
 
     @Id
@@ -19,5 +19,6 @@ public class User implements Serializable{
     private Long id;
     private String username;
     private String password;
+    @Column(name = "user_group")
     private String group;
 }
