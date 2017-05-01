@@ -15,5 +15,4 @@ public class Currency {
 
     @Column(name = "name")
     private String name;
-    private MovementDocument movementDocument;
 }

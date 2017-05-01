@@ -4,10 +4,11 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 @Data
+@PrimaryKeyJoinColumn(name = "contr_id")
 public class NaturalPerson extends Contractor{
 
     private String name;
