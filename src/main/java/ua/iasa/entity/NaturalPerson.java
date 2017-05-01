@@ -1,18 +1,27 @@
 package ua.iasa.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Data
 @PrimaryKeyJoinColumn(name = "contr_id")
 @Table(name = "natural_person")
-public class NaturalPerson extends Contractor{
+@NoArgsConstructor
+public class NaturalPerson extends Contractor implements Serializable {
 
+    public NaturalPerson(Long id, String phone, Set<MovementDocument> document, String name,
+                         String surname, String patronymic, String birthDate) {
+        super(id, phone, document);
+        this.name = name;
+        this.surname = surname;
+        this.patronymic = patronymic;
+        this.birthDate = birthDate;
+    }
     private String name;
     private String surname;
     private String patronymic;

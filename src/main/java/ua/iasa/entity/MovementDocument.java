@@ -11,6 +11,17 @@ import java.io.Serializable;
 @PrimaryKeyJoinColumn(name = "doc_id")
 public class MovementDocument extends Document implements Serializable {
 
+    public MovementDocument(Long id, String date, DocumentType documentType,
+                            Long amount, Double price, Currency  currency,
+                            Room room, Product product){
+        super(id, date, documentType);
+        this.amount = amount;
+        this.price = price;
+        this.currency = currency;
+        this.room = room;
+        this.product = product;
+
+    }
     private Long amount;
     private Double price;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

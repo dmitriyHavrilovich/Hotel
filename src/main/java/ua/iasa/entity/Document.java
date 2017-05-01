@@ -1,6 +1,8 @@
 package ua.iasa.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -8,10 +10,12 @@ import java.io.Serializable;
 @Data
 @Table(name = "document")
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Document implements Serializable{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column
     private String date;
