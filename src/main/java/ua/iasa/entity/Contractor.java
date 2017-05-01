@@ -3,18 +3,21 @@ package ua.iasa.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Data
-@MappedSuperclass
+@Entity
 @Table(name = "contractor")
-public abstract class Contractor {
+public class Contractor implements Serializable{
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @Column(name = "contr_phone")
     private String phone;
-    @OneToMany(mappedBy = "document")
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @JoinColumn(name="contr_id")
     private Set<Document> document;
 
 

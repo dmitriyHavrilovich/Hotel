@@ -3,20 +3,20 @@ package ua.iasa.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Table(name = "document")
-@MappedSuperclass
-public abstract class Document {
+@Entity
+public class Document implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @Column
-    @Temporal(value = TemporalType.DATE)
     private String date;
-    @OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "type_doc_id")
     private DocumentType documentType;
 
 }
