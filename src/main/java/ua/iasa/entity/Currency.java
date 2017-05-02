@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Table(name = "currency")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Currency implements Serializable{
+public class Currency implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

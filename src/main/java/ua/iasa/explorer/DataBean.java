@@ -21,26 +21,26 @@ public class DataBean {
 
 
     @PostConstruct
-    public void init(){
+    public void init() {
 
         insertTestNperson();
         insertUsers();
     }
 
 
-    private void insertTestNperson(){
+    private void insertTestNperson() {
         NaturalPerson person = new NaturalPerson();
         person.setName("lolol");
         person.setPatronymic("ololol");
         person.setBirthDate("098765");
         Set<MovementDocument> movementDocumentSet = new HashSet<>();
-        movementDocumentSet.add(new MovementDocument(null,"date",
-                        new DocumentType(null, "type"),
+        movementDocumentSet.add(new MovementDocument(null, "date",
+                new DocumentType(null, "type"),
                 100L,
                 100D,
-                new Currency(null,"baks"),
-                new Room(null,"lux", "123"),
-                new Product(null,"type", "125")));
+                new Currency(null, "baks"),
+                new Room(null, "lux", "123"),
+                new Product(null, "type", "125")));
         person.setDocument(movementDocumentSet);
         person.setSurname("ololo");
         person.setPhone("00010230");
@@ -48,8 +48,8 @@ public class DataBean {
         log.info("Inserting person {}", p);
     }
 
-    private void insertUsers(){
-        User user = repository.save(new User(null,"Dmitriy","123","admin"));
+    private void insertUsers() {
+        User user = repository.save(new User(null, "Dmitriy", "123", "admin"));
         log.info("User successfully added {}", user);
         User user2 = repository.save(new User(null, "Mahaon", "123", "admin"));
         log.info("User successfully added {}", user2);

@@ -17,7 +17,7 @@ import ua.iasa.config.View;
 @EnableJpaRepositories(basePackages = "ua.iasa.repository")
 @ComponentScan(basePackages = "ua.iasa")
 @EntityScan(basePackages = "ua.iasa.entity")
-public class DbExplorer extends AbstractJavaFxApplicationSupport{
+public class DbExplorer extends AbstractJavaFxApplicationSupport {
 
     @Value("${ui.title:JavaFX приложение}")//
     private String windowTitle;

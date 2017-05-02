@@ -14,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "document_type")
-public class Document implements Serializable{
+public class Document implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

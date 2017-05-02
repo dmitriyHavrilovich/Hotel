@@ -10,8 +10,8 @@ import javax.persistence.*;
 public class MovementDocument extends Document {
 
     public MovementDocument(Long id, String date, DocumentType documentType,
-                            Long amount, Double price, Currency  currency,
-                            Room room, Product product){
+                            Long amount, Double price, Currency currency,
+                            Room room, Product product) {
         super(id, date, documentType);
         this.amount = amount;
         this.price = price;
@@ -20,6 +20,7 @@ public class MovementDocument extends Document {
         this.product = product;
 
     }
+
     private Long amount;
     private Double price;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

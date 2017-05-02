@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Table(name = "type_of_document")
 @AllArgsConstructor
 @NoArgsConstructor
-public class DocumentType implements Serializable{
+public class DocumentType implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

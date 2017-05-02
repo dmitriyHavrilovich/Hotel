@@ -15,15 +15,15 @@ import java.util.Set;
 @DiscriminatorColumn(name = "contractor_type")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Contractor implements Serializable{
+public class Contractor implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(name = "contr_phone")
     private String phone;
-    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-    @JoinColumn(name="contr_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "contr_id")
     private Set<MovementDocument> document;
 
 

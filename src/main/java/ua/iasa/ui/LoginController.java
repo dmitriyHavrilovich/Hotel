@@ -36,10 +36,10 @@ public class LoginController {
     /**
      * Инициализация контроллера от JavaFX.
      * Метод вызывается после того как FXML загрузчик произвел инъекции полей.
-     *
+     * <p>
      * Обрати внимание, что имя метода <b>обязательно</b> должно быть "initialize",
      * в противном случае, метод не вызовется.
-     *
+     * <p>
      * Также на этом этапе еще отсутствуют бины спринга
      * и для инициализации лучше использовать метод,
      * описанный аннотацией @PostConstruct.
@@ -52,19 +52,21 @@ public class LoginController {
     }
 
     @PostConstruct
-    public void init(){
+    public void init() {
 
     }
+
     @FXML
     public void login(ActionEvent event) {
-        User user = userRepository.findByUsernameAndPassword(loginField.getText(),password.getText());
-        if (user == null){
-            Alert alert = new Alert(Alert.AlertType.ERROR,"Wrong login or password");
+        User user = userRepository.findByUsernameAndPassword(loginField.getText(), password.getText());
+        if (user == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Wrong login or password");
             alert.show();
+        } else {
+            Stage stage = (Stage) loginBtn.getScene().getWindow();
+            stage.setScene(new Scene(view.getView()));
+            stage.setResizable(true);
+            stage.show();
         }
-        Stage stage = (Stage) loginBtn.getScene().getWindow();
-        stage.setScene(new Scene(view.getView()));
-        stage.setResizable(true);
-        stage.show();
     }
 }
