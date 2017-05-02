@@ -4,19 +4,20 @@ package ua.iasa.ui;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import ua.iasa.entity.User;
 import ua.iasa.repository.UserRepository;
 
 import javax.annotation.PostConstruct;
-import java.awt.*;
 
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class MainController {
 
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
     @FXML
-    private TextField login;
+    private javafx.scene.control.TextField loginField;
     @FXML
     private PasswordField password;
 
@@ -44,7 +45,7 @@ public class MainController {
     }
     @FXML
     public void login(){
-        User user = userRepository.findByUsernameAndPassword(login.getText(),password.getText());
+        User user = userRepository.findByUsernameAndPassword(loginField.getText(),password.getText());
         if (user != null){
             Alert alert = new Alert(Alert.AlertType.ERROR,"Wrong login or password");
             alert.show();

@@ -4,9 +4,10 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+      xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.iasa.ui.MainController">
    <children>
-      <TextField fx:id="login" layoutX="217.0" layoutY="187.0" promptText="login" />
+      <TextField fx:id="loginField" layoutX="217.0" layoutY="187.0" promptText="login" />
       <PasswordField fx:id="password" layoutX="217.0" layoutY="244.0" promptText="password" />
       <Label layoutX="217.0" layoutY="170.0" prefHeight="17.0" prefWidth="39.0" text="Login" />
       <Label layoutX="220.0" layoutY="227.0" text="Password" />
