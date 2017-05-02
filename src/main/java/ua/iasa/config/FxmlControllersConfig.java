@@ -1,20 +1,20 @@
 package ua.iasa.config;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ua.iasa.ui.MainController;
+import ua.iasa.ui.LoginController;
+import ua.iasa.ui.MainMenuController;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 @Configuration
-public class ConfigurationControllers {
+public class FxmlControllersConfig {
 
-    @Bean(name = "mainView")
-    public View getMainView() throws IOException {
-        return loadView("fxml/main.fxml");
+    @Bean(name = "loginView")
+    public View getLoginView() throws IOException {
+        return loadView("fxml/login.fxml");
     }
 
     /**
@@ -22,8 +22,18 @@ public class ConfigurationControllers {
      * и заставили его сделать произвести все необходимые инъекции.
      */
     @Bean
-    public MainController getMainController() throws IOException {
-        return (MainController) getMainView().getController();
+    public LoginController getLoginController() throws IOException {
+        return (LoginController) getLoginView().getController();
+    }
+
+    @Bean(name = "mainView")
+    public View getMainView() throws IOException {
+        return loadView("fxml/main.fxml");
+    }
+
+    @Bean
+    public MainMenuController getMainController() throws IOException {
+        return (MainMenuController) getMainView().getController();
     }
 
     /**
@@ -31,7 +41,7 @@ public class ConfigurationControllers {
      * Как раз-таки на этом этапе будет создан объект-контроллер,
      * произведены все FXML инъекции и вызван метод инициализации контроллера.
      */
-    protected View loadView(String url) throws IOException {
+    private View loadView(String url) throws IOException {
         InputStream fxmlStream = null;
         try {
             fxmlStream = getClass().getClassLoader().getResourceAsStream(url);
@@ -42,36 +52,6 @@ public class ConfigurationControllers {
             if (fxmlStream != null) {
                 fxmlStream.close();
             }
-        }
-    }
-
-    /**
-     * Класс - оболочка: контроллер мы обязаны указать в качестве бина,
-     * а view - представление, нам предстоит использовать в точке входа {@link ua.iasa.explorer.DbExplorer}.
-     */
-    public class View {
-        private Parent view;
-        private Object controller;
-
-        public View(Parent view, Object controller) {
-            this.view = view;
-            this.controller = controller;
-        }
-
-        public Parent getView() {
-            return view;
-        }
-
-        public void setView(Parent view) {
-            this.view = view;
-        }
-
-        public Object getController() {
-            return controller;
-        }
-
-        public void setController(Object controller) {
-            this.controller = controller;
         }
     }
 }

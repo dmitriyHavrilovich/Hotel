@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import ua.iasa.config.ConfigurationControllers;
+import ua.iasa.config.View;
 
 @SpringBootApplication
 @Lazy
@@ -22,9 +22,9 @@ public class DbExplorer extends AbstractJavaFxApplicationSupport{
     @Value("${ui.title:JavaFX приложение}")//
     private String windowTitle;
 
-    @Qualifier("mainView")
+    @Qualifier("loginView")
     @Autowired
-    private ConfigurationControllers.View view;
+    private View view;
 
     @Override
     public void start(Stage stage) throws Exception {
