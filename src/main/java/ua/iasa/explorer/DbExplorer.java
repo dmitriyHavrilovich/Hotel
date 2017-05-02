@@ -1,24 +1,39 @@
 package ua.iasa.explorer;
 
-import org.springframework.boot.CommandLineRunner;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import ua.iasa.config.ConfigurationControllers;
 
 @SpringBootApplication
+@Lazy
 @EnableJpaRepositories(basePackages = "ua.iasa.repository")
 @ComponentScan(basePackages = "ua.iasa")
 @EntityScan(basePackages = "ua.iasa.entity")
-public class DbExplorer implements CommandLineRunner{
+public class DbExplorer extends AbstractJavaFxApplicationSupport{
 
-    public static void main(String[] args) throws Exception {
-        new SpringApplicationBuilder(DbExplorer.class).run(args);
-    }
+    @Value("${ui.title:JavaFX приложение}")//
+    private String windowTitle;
+
+    @Autowired
+    private ConfigurationControllers.View view;
 
     @Override
-    public void run(String... args) throws Exception {
-        System.out.println("Running...");
+    public void start(Stage stage) throws Exception {
+        stage.setTitle(windowTitle);
+        stage.setScene(new Scene(view.getView()));
+        stage.setResizable(true);
+        stage.centerOnScreen();
+        stage.show();
+    }
+
+    public static void main(String[] args) {
+        launchApp(DbExplorer.class, args);
     }
 }
