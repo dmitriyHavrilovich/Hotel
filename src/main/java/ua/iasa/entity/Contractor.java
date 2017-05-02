@@ -11,6 +11,8 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "contractor")
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "contractor_type")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Contractor implements Serializable{

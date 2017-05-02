@@ -3,16 +3,14 @@ package ua.iasa.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import java.util.Set;
 
 @Entity
 @Data
-@PrimaryKeyJoinColumn(name = "contr_id")
-@Table(name = "natural_person")
 @NoArgsConstructor
-public class NaturalPerson extends Contractor implements Serializable {
+public class NaturalPerson extends Contractor {
 
     public NaturalPerson(Long id, String phone, Set<MovementDocument> document, String name,
                          String surname, String patronymic, String birthDate) {
@@ -22,6 +20,7 @@ public class NaturalPerson extends Contractor implements Serializable {
         this.patronymic = patronymic;
         this.birthDate = birthDate;
     }
+
     private String name;
     private String surname;
     private String patronymic;

@@ -3,13 +3,11 @@ package ua.iasa.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Data
 @Table(name = "movement_document")
-@PrimaryKeyJoinColumn(name = "doc_id")
-public class MovementDocument extends Document implements Serializable {
+public class MovementDocument extends Document {
 
     public MovementDocument(Long id, String date, DocumentType documentType,
                             Long amount, Double price, Currency  currency,

@@ -14,7 +14,7 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class TestBean {
+public class DataBean {
 
     private final UserRepository repository;
     private final NaturalPersonRepository naturalPersonRepository;
@@ -22,13 +22,13 @@ public class TestBean {
 
     @PostConstruct
     public void init(){
-        User user = repository.save(new User(null,"Dmitriy","123","admin"));
-        log.info("User successfully added {}", user);
-        insertNperson();
+
+        insertTestNperson();
+        insertUsers();
     }
 
 
-    public void insertNperson(){
+    private void insertTestNperson(){
         NaturalPerson person = new NaturalPerson();
         person.setName("lolol");
         person.setPatronymic("ololol");
@@ -46,5 +46,12 @@ public class TestBean {
         person.setPhone("00010230");
         NaturalPerson p = naturalPersonRepository.save(person);
         log.info("Inserting person {}", p);
+    }
+
+    private void insertUsers(){
+        User user = repository.save(new User(null,"Dmitriy","123","admin"));
+        log.info("User successfully added {}", user);
+        User user2 = repository.save(new User(null, "Mahaon", "123", "admin"));
+        log.info("User successfully added {}", user2);
     }
 }
