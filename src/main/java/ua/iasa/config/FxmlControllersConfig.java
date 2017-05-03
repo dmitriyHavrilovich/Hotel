@@ -36,6 +36,7 @@ public class FxmlControllersConfig {
         return (MainMenuController) getMainView().getController();
     }
 
+
     /**
      * Самый обыкновенный способ использовать FXML загрузчик.
      * Как раз-таки на этом этапе будет создан объект-контроллер,

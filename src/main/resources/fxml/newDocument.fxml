@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.iasa.ui.NewDocumentController">
+   <children>
+      <DatePicker fx:id="datePicker" layoutX="27.0" layoutY="53.0" prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="27.0" layoutY="22.0" prefHeight="25.0" prefWidth="174.0" text="Дата створення:" />
+      <Label layoutX="27.0" layoutY="97.0" prefHeight="17.0" prefWidth="174.0" text="Контрагент:" />
+      <Label layoutX="27.0" layoutY="173.0" prefHeight="17.0" prefWidth="174.0" text="Тип документа:" />
+      <Label layoutX="27.0" layoutY="237.0" prefHeight="17.0" prefWidth="174.0" text="Працівник:" />
+      <Button fx:id="chooseContragentButton" layoutX="201.0" layoutY="127.0" mnemonicParsing="false" onAction="#clicked_ChooseContragentButton" prefHeight="25.0" prefWidth="26.0" text="..." />
+      <ChoiceBox fx:id="documentTypeChoiceBox" layoutX="27.0" layoutY="200.0" prefHeight="25.0" prefWidth="200.0" />
+      <ChoiceBox fx:id="employeeChoiceBox" layoutX="27.0" layoutY="269.0" prefHeight="25.0" prefWidth="201.0" />
+      <ChoiceBox fx:id="goodChoiceBox" layoutX="264.0" layoutY="55.0" prefHeight="25.0" prefWidth="174.0" />
+      <TextField fx:id="amountTextField" layoutX="459.0" layoutY="55.0" onKeyTyped="#action_amountTextField" prefHeight="25.0" prefWidth="99.0" />
+      <ChoiceBox fx:id="currencyChoiceBox" layoutX="265.0" layoutY="157.0" prefHeight="25.0" prefWidth="133.0" />
+      <TextField fx:id="priceTextField" layoutX="459.0" layoutY="157.0" prefHeight="25.0" prefWidth="100.0" />
+      <Button fx:id="deleteGoodButton" layoutX="266.0" layoutY="201.0" mnemonicParsing="false" onAction="#clicked_deleteGoodButton" prefHeight="25.0" prefWidth="107.0" text="Видалити запис" />
+      <Button fx:id="addGoodButton" layoutX="461.0" layoutY="201.0" mnemonicParsing="false" onAction="#clicked_addGoodButton" prefHeight="25.0" prefWidth="99.0" text="Додати" />
+      <Label layoutX="264.0" layoutY="28.0" prefHeight="17.0" prefWidth="174.0" text="Товар" />
+      <Label layoutX="264.0" layoutY="127.0" prefHeight="17.0" prefWidth="131.0" text="Валюта" />
+      <Label layoutX="459.0" layoutY="127.0" prefHeight="17.0" prefWidth="81.0" text="Ціна" />
+      <Separator layoutX="223.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="41.0" />
+      <Label layoutX="459.0" layoutY="28.0" prefHeight="17.0" prefWidth="99.0" text="Кількість товару" />
+      <TextField fx:id="contragentTextField" editable="false" layoutX="27.0" layoutY="127.0" prefHeight="25.0" prefWidth="175.0" />
+      <TableView fx:id="chosenGoodsTable" layoutX="265.0" layoutY="237.0" prefHeight="147.0" prefWidth="320.0">
+         <columns>
+            <TableColumn fx:id="goodColumn" prefWidth="136.0" text="Товар" />
+            <TableColumn fx:id="currencyColumn" prefWidth="53.0" text="Валюта" />
+            <TableColumn fx:id="priceColumn" prefWidth="62.0" text="Ціна" />
+            <TableColumn fx:id="amountColumn" prefWidth="68.0" text="Кількість" />
+         </columns>
+      </TableView>
+      <Button fx:id="cancelButton" layoutX="27.0" layoutY="341.0" mnemonicParsing="false" onAction="#clicked_cancelButton" prefHeight="25.0" prefWidth="79.0" text="Відміна" />
+      <Button fx:id="createButton" layoutX="148.0" layoutY="341.0" mnemonicParsing="false" onAction="#clicked_createButton" prefHeight="25.0" prefWidth="79.0" text="Створити" />
+      <Label layoutX="266.0" layoutY="97.0" prefHeight="17.0" prefWidth="168.0" text="Поточна кількість товару" />
+      <TextField fx:id="currentAmountTextField" editable="false" layoutX="461.0" layoutY="93.0" prefHeight="25.0" prefWidth="99.0" />
+   </children>
+</Pane>

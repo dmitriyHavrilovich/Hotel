@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ua.iasa.entity.*;
 import ua.iasa.repository.NaturalPersonRepository;
+import ua.iasa.repository.RoomRepository;
 import ua.iasa.repository.UserRepository;
 
 import javax.annotation.PostConstruct;
@@ -18,6 +19,7 @@ public class DataBean {
 
     private final UserRepository repository;
     private final NaturalPersonRepository naturalPersonRepository;
+    private final RoomRepository roomRepository;
 
 
     @PostConstruct
@@ -46,6 +48,12 @@ public class DataBean {
         person.setPhone("00010230");
         NaturalPerson p = naturalPersonRepository.save(person);
         log.info("Inserting person {}", p);
+    }
+    private void insertTestRoom(){
+        Room room1 = roomRepository.save(new Room(null, "Store", "1") );
+        log.info("Room added", room1);
+        Room room2 = roomRepository.save(new Room(null, "Luks", "1") );
+        log.info("Room added", room2);
     }
 
     private void insertUsers() {
