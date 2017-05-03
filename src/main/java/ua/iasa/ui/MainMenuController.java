@@ -4,25 +4,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
 import lombok.NoArgsConstructor;
-import org.assertj.core.util.Lists;
-import org.postgresql.replication.fluent.physical.PhysicalCreateSlotBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import ua.iasa.config.View;
 import ua.iasa.entity.MovementDocument;
 import ua.iasa.entity.NaturalPerson;
-import ua.iasa.entity.User;
 import ua.iasa.repository.NaturalPersonRepository;
-import ua.iasa.repository.UserRepository;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,18 +25,27 @@ import java.util.Set;
 
 @NoArgsConstructor
 public class MainMenuController {
-    private ObservableList<NaturalPerson> natpersdata, jurpersdata;
+    private ObservableList<NaturalPerson> naturalPersonData, juridicalPersonData;
 
-    @FXML public Button addPhysicalButton;
-    @Autowired private NaturalPersonRepository natpersrepo;
-    @FXML private javafx.scene.control.TextField physicalSurnameTextField;
-    @FXML private javafx.scene.control.TextField physicalNameTextField;
-    @FXML private javafx.scene.control.TextField physicalFathersNameTextField;
-    @FXML private TableView<NaturalPerson> physicalTable;
+    @FXML
+    public Button addPhysicalButton;
+    @Autowired
+    private NaturalPersonRepository natpersrepo;
+    @FXML
+    private javafx.scene.control.TextField physicalSurnameTextField;
+    @FXML
+    private javafx.scene.control.TextField physicalNameTextField;
+    @FXML
+    private javafx.scene.control.TextField physicalFathersNameTextField;
+    @FXML
+    private TableView<NaturalPerson> physicalTable;
 
-    @FXML private TableColumn<NaturalPerson, String> physicalSurnameColumn;
-    @FXML private TableColumn<NaturalPerson, String> physicalNameColumn;
-    @FXML private TableColumn<NaturalPerson, String> physicalFathersNameColumn;
+    @FXML
+    private TableColumn<NaturalPerson, String> physicalSurnameColumn;
+    @FXML
+    private TableColumn<NaturalPerson, String> physicalNameColumn;
+    @FXML
+    private TableColumn<NaturalPerson, String> physicalFathersNameColumn;
     @Qualifier("mainView")
     @Autowired
     private View view;
@@ -58,20 +62,19 @@ public class MainMenuController {
     @FXML
     public void clicked_addPhysicalButton(ActionEvent actionEvent) {
         Set<MovementDocument> movementDocumentSet = new HashSet<>();
-        NaturalPerson pers= new NaturalPerson(null, null, movementDocumentSet
-                ,physicalSurnameTextField.getText(),
+        NaturalPerson pers = new NaturalPerson(null, null, movementDocumentSet
+                , physicalSurnameTextField.getText(),
                 physicalNameTextField.getText(),
                 physicalFathersNameTextField.getText(), null);
         NaturalPerson p = natpersrepo.save(pers);
-        natpersdata.add(p);
+        naturalPersonData.add(p);
 
     }
+
     @FXML
     public void clicked_refreshPhysicalTable(ActionEvent actionEvent) {
-        //natpersons = FXCollections.observableArrayList();
-        //List<NaturalPerson> natpersons = new ArrayList<>();
-        List<NaturalPerson> natpersons = (List)natpersrepo.findAll();
-        natpersdata = FXCollections.observableArrayList(natpersons);
+        List<NaturalPerson> natpersons = (List) natpersrepo.findAll();
+        naturalPersonData = FXCollections.observableArrayList(natpersons);
         // Столбцы таблицы
         TableColumn<NaturalPerson, String> nameColumn = new TableColumn<>("Прізвище");
         physicalSurnameColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
@@ -81,7 +84,7 @@ public class MainMenuController {
 
         TableColumn<NaturalPerson, String> emailColumn = new TableColumn<>("По-батькові");
         physicalFathersNameColumn.setCellValueFactory(new PropertyValueFactory<>("patronymic"));
-        physicalTable.setItems(natpersdata);
+        physicalTable.setItems(naturalPersonData);
 
     }
 

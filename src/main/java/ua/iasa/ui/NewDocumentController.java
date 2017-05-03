@@ -4,9 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.scene.input.KeyEvent;
 import lombok.NoArgsConstructor;
 
-/**
- * Created by Mahaon on 03.05.2017.
- */
 @NoArgsConstructor
 public class NewDocumentController {
     public void action_amountTextField(KeyEvent keyEvent) {

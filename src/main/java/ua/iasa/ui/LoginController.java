@@ -28,6 +28,7 @@ public class LoginController {
     private javafx.scene.control.TextField loginField;
     @FXML
     private PasswordField password;
+
     @Qualifier("mainView")
     @Autowired
     private View view;

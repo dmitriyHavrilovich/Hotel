@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ua.iasa.ui.LoginController;
 import ua.iasa.ui.MainMenuController;
+import ua.iasa.ui.NewDocumentController;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,6 +37,15 @@ public class FxmlControllersConfig {
         return (MainMenuController) getMainView().getController();
     }
 
+    @Bean(name = "newDocumentView")
+    public View getNewDocument() throws IOException {
+        return loadView("fxml/newDocument.fxml");
+    }
+
+    @Bean
+    public NewDocumentController newDocumentController() throws IOException {
+        return (NewDocumentController) getNewDocument().getController();
+    }
 
     /**
      * Самый обыкновенный способ использовать FXML загрузчик.

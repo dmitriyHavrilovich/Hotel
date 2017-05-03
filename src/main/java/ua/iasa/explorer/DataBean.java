@@ -24,9 +24,9 @@ public class DataBean {
 
     @PostConstruct
     public void init() {
-
         insertTestNperson();
         insertUsers();
+        insertTestRoom();
     }
 
 
