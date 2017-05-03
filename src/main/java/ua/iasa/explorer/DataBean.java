@@ -47,7 +47,7 @@ public class DataBean {
         person.setSurname("ololo");
         person.setPhone("00010230");
         NaturalPerson p = naturalPersonRepository.save(person);
-        log.info("Inserting person {}", p);
+
     }
     private void insertTestRoom(){
         Room room1 = roomRepository.save(new Room(null, "Store", "1") );

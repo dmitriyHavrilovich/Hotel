@@ -1,12 +1,14 @@
 package ua.iasa.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Data
 @Table(name = "movement_document")
+@NoArgsConstructor
 public class MovementDocument extends Document {
 
     public MovementDocument(Long id, String date, DocumentType documentType,

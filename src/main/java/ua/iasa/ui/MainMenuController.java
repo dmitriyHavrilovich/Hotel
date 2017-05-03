@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import lombok.NoArgsConstructor;
@@ -62,6 +63,7 @@ public class MainMenuController {
                 physicalNameTextField.getText(),
                 physicalFathersNameTextField.getText(), null);
         NaturalPerson p = natpersrepo.save(pers);
+        natpersdata.add(p);
 
     }
     @FXML
@@ -70,6 +72,15 @@ public class MainMenuController {
         //List<NaturalPerson> natpersons = new ArrayList<>();
         List<NaturalPerson> natpersons = (List)natpersrepo.findAll();
         natpersdata = FXCollections.observableArrayList(natpersons);
+        // Столбцы таблицы
+        TableColumn<NaturalPerson, String> nameColumn = new TableColumn<>("Прізвище");
+        physicalSurnameColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
+
+        TableColumn<NaturalPerson, String> phoneColumn = new TableColumn<>("Ім я");
+        physicalNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        TableColumn<NaturalPerson, String> emailColumn = new TableColumn<>("По-батькові");
+        physicalFathersNameColumn.setCellValueFactory(new PropertyValueFactory<>("patronymic"));
         physicalTable.setItems(natpersdata);
 
     }
