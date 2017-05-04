@@ -76,13 +76,13 @@ public class MainMenuController {
         List<NaturalPerson> natpersons = (List) natpersrepo.findAll();
         naturalPersonData = FXCollections.observableArrayList(natpersons);
         // Столбцы таблицы
-        TableColumn<NaturalPerson, String> nameColumn = new TableColumn<>("Прізвище");
+        //TableColumn<NaturalPerson, String> nameColumn = new TableColumn<>("Прізвище");
         physicalSurnameColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
 
-        TableColumn<NaturalPerson, String> phoneColumn = new TableColumn<>("Ім я");
+        //TableColumn<NaturalPerson, String> phoneColumn = new TableColumn<>("Ім я");
         physicalNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        TableColumn<NaturalPerson, String> emailColumn = new TableColumn<>("По-батькові");
+        //TableColumn<NaturalPerson, String> emailColumn = new TableColumn<>("По-батькові");
         physicalFathersNameColumn.setCellValueFactory(new PropertyValueFactory<>("patronymic"));
         physicalTable.setItems(naturalPersonData);
 

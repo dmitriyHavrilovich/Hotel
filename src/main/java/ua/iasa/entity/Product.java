@@ -20,4 +20,7 @@ public class Product implements Serializable {
     @Column(name = "name_type")
     private String nameType;
     private String measure;
+    @ManyToOne()
+    @JoinColumn(name="movement_document_id", insertable=false, updatable=false)
+    private MovementDocument movementDocument;
 }

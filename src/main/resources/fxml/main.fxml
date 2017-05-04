@@ -5,148 +5,191 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.iasa.ui.MainMenuController">
+<Pane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="518.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ua.iasa.ui.MainMenuController">
     <children>
-        <MenuBar layoutX="7.0" layoutY="7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="782.0">
+        <MenuBar layoutX="7.0" layoutY="7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                 minWidth="-Infinity" prefHeight="34.0" prefWidth="782.0">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                  <MenuItem mnemonicParsing="false" text="Create new document" />
-                  <MenuItem mnemonicParsing="false" text="Close" />
-                  <Menu mnemonicParsing="false" text="ReferenсeBook">
-                     <items>
-                        <Menu mnemonicParsing="false" text="Goods">
-                          <items>
-                            <MenuItem mnemonicParsing="false" text="Move from to..." />
-                          </items>
+                        <MenuItem mnemonicParsing="false" text="Create new document"/>
+                        <MenuItem mnemonicParsing="false" text="Close"/>
+                        <Menu mnemonicParsing="false" text="ReferenсeBook">
+                            <items>
+                                <Menu mnemonicParsing="false" text="Goods">
+                                    <items>
+                                        <MenuItem mnemonicParsing="false" text="Move from to..."/>
+                                    </items>
+                                </Menu>
+                                <Menu mnemonicParsing="false" text="Documents">
+                                    <items>
+                                        <MenuItem mnemonicParsing="false" text="Report"/>
+                                    </items>
+                                </Menu>
+                                <Menu mnemonicParsing="false" text="Contractors">
+                                    <items>
+                                        <MenuItem mnemonicParsing="false" text="Search"/>
+                                        <Menu mnemonicParsing="false" text="Add">
+                                            <items>
+                                                <MenuItem mnemonicParsing="false" text="NaturalPerson"/>
+                                                <MenuItem mnemonicParsing="false" text="JuridicalPerson"/>
+                                            </items>
+                                        </Menu>
+                                    </items>
+                                </Menu>
+                            </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="Documents">
-                          <items>
-                            <MenuItem mnemonicParsing="false" text="Report" />
-                          </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Contractors">
-                          <items>
-                              <MenuItem mnemonicParsing="false" text="Search" />
-                              <Menu mnemonicParsing="false" text="Add">
-                                <items>
-                                  <MenuItem mnemonicParsing="false" text="NaturalPerson" />
-                                    <MenuItem mnemonicParsing="false" text="JuridicalPerson" />
-                                </items>
-                              </Menu>
-                          </items>
-                        </Menu>
-                     </items>
-                  </Menu>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Delete" />
+                        <MenuItem mnemonicParsing="false" text="Delete"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="About" />
+                        <MenuItem mnemonicParsing="false" text="About"/>
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
-      <TabPane layoutX="12.0" layoutY="46.0" prefHeight="442.0" prefWidth="782.0">
-         <tabs>
-            <Tab closable="false" text="Фізична особа">
-               <content>
-                  <Pane prefHeight="413.0" prefWidth="779.0">
-                     <children>
-                        <AnchorPane layoutX="-6.0" layoutY="-8.0" minHeight="0.0" minWidth="0.0" prefHeight="412.0" prefWidth="639.0">
-                           <children>
-                              <Label layoutX="21.0" layoutY="46.0" text="Прізвище" />
-                              <Label layoutX="21.0" layoutY="78.0" text="Ім'я" />
-                              <Label layoutX="21.0" layoutY="108.0" text="По-батькові" />
-                              <TextField fx:id="physicalSurnameTextField" layoutX="97.0" layoutY="42.0" />
-                              <TextField fx:id="physicalNameTextField" layoutX="97.0" layoutY="74.0" />
-                              <TextField fx:id="physicalFathersNameTextField" layoutX="97.0" layoutY="104.0" prefHeight="25.0" prefWidth="149.0" />
-                              <Button fx:id="searchPhysicalButton" layoutX="16.0" layoutY="143.0" mnemonicParsing="false" onAction="#clicked_searchPhysicalButton" prefHeight="25.0" prefWidth="80.0" text="Пошук" />
-                              <Separator layoutX="253.0" layoutY="-26.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="5.0" />
-                              <ScrollPane layoutX="256.0" layoutY="10.0" prefHeight="300.0" prefViewportHeight="275.0" prefViewportWidth="323.0" prefWidth="363.0">
-                                 <content>
-                                    <TableView fx:id="physicalTable" layoutX="266.0" layoutY="42.0" prefHeight="275.0" prefWidth="325.0">
-                                       <columns>
-                                          <TableColumn fx:id="physicalSurnameColumn" editable="false" prefWidth="151.0" text="Прізвище" />
-                                          <TableColumn fx:id="physicalNameColumn" editable="false" text="Ім'я" />
-                                          <TableColumn fx:id="physicalFathersNameColumn" editable="false" prefWidth="90.0" text="По-батькові" />
-                                       </columns>
-                                    </TableView>
-                                 </content>
-                              </ScrollPane>
-                              <Button fx:id="addPhysicalButton" layoutX="166.0" layoutY="143.0" mnemonicParsing="false" onAction="#clicked_addPhysicalButton" prefHeight="25.0" prefWidth="80.0" text="Додати" />
-                              <Button fx:id="refreshPhysicalTable" layoutX="265.0" layoutY="335.0" mnemonicParsing="false" onAction="#clicked_refreshPhysicalTable" prefHeight="25.0" prefWidth="125.0" text="Оновити таблицю" />
-                              <Button fx:id="choosePhysicalButton" layoutX="448.0" layoutY="335.0" mnemonicParsing="false" onAction="#clicked_choosePhysicalButton" prefHeight="1.0" prefWidth="113.0" text="Обрати" />
-                           </children>
+        <TabPane layoutX="12.0" layoutY="46.0" prefHeight="442.0" prefWidth="782.0">
+            <tabs>
+                <Tab closable="false" text="Фізична особа">
+                    <content>
+                        <Pane prefHeight="413.0" prefWidth="779.0">
+                            <children>
+                                <AnchorPane layoutX="-6.0" layoutY="-8.0" minHeight="0.0" minWidth="0.0"
+                                            prefHeight="412.0" prefWidth="639.0">
+                                    <children>
+                                        <Label layoutX="21.0" layoutY="46.0" text="Прізвище"/>
+                                        <Label layoutX="21.0" layoutY="78.0" text="Ім'я"/>
+                                        <Label layoutX="21.0" layoutY="108.0" text="По-батькові"/>
+                                        <TextField fx:id="physicalSurnameTextField" layoutX="97.0" layoutY="42.0"/>
+                                        <TextField fx:id="physicalNameTextField" layoutX="97.0" layoutY="74.0"/>
+                                        <TextField fx:id="physicalFathersNameTextField" layoutX="97.0" layoutY="104.0"
+                                                   prefHeight="25.0" prefWidth="149.0"/>
+                                        <Button fx:id="searchPhysicalButton" layoutX="16.0" layoutY="143.0"
+                                                mnemonicParsing="false" onAction="#clicked_searchPhysicalButton"
+                                                prefHeight="25.0" prefWidth="80.0" text="Пошук"/>
+                                        <Separator layoutX="253.0" layoutY="-26.0" orientation="VERTICAL"
+                                                   prefHeight="400.0" prefWidth="5.0"/>
+                                        <ScrollPane layoutX="256.0" layoutY="10.0" prefHeight="300.0"
+                                                    prefViewportHeight="275.0" prefViewportWidth="323.0"
+                                                    prefWidth="363.0">
+                                            <content>
+                                                <TableView fx:id="physicalTable" layoutX="266.0" layoutY="42.0"
+                                                           prefHeight="275.0" prefWidth="325.0">
+                                                    <columns>
+                                                        <TableColumn fx:id="physicalSurnameColumn" editable="false"
+                                                                     prefWidth="151.0" text="Прізвище"/>
+                                                        <TableColumn fx:id="physicalNameColumn" editable="false"
+                                                                     text="Ім'я"/>
+                                                        <TableColumn fx:id="physicalFathersNameColumn" editable="false"
+                                                                     prefWidth="90.0" text="По-батькові"/>
+                                                    </columns>
+                                                </TableView>
+                                            </content>
+                                        </ScrollPane>
+                                        <Button fx:id="addPhysicalButton" layoutX="166.0" layoutY="143.0"
+                                                mnemonicParsing="false" onAction="#clicked_addPhysicalButton"
+                                                prefHeight="25.0" prefWidth="80.0" text="Додати"/>
+                                        <Button fx:id="refreshPhysicalTable" layoutX="265.0" layoutY="335.0"
+                                                mnemonicParsing="false" onAction="#clicked_refreshPhysicalTable"
+                                                prefHeight="25.0" prefWidth="125.0" text="Оновити таблицю"/>
+                                        <Button fx:id="choosePhysicalButton" layoutX="448.0" layoutY="335.0"
+                                                mnemonicParsing="false" onAction="#clicked_choosePhysicalButton"
+                                                prefHeight="1.0" prefWidth="113.0" text="Обрати"/>
+                                    </children>
+                                </AnchorPane>
+                            </children>
+                        </Pane>
+                    </content>
+                </Tab>
+                <Tab closable="false" text="Юридична особа">
+                    <content>
+                        <Pane prefHeight="401.0" prefWidth="598.0">
+                            <children>
+                                <AnchorPane layoutY="25.0" minHeight="0.0" minWidth="0.0" prefHeight="376.0"
+                                            prefWidth="598.0">
+                                    <children>
+                                        <Button fx:id="searchLegalButton" layoutX="16.0" layoutY="143.0"
+                                                mnemonicParsing="false" onAction="#clicked_searchLegalButton"
+                                                prefHeight="25.0" prefWidth="80.0" text="Пошук"/>
+                                        <Separator layoutX="253.0" layoutY="-26.0" orientation="VERTICAL"
+                                                   prefHeight="400.0" prefWidth="5.0"/>
+                                        <ScrollPane layoutX="266.0" layoutY="42.0" prefViewportHeight="275.0"
+                                                    prefViewportWidth="323.0">
+                                            <content>
+                                                <TableView fx:id="legalTable" layoutX="266.0" layoutY="42.0"
+                                                           prefHeight="275.0" prefWidth="323.0">
+                                                    <columns>
+                                                        <TableColumn fx:id="legalNameColumn" editable="false"
+                                                                     minWidth="0.0" prefWidth="164.0"
+                                                                     text="Назва юр. особи"/>
+                                                        <TableColumn fx:id="legalCodeColumn" editable="false"
+                                                                     minWidth="0.0" prefWidth="158.0"
+                                                                     text="Код ЄДРПОУ"/>
+                                                    </columns>
+                                                </TableView>
+                                            </content>
+                                        </ScrollPane>
+                                        <Button fx:id="chooseLegalButton" layoutX="478.0" layoutY="335.0"
+                                                mnemonicParsing="false" onAction="#clicked_chooseLegalButton"
+                                                prefHeight="25.0" prefWidth="113.0" text="Обрати"/>
+                                        <Button fx:id="addLegalButton" layoutX="166.0" layoutY="143.0"
+                                                mnemonicParsing="false" onAction="#clicked_addLegalButton"
+                                                prefHeight="25.0" prefWidth="80.0" text="Додати"/>
+                                        <TextField fx:id="legalNameTextField" layoutX="93.0" layoutY="42.0"/>
+                                        <TextField fx:id="legalCodeTextField" layoutX="93.0" layoutY="85.0"
+                                                   onKeyTyped="#keyTypedCode"/>
+                                        <Label layoutX="17.0" layoutY="93.0" text="Код ЄДРПОУ"/>
+                                        <Label layoutX="15.0" layoutY="50.0" text="Назва"/>
+                                        <Button fx:id="refreshLegalTable" layoutX="266.0" layoutY="335.0"
+                                                mnemonicParsing="false" onAction="#clicked_refreshLegalTable"
+                                                text="Оновити таблицю"/>
+                                    </children>
+                                </AnchorPane>
+                            </children>
+                        </Pane>
+                    </content>
+                </Tab>
+                <Tab text="Документи">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="413.0" prefWidth="781.0">
+                            <children>
+                                <ScrollPane layoutX="7.0" prefHeight="330.0" prefViewportHeight="242.0"
+                                            prefViewportWidth="419.0" prefWidth="722.0">
+                                    <content>
+                                        <TableView fx:id="dovidnikDocumentsTable" layoutX="-1.0" layoutY="-2.0"
+                                                   prefHeight="322.0" prefWidth="711.0">
+                                            <columns>
+                                                <TableColumn fx:id="idDocumentColumn" prefWidth="48.0" text="id"/>
+                                                <TableColumn fx:id="dateColumn" prefWidth="103.0" text="Дата"/>
+                                                <TableColumn fx:id="goodsColumn" prefWidth="148.0" text="Товар"/>
+                                                <TableColumn fx:id="unitsColumn" prefWidth="59.0" text="Одиниці"/>
+                                                <TableColumn fx:id="amountColumn" prefWidth="99.0" text="Кількість"/>
+                                                <TableColumn fx:id="currencyColumn" prefWidth="55.0" text="Валюта"/>
+                                                <TableColumn fx:id="priceColumn" prefWidth="73.0" text="Ціна"/>
+                                                <TableColumn fx:id="documentTypeColumn" prefWidth="124.0"
+                                                             text="Тип документа"/>
+                                                <TableColumn fx:id="contragentColumn" prefWidth="296.0"
+                                                             text="Контрагент"/>
+                                                <TableColumn fx:id="employeeColumn" minWidth="0.0" prefWidth="162.0"
+                                                             text="Працівник"/>
+                                            </columns>
+                                        </TableView>
+                                    </content>
+                                </ScrollPane>
+                                <Button layoutX="591.0" layoutY="339.0" mnemonicParsing="false" prefHeight="26.0"
+                                        prefWidth="111.0" text="Звіт"/>
+                            </children>
                         </AnchorPane>
-                     </children>
-                  </Pane>
-               </content>
-            </Tab>
-            <Tab closable="false" text="Юридична особа">
-               <content>
-                  <Pane prefHeight="401.0" prefWidth="598.0">
-                     <children>
-                        <AnchorPane layoutY="25.0" minHeight="0.0" minWidth="0.0" prefHeight="376.0" prefWidth="598.0">
-                           <children>
-                              <Button fx:id="searchLegalButton" layoutX="16.0" layoutY="143.0" mnemonicParsing="false" onAction="#clicked_searchLegalButton" prefHeight="25.0" prefWidth="80.0" text="Пошук" />
-                              <Separator layoutX="253.0" layoutY="-26.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="5.0" />
-                              <ScrollPane layoutX="266.0" layoutY="42.0" prefViewportHeight="275.0" prefViewportWidth="323.0">
-                                 <content>
-                                    <TableView fx:id="legalTable" layoutX="266.0" layoutY="42.0" prefHeight="275.0" prefWidth="323.0">
-                                       <columns>
-                                          <TableColumn fx:id="legalNameColumn" editable="false" minWidth="0.0" prefWidth="164.0" text="Назва юр. особи" />
-                                          <TableColumn fx:id="legalCodeColumn" editable="false" minWidth="0.0" prefWidth="158.0" text="Код ЄДРПОУ" />
-                                       </columns>
-                                    </TableView>
-                                 </content>
-                              </ScrollPane>
-                              <Button fx:id="chooseLegalButton" layoutX="478.0" layoutY="335.0" mnemonicParsing="false" onAction="#clicked_chooseLegalButton" prefHeight="25.0" prefWidth="113.0" text="Обрати" />
-                              <Button fx:id="addLegalButton" layoutX="166.0" layoutY="143.0" mnemonicParsing="false" onAction="#clicked_addLegalButton" prefHeight="25.0" prefWidth="80.0" text="Додати" />
-                              <TextField fx:id="legalNameTextField" layoutX="93.0" layoutY="42.0" />
-                              <TextField fx:id="legalCodeTextField" layoutX="93.0" layoutY="85.0" onKeyTyped="#keyTypedCode" />
-                              <Label layoutX="17.0" layoutY="93.0" text="Код ЄДРПОУ" />
-                              <Label layoutX="15.0" layoutY="50.0" text="Назва" />
-                              <Button fx:id="refreshLegalTable" layoutX="266.0" layoutY="335.0" mnemonicParsing="false" onAction="#clicked_refreshLegalTable" text="Оновити таблицю" />
-                           </children>
-                        </AnchorPane>
-                     </children>
-                  </Pane>
-               </content>
-            </Tab>
-            <Tab text="Документи">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="413.0" prefWidth="781.0">
-                     <children>
-                        <ScrollPane layoutX="7.0" prefHeight="330.0" prefViewportHeight="242.0" prefViewportWidth="419.0" prefWidth="722.0">
-                           <content>
-                              <TableView fx:id="dovidnikDocumentsTable" layoutX="-1.0" layoutY="-2.0" prefHeight="322.0" prefWidth="711.0">
-                                 <columns>
-                                    <TableColumn fx:id="idDocumentColumn" prefWidth="48.0" text="id" />
-                                    <TableColumn fx:id="dateColumn" prefWidth="103.0" text="Дата" />
-                                    <TableColumn fx:id="goodsColumn" prefWidth="148.0" text="Товар" />
-                                    <TableColumn fx:id="unitsColumn" prefWidth="59.0" text="Одиниці" />
-                                    <TableColumn fx:id="amountColumn" prefWidth="99.0" text="Кількість" />
-                                    <TableColumn fx:id="currencyColumn" prefWidth="55.0" text="Валюта" />
-                                    <TableColumn fx:id="priceColumn" prefWidth="73.0" text="Ціна" />
-                                    <TableColumn fx:id="documentTypeColumn" prefWidth="124.0" text="Тип документа" />
-                                    <TableColumn fx:id="contragentColumn" prefWidth="296.0" text="Контрагент" />
-                                    <TableColumn fx:id="employeeColumn" minWidth="0.0" prefWidth="162.0" text="Працівник" />
-                                 </columns>
-                              </TableView>
-                           </content>
-                        </ScrollPane>
-                        <Button layoutX="591.0" layoutY="339.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="111.0" text="Звіт" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-         </tabs>
-      </TabPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
     </children>
 </Pane>

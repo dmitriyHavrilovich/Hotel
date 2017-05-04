@@ -35,24 +35,31 @@ public class DataBean {
         person.setName("lolol");
         person.setPatronymic("ololol");
         person.setBirthDate("098765");
-        Set<MovementDocument> movementDocumentSet = new HashSet<>();
-        movementDocumentSet.add(new MovementDocument(null, "date",
+        Set<Product> products = new HashSet<>();
+        MovementDocument document = new MovementDocument(null, "date",
                 new DocumentType(null, "type"),
                 100L,
                 100D,
                 new Currency(null, "baks"),
                 new Room(null, "lux", "123"),
-                new Product(null, "type", "125")));
+                null);
+        products.add(new Product(null, "type", "125", document));
+        document.setProducts(products);
+        //MovementDocument savedDocument = movementDocumentRepository.save(document);
+        //log.info("this is document {}" , savedDocument);
+        Set<MovementDocument> movementDocumentSet = new HashSet<>();
+        movementDocumentSet.add(document);
         person.setDocument(movementDocumentSet);
         person.setSurname("ololo");
         person.setPhone("00010230");
-        NaturalPerson p = naturalPersonRepository.save(person);
+        NaturalPerson p =naturalPersonRepository.save(person);
 
     }
-    private void insertTestRoom(){
-        Room room1 = roomRepository.save(new Room(null, "Store", "1") );
+
+    private void insertTestRoom() {
+        Room room1 = roomRepository.save(new Room(null, "Store", "1"));
         log.info("Room added", room1);
-        Room room2 = roomRepository.save(new Room(null, "Luks", "1") );
+        Room room2 = roomRepository.save(new Room(null, "Luks", "1"));
         log.info("Room added", room2);
     }
 
