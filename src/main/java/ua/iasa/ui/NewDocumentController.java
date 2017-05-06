@@ -1,5 +1,6 @@
 package ua.iasa.ui;
 
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -8,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.iasa.entity.*;
@@ -105,6 +107,7 @@ public class NewDocumentController {
     }
 
     public void addProduct(ActionEvent actionEvent) {
+        chosenGoodsTable.setItems(movdocdata);
         Set<Product> productSet = new HashSet<>();
        MovementDocument movdoc = new MovementDocument(null, datePicker.getValue().toString(),
                         new DocumentType(null, documentTypeChoiceBox.getValue().toString()),
@@ -115,12 +118,12 @@ public class NewDocumentController {
         movdoc.setProducts(productSet);
         MovementDocument p = movdocrepo.save(movdoc);
         movdocdata = FXCollections.observableArrayList(p);
-       // movdocdata.add(p);
         goodColumn.setCellValueFactory(new PropertyValueFactory<>("product"));
-        currencyColumn.setCellValueFactory(new PropertyValueFactory<>("currency"));
+        //currencyColumn.setCellValueFactory(new PropertyValueFactory<>("currency.name"));
+        currencyColumn.setCellValueFactory(currency -> currency.getValue().());
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
-        chosenGoodsTable.setItems(movdocdata);
+        movdocdata.add(p);
 
 
     }
