@@ -20,14 +20,10 @@ import javax.annotation.PostConstruct;
 @NoArgsConstructor
 public class LoginController {
 
-    @FXML
-    public Button loginBtn;
-    @Autowired
-    private UserRepository userRepository;
-    @FXML
-    private javafx.scene.control.TextField loginField;
-    @FXML
-    private PasswordField password;
+    @FXML public Button loginBtn;
+    @Autowired private UserRepository userRepository;
+    @FXML private javafx.scene.control.TextField loginField;
+    @FXML private PasswordField password;
 
     @Qualifier("mainView")
     @Autowired
