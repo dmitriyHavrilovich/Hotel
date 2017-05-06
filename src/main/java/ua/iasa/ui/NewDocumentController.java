@@ -1,6 +1,6 @@
 package ua.iasa.ui;
 
-import javafx.beans.value.ObservableValue;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -8,17 +8,18 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
-import javafx.util.Callback;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import ua.iasa.entity.*;
-import ua.iasa.repository.*;
+import ua.iasa.entity.Currency;
+import ua.iasa.entity.DocumentType;
+import ua.iasa.entity.MovementDocument;
+import ua.iasa.entity.Product;
+import ua.iasa.repository.CurrencyRepository;
+import ua.iasa.repository.DocumentTypeRepository;
+import ua.iasa.repository.MovementDocumentRepository;
+import ua.iasa.repository.ProductRepository;
 
 import javax.annotation.PostConstruct;
-import javax.swing.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -120,7 +121,7 @@ public class NewDocumentController {
         movdocdata = FXCollections.observableArrayList(p);
         goodColumn.setCellValueFactory(new PropertyValueFactory<>("product"));
         //currencyColumn.setCellValueFactory(new PropertyValueFactory<>("currency.name"));
-        currencyColumn.setCellValueFactory(currency -> currency.getValue().());
+        currencyColumn.setCellValueFactory(currency -> new ReadOnlyStringWrapper(currency.getValue().getCurrency().getName()));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
         movdocdata.add(p);
