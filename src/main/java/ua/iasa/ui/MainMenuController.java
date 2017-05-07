@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import ua.iasa.config.View;
+import ua.iasa.entity.Document;
 import ua.iasa.entity.JuridicalPerson;
 import ua.iasa.entity.MovementDocument;
 import ua.iasa.entity.NaturalPerson;
@@ -99,8 +100,8 @@ public class MainMenuController {
     @FXML
     public void AddNaturalPerson(ActionEvent actionEvent) {
         if (isAllPhysicalDataFilled()) {
-            Set<MovementDocument> movementDocumentSet = new HashSet<>();
-            NaturalPerson pers = new NaturalPerson(null, null, movementDocumentSet
+            Set<Document> DocumentSet = new HashSet<>();
+            NaturalPerson pers = new NaturalPerson(null, null, DocumentSet
                     , physicalNameTextField.getText(),
                     physicalSurnameTextField.getText(),
                     physicalFathersNameTextField.getText(), null);
@@ -203,8 +204,8 @@ public class MainMenuController {
     @FXML
     public void addJuridicalPerson(ActionEvent actionEvent) {
         if (isAllJurDataFilled()) {
-            Set<MovementDocument> movementDocumentSet = new HashSet<>();
-            JuridicalPerson pers = new JuridicalPerson(null, null, movementDocumentSet
+            Set<Document> DocumentSet = new HashSet<>();
+            JuridicalPerson pers = new JuridicalPerson(null, null, DocumentSet
                     , JurNameTextField.getText(), edrpouTextField.getText());
             JuridicalPerson p = jurpersrepo.save(pers);
             jurpersdata.add(p);

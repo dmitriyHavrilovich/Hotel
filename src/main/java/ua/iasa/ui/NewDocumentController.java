@@ -1,5 +1,6 @@
 package ua.iasa.ui;
 
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,6 +35,8 @@ public class NewDocumentController {
     public Button chooseContragentButton;
     @FXML
     public ChoiceBox documentTypeChoiceBox;
+    @FXML
+    public Button refreshBtn;
     @FXML
     private Button addGoodButton;
     @FXML
@@ -105,25 +108,33 @@ public class NewDocumentController {
 
     public void clicked_deleteGoodButton(ActionEvent actionEvent) {
     }
-
+    @FXML
     public void addProduct(ActionEvent actionEvent) {
-        chosenGoodsTable.setItems(movdocdata);
-        Set<Product> productSet = new HashSet<>();
-       MovementDocument movdoc = new MovementDocument(null, datePicker.getValue().toString(),
-                        new DocumentType(null, documentTypeChoiceBox.getValue().toString()),
-                Long.parseLong(amountTextField.getText()),
-                Double.parseDouble(priceTextField.getText()),
+        //chosenGoodsTable.setItems(movdocdata);
+
+        //Set<Product> productSet = new HashSet<>();
+        Set<MovementDocument> documents = new HashSet<>();
+        MovementDocument movdoc = new MovementDocument(null,
+              Long.parseLong(amountTextField.getText()), Double.parseDouble(priceTextField.getText()),
                 new Currency(null, currencyChoiceBox.getValue().toString()), null, null);
-        productSet.add(new Product(null, goodChoiceBox.getValue().toString(),null, movdoc));
-        movdoc.setProducts(productSet);
+        documents.add(movdoc);
+        Product pr = new Product(null, goodChoiceBox.getValue().toString(),null, documents);
+        //productSet.add(pr);
+        movdoc.setProduct(pr);
         MovementDocument p = movdocrepo.save(movdoc);
+        Product proc = procrepo.save(pr);
         movdocdata = FXCollections.observableArrayList(p);
-        goodColumn.setCellValueFactory(new PropertyValueFactory<>("product"));
+        productdata = FXCollections.observableArrayList(proc);
+        goodColumn.setCellValueFactory(product ->new ReadOnlyStringWrapper
+                (product.getValue().getProduct().getNameType()));
         //currencyColumn.setCellValueFactory(new PropertyValueFactory<>("currency.name"));
-        currencyColumn.setCellValueFactory(currency -> currency.getValue().());
+        currencyColumn.setCellValueFactory(currency ->new ReadOnlyStringWrapper(currency.getValue()
+                .getCurrency().getName()));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
-        movdocdata.add(p);
+        chosenGoodsTable.setItems(movdocdata);
+        //productdata.add(proc);
+        //movdocdata.add(p);
 
 
     }
@@ -132,5 +143,15 @@ public class NewDocumentController {
     }
 
     public void clicked_createButton(ActionEvent actionEvent) {
+    }
+
+    public void refreshTable(ActionEvent actionEvent) {
+      //  goodColumn.setCellValueFactory(new PropertyValueFactory<>("nameType"));
+        //currencyColumn.setCellValueFactory(new PropertyValueFactory<>("currency.name"));
+       // currencyColumn.setCellValueFactory(currency ->new ReadOnlyStringWrapper(currency.getValue()
+         //       .getCurrency().getName()));
+        //priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        //amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        //chosenGoodsTable.;
     }
 }

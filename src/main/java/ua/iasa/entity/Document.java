@@ -6,14 +6,15 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Data
 @Table(name = "document")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "document_type")
+//@Inheritance(strategy = InheritanceType.JOINED)
+//@DiscriminatorColumn(name = "document_type")
 public class Document implements Serializable {
 
     @Id
@@ -24,5 +25,7 @@ public class Document implements Serializable {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "type_doc_id")
     private DocumentType documentType;
-
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="doc_id")
+    private Set<MovementDocument> movementDocumentSet;
 }

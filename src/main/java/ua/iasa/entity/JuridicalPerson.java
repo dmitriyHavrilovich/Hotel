@@ -11,7 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class JuridicalPerson extends Contractor {
 
-    public JuridicalPerson(Long id, String phone, Set<MovementDocument> document,
+    public JuridicalPerson(Long id, String phone, Set<Document> document,
                            String name, String edrpou) {
         super(id, phone, document);
         this.name = name;

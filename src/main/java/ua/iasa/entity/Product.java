@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Data
 @Entity
@@ -20,7 +21,10 @@ public class Product implements Serializable {
     @Column(name = "name_type")
     private String nameType;
     private String measure;
-    @ManyToOne()
-    @JoinColumn(name="movement_document_id", insertable=false, updatable=false)
-    private MovementDocument movementDocument;
+   // @ManyToOne()
+    //@JoinColumn(name="movement_document_id", insertable=false, updatable=false)
+    //private MovementDocument movementDocument;
+   @OneToMany(cascade = CascadeType.ALL)
+   @JoinColumn(name="product_id")
+   private Set<MovementDocument> movementDocumentSet;
 }

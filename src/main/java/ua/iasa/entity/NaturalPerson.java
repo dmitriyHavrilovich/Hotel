@@ -12,7 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class NaturalPerson extends Contractor {
 
-    public NaturalPerson(Long id, String phone, Set<MovementDocument> document, String name,
+    public NaturalPerson(Long id, String phone, Set<Document> document, String name,
                          String surname, String patronymic, String birthDate) {
         super(id, phone, document);
         this.name = name;

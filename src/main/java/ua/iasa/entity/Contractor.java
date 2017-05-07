@@ -24,7 +24,7 @@ public class Contractor implements Serializable {
     private String phone;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "contr_id")
-    private Set<MovementDocument> document;
+    private Set<Document> document;
 
 
 }
