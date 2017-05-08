@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class MovementDocument  {
 
-    public MovementDocument(Long id, Long amount, Double price, Currency currency,
+    public MovementDocument(Long id, Double amount, Double price, Currency currency,
                             Room room,
                             Product product
                             ) {
@@ -30,7 +30,7 @@ public class MovementDocument  {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column
-    private Long amount;
+    private Double amount;
     @Column
     private Double price;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

@@ -3,6 +3,7 @@ package ua.iasa.config;
 import javafx.fxml.FXMLLoader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import ua.iasa.ui.ChooseContragentsController;
 import ua.iasa.ui.LoginController;
 import ua.iasa.ui.MainMenuController;
 import ua.iasa.ui.NewDocumentController;
@@ -47,6 +48,15 @@ public class FxmlControllersConfig {
         return (NewDocumentController) getNewDocument().getController();
     }
 
+    @Bean(name = "chooseContragentsView")
+    public View getChooseContragentsView() throws IOException {
+        return loadView("fxml/chooseContragents.fxml");
+    }
+
+    @Bean
+    public ChooseContragentsController chooseContragentsController() throws IOException {
+        return (ChooseContragentsController) getChooseContragentsView().getController();
+    }
     /**
      * Самый обыкновенный способ использовать FXML загрузчик.
      * Как раз-таки на этом этапе будет создан объект-контроллер,

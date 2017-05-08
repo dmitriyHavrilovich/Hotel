@@ -55,6 +55,7 @@ public class MainMenuController {
     @Qualifier("newDocumentView")
     @Autowired
     private View view;
+    private static Stage primaryStage;
 
     @FXML
     public void initialize() {
