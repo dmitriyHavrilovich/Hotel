@@ -13,16 +13,20 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import ua.iasa.config.View;
+import ua.iasa.entity.Contractor;
 import ua.iasa.entity.Document;
 import ua.iasa.entity.DocumentType;
 import ua.iasa.entity.Product;
+import ua.iasa.repository.ContractorRepository;
 import ua.iasa.repository.DocumentTypeRepository;
 import ua.iasa.repository.ProductRepository;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor
@@ -66,11 +70,12 @@ public class NewDocumentController {
     private TextField currentAmountTextField;
     private ObservableList<String> productnamedata;
     private ObservableList<String> doctypedata;
-    private ObservableList<Product> productdata;
     @Autowired
     private ProductRepository procrepo;
     @Autowired
     private DocumentTypeRepository doctyperepo;
+    @Autowired
+    private ContractorRepository contractorRepository;
     @Qualifier("chooseContragentsView")
     @Autowired
     private View view;
@@ -150,7 +155,11 @@ public class NewDocumentController {
                 new DocumentType(null, documentTypeChoiceBox.getValue().toString()),
                 goodsInTable,
                 currencyChoiceBox.getValue().toString());
-
+        Contractor contractor = contractorRepository.findByName(contragentTextField.getText());
+        Set<Document> documentSet = new HashSet<>();
+        documentSet.add(document);
+        contractor.setDocument(documentSet);
+        contractorRepository.save(contractor);
         Stage stage = (Stage) createButton.getScene().getWindow();
         stage.setScene(view1.getView().getScene());
         stage.show();

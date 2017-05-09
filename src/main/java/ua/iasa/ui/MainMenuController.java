@@ -27,6 +27,7 @@ import java.util.Set;
 
 @NoArgsConstructor
 public class MainMenuController {
+    public TableView dovidnikDocumentsTable;
 
 
     //PART FOR NATURAL PERSON TAB
@@ -34,6 +35,7 @@ public class MainMenuController {
     private ObservableList<NaturalPerson> natpersdata;
     @Autowired
     private NaturalPersonRepository natpersrepo;
+
     @FXML
     public Button addPhysicalButton;
     @FXML
@@ -45,11 +47,7 @@ public class MainMenuController {
     @FXML
     private TableView<NaturalPerson> physicalTable;
     @FXML
-    private TableColumn<NaturalPerson, String> physicalSurnameColumn;
-    @FXML
     private TableColumn<NaturalPerson, String> physicalNameColumn;
-    @FXML
-    private TableColumn<NaturalPerson, String> physicalFathersNameColumn;
     //@FXML private javafx.scene.control.MenuItem createDocId;
     @Qualifier("newDocumentView")
     @Autowired
@@ -62,6 +60,9 @@ public class MainMenuController {
 
     @PostConstruct
     public void init() {
+        
+        
+        
     }
 
     private boolean isStringNotEmpty(String text) {
@@ -101,10 +102,9 @@ public class MainMenuController {
     public void AddNaturalPerson(ActionEvent actionEvent) {
         if (isAllPhysicalDataFilled()) {
             Set<Document> DocumentSet = new HashSet<>();
-            NaturalPerson pers = new NaturalPerson(null, null, DocumentSet
-                    , physicalNameTextField.getText(),
-                    physicalSurnameTextField.getText(),
-                    physicalFathersNameTextField.getText(), null);
+            String name = physicalSurnameTextField.getText()+" "+physicalNameTextField.getText()+ " "+
+                    physicalFathersNameTextField.getText();
+            NaturalPerson pers = new NaturalPerson(null, null, name, DocumentSet, null);
             NaturalPerson p = natpersrepo.save(pers);
             natpersdata.add(p);
             //refreshNaturalTable(actionEvent);
@@ -120,15 +120,8 @@ public class MainMenuController {
         //List<NaturalPerson> natpersons = new ArrayList<>();
         List<NaturalPerson> natpersons = (List) natpersrepo.findAll();
         natpersdata = FXCollections.observableArrayList(natpersons);
-        // Столбцы таблицы
-        //TableColumn<NaturalPerson, String> SurnameColumn = new TableColumn<>("Прізвище");
-        physicalSurnameColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
-
         //TableColumn<NaturalPerson, String> NameColumn = new TableColumn<>("Ім я");
         physicalNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-
-        //TableColumn<NaturalPerson, String> FathersNameColumn = new TableColumn<>("По-батькові");
-        physicalFathersNameColumn.setCellValueFactory(new PropertyValueFactory<>("patronymic"));
         physicalTable.setItems(natpersdata);
 
     }
@@ -141,12 +134,11 @@ public class MainMenuController {
     @FXML
     public void searchNaturalPerson(ActionEvent actionEvent) {
         if (isAnyPhysicalDataFilled()) {
-            NaturalPerson searchperson = natpersrepo.findBySurnameAndNameAndPatronymic(physicalSurnameTextField.getText(),
-                    physicalNameTextField.getText(), physicalFathersNameTextField.getText());
+            String name = physicalSurnameTextField.getText()+" "+physicalNameTextField.getText()+ " "+
+                    physicalFathersNameTextField.getText();
+            NaturalPerson searchperson = natpersrepo.findByName(name);
             natpersdata = FXCollections.observableArrayList(searchperson);
-            physicalSurnameColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
             physicalNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-            physicalFathersNameColumn.setCellValueFactory(new PropertyValueFactory<>("patronymic"));
             physicalTable.setItems(natpersdata);
 
 
@@ -205,8 +197,8 @@ public class MainMenuController {
     public void addJuridicalPerson(ActionEvent actionEvent) {
         if (isAllJurDataFilled()) {
             Set<Document> DocumentSet = new HashSet<>();
-            JuridicalPerson pers = new JuridicalPerson(null, null, DocumentSet
-                    , JurNameTextField.getText(), edrpouTextField.getText());
+            JuridicalPerson pers = new JuridicalPerson(null, null, JurNameTextField.getText(), DocumentSet
+                    ,edrpouTextField.getText());
             JuridicalPerson p = jurpersrepo.save(pers);
             jurpersdata.add(p);
             //refreshNaturalTable(actionEvent);

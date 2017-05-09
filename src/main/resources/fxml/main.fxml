@@ -71,16 +71,13 @@
                                  <content>
                                     <TableView fx:id="physicalTable" layoutX="266.0" layoutY="42.0" prefHeight="296.0" prefWidth="361.0">
                                        <columns>
-                                          <TableColumn fx:id="physicalSurnameColumn" editable="false" prefWidth="151.0" text="Прізвище" />
-                                          <TableColumn fx:id="physicalNameColumn" editable="false" text="Ім'я" />
-                                          <TableColumn fx:id="physicalFathersNameColumn" editable="false" prefWidth="90.0" text="По-батькові" />
+                                          <TableColumn fx:id="physicalNameColumn" editable="false" text="ПІБ" />
                                        </columns>
                                     </TableView>
                                  </content>
                               </ScrollPane>
                               <Button fx:id="addPhysicalButton" layoutX="166.0" layoutY="143.0" mnemonicParsing="false" onAction="#AddNaturalPerson" prefHeight="25.0" prefWidth="80.0" text="Додати" />
                               <Button fx:id="refreshPhysicalTable" layoutX="265.0" layoutY="335.0" mnemonicParsing="false" onAction="#refreshNaturalTable" prefHeight="25.0" prefWidth="125.0" text="Оновити таблицю" />
-                              <Button fx:id="choosePhysicalButton" layoutX="448.0" layoutY="335.0" mnemonicParsing="false" onAction="#clicked_choosePhysicalButton" prefHeight="1.0" prefWidth="113.0" text="Обрати" />
                               <Separator layoutX="253.0" layoutY="5.0" orientation="VERTICAL" prefHeight="442.0" prefWidth="3.0" />
                            </children>
                         </AnchorPane>

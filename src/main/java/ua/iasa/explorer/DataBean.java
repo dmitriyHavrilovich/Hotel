@@ -33,10 +33,8 @@ public class DataBean {
 
     private void insertTestNperson() {
         NaturalPerson person = new NaturalPerson();
-        person.setName("Maria");
-        person.setPatronymic("Pavlivna");
+        person.setName("Babich Maria Pavlivna");
         person.setBirthDate("098765");
-        person.setSurname("Babich");
         person.setPhone("00010230");
         List<Product> products = new ArrayList<>();
         Document document = new Document(null,"10/10/10",

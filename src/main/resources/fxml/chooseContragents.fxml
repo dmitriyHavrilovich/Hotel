@@ -4,8 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="ua.iasa.ui.ChooseContragentsController">
+<Pane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.iasa.ui.ChooseContragentsController">
    <children>
    <TabPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
       <tabs>
@@ -28,9 +27,7 @@
                               <content>
                                  <TableView fx:id="physicalTable" layoutX="266.0" layoutY="42.0" prefHeight="275.0" prefWidth="323.0">
                                    <columns>
-                                     <TableColumn fx:id="physicalSurnameColumn" editable="false" prefWidth="151.0" text="Прізвище" />
-                                     <TableColumn fx:id="physicalNameColumn" editable="false" text="Ім'я" />
-                                       <TableColumn fx:id="physicalFathersNameColumn" editable="false" prefWidth="90.0" text="По-батькові" />
+                                     <TableColumn fx:id="physicalNameColumn" editable="false" prefWidth="249.0" text="ПІБ" />
                                    </columns>
                                  </TableView>
                               </content>
