@@ -12,18 +12,11 @@ import java.util.Set;
 @NoArgsConstructor
 public class NaturalPerson extends Contractor {
 
-    public NaturalPerson(Long id, String phone, Set<Document> document, String name,
-                         String surname, String patronymic, String birthDate) {
-        super(id, phone, document);
-        this.name = name;
-        this.surname = surname;
-        this.patronymic = patronymic;
+    public NaturalPerson(Long id, String phone, String name, Set<Document> document, String birthDate) {
+        super(id, phone, name, document);
         this.birthDate = birthDate;
     }
 
-    private String name;
-    private String surname;
-    private String patronymic;
     @Column(name = "birth_date")
     private String birthDate;
 }

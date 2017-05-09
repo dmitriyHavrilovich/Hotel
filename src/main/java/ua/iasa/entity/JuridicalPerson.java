@@ -10,14 +10,10 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 public class JuridicalPerson extends Contractor {
-
-    public JuridicalPerson(Long id, String phone, Set<Document> document,
-                           String name, String edrpou) {
-        super(id, phone, document);
-        this.name = name;
+    public JuridicalPerson(Long id, String phone, String name, Set<Document> document, String edrpou) {
+        super(id, phone, name, document);
         this.edrpou = edrpou;
     }
 
-    private String name;
     private String edrpou;
 }

@@ -8,9 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
-/**
- * Created by Mahaon on 08.05.2017.
- */
+
 @Data
 @Entity
 @Table(name = "personal")

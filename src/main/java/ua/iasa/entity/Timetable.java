@@ -6,10 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-/**
- * Created by Mahaon on 08.05.2017.
- */
-
 @Data
 @Entity
 @Table(name = "post")

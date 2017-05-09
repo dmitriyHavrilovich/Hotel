@@ -22,7 +22,11 @@ public class Room implements Serializable {
     private String roomType;
     @Column(name = "number")
     private String roomNumber;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="product_id")
+    @OneToMany
+    @JoinTable(
+            name="RoomProducts",
+            joinColumns = @JoinColumn( name="room_id"),
+            inverseJoinColumns = @JoinColumn( name="product_id")
+    )
     private List<Product> products;
 }

@@ -7,9 +7,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 
-/**
- * Created by Mahaon on 08.05.2017.
- */
 @Data
 @Entity
 @Table(name = "vacation")

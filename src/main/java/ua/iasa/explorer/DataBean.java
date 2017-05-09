@@ -7,7 +7,9 @@ import ua.iasa.entity.*;
 import ua.iasa.repository.*;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -18,8 +20,6 @@ public class DataBean {
     private final UserRepository repository;
     private final NaturalPersonRepository naturalPersonRepository;
     private final RoomRepository roomRepository;
-    private final CurrencyRepository currencyRepository;
-    private final ProductRepository productRepository;
     private final PostRepository postRepository;
 
     @PostConstruct
@@ -27,8 +27,6 @@ public class DataBean {
         insertTestNperson();
         insertUsers();
         insertTestRoom();
-        insertCurrency();
-        insertProduct();
         insertPost();
     }
 
@@ -38,28 +36,26 @@ public class DataBean {
         person.setName("Maria");
         person.setPatronymic("Pavlivna");
         person.setBirthDate("098765");
-        Set<Product> products = new HashSet<>();
-        Set<Document> DocumentSet = new HashSet<>();
-        Set<MovementDocument> movementDocumentSet = new HashSet<>();
-        Document document = new Document(null, "date",
-                new DocumentType(null, "type"),
-                movementDocumentSet);
-        //products.add(new Product(null, "type", "125", document));
-        //document.setProducts(products);
-        //MovementDocument savedDocument = movementDocumentRepository.save(document);
-        //log.info("this is document {}" , savedDocument);
-        DocumentSet.add(document);
-        person.setDocument(DocumentSet);
         person.setSurname("Babich");
         person.setPhone("00010230");
-        NaturalPerson p =naturalPersonRepository.save(person);
+        List<Product> products = new ArrayList<>();
+        Document document = new Document(null,"10/10/10",
+                new DocumentType(null, "purchase"), products, "uah");
+        products.add(new Product(null, "water","8",10d,100d,document));
+        products.add(new Product(null, "soap","4",5d,100d,document));
+
+        document.setProducts(products);
+        Set<Document> documents = new HashSet<>();
+        documents.add(document);
+        person.setDocument(documents);
+        NaturalPerson p = naturalPersonRepository.save(person);
 
     }
 
     private void insertTestRoom() {
-        Room room1 = roomRepository.save(new Room(null, "Store", "1"));
+        Room room1 = roomRepository.save(new Room(null, "Store", "1", null));
         log.info("Room added", room1);
-        Room room2 = roomRepository.save(new Room(null, "Luks", "1"));
+        Room room2 = roomRepository.save(new Room(null, "Luks", "1", null));
         log.info("Room added", room2);
     }
 
@@ -68,20 +64,6 @@ public class DataBean {
         log.info("User successfully added {}", user);
         User user2 = repository.save(new User(null, "Mahaon", "123", "admin"));
         log.info("User successfully added {}", user2);
-    }
-    private void insertCurrency(){
-        Currency currency1 = currencyRepository.save(new Currency(null, "EUR"));
-        log.info("Currency added {}", currency1);
-        Currency currency2 = currencyRepository.save(new Currency(null, "UAH"));
-        log.info("Currency added {}", currency2);
-        Currency currency3 = currencyRepository.save(new Currency(null, "DOLLAR"));
-        log.info("Currency added {}", currency3);
-    }
-
-    private void insertProduct(){
-        Set<MovementDocument> movementDocumentSet = new HashSet<>();
-        Product product1 = productRepository.save(new Product(null, "Linens", "unity", movementDocumentSet));
-        log.info("Product added {}", product1);
     }
 
     private void insertPost(){
