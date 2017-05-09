@@ -1,20 +1,13 @@
 package ua.iasa.ui;
 
-import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,13 +17,8 @@ import ua.iasa.repository.*;
 import ua.iasa.ui.entity.GoodInTable;
 
 import javax.annotation.PostConstruct;
-import javax.swing.*;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor
@@ -138,10 +126,7 @@ public class NewDocumentController {
     //}
         //ChooseContragentsController = this;
         //new Create_Contragents().start(Main.getPrimaryStage());
-        Stage stage = (Stage) chooseContragentButton.getScene().getWindow();
-        stage.setScene(new Scene(view.getView()));
-        stage.setResizable(true);
-        stage.show();
+
     }
 
     public void action_amountTextField(KeyEvent keyEvent) {
@@ -182,24 +167,9 @@ public class NewDocumentController {
                 goodChoiceBox.getValue().toString()));
         chosenGoodsTable.setItems(goodsInTable);
     }
-
+    @FXML
     public void clicked_cancelButton(ActionEvent actionEvent) throws IOException{
-      // Stage stage = (Stage) cancelButton.getScene().getWindow();
-        //stage.setScene(new Scene(view1.getView()));
-        //stage.setResizable(true);
-        //stage.show();
-        Stage stage;
-        Parent root;
-        // if(actionEvent.getSource()==chooseContragentButton){
-        //get reference to the button's stage
-        stage=(Stage) cancelButton.getScene().getWindow();
-        //load up OTHER FXML document
-        root = view1.getView();
-        //root = FXMLLoader.load(getClass().getResource("../resources/fxml/main.fxml"));
-        //create a new scene with root and set the stage
-         Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+
     }
 
     public void clicked_createButton(ActionEvent actionEvent) {

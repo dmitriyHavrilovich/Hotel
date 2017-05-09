@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import ua.iasa.config.View;
+import ua.iasa.ui.NewDocumentController;
 
 @SpringBootApplication
 @Lazy
@@ -35,7 +36,10 @@ public class DbExplorer extends AbstractJavaFxApplicationSupport {
         stage.show();
     }
 
+
     public static void main(String[] args) {
         launchApp(DbExplorer.class, args);
     }
+
+
 }

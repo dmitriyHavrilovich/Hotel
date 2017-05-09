@@ -20,6 +20,7 @@ public class DataBean {
     private final RoomRepository roomRepository;
     private final CurrencyRepository currencyRepository;
     private final ProductRepository productRepository;
+    private final PostRepository postRepository;
 
     @PostConstruct
     public void init() {
@@ -28,13 +29,14 @@ public class DataBean {
         insertTestRoom();
         insertCurrency();
         insertProduct();
+        insertPost();
     }
 
 
     private void insertTestNperson() {
         NaturalPerson person = new NaturalPerson();
-        person.setName("lolol");
-        person.setPatronymic("ololol");
+        person.setName("Maria");
+        person.setPatronymic("Pavlivna");
         person.setBirthDate("098765");
         Set<Product> products = new HashSet<>();
         Set<Document> DocumentSet = new HashSet<>();
@@ -48,7 +50,7 @@ public class DataBean {
         //log.info("this is document {}" , savedDocument);
         DocumentSet.add(document);
         person.setDocument(DocumentSet);
-        person.setSurname("ololo");
+        person.setSurname("Babich");
         person.setPhone("00010230");
         NaturalPerson p =naturalPersonRepository.save(person);
 
@@ -82,5 +84,10 @@ public class DataBean {
         log.info("Product added {}", product1);
     }
 
+    private void insertPost(){
+        Set<PersonOnPost> personOnPosts = new HashSet<>();
+        Post post1 = postRepository.save(new Post(null, "Cleaner", 3, personOnPosts));
+        log.info("Post added {}", post1);
+    }
 }
 
