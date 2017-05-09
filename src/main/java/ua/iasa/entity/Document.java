@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Table(name = "document")
@@ -26,6 +26,7 @@ public class Document implements Serializable {
     @JoinColumn(name = "type_doc_id")
     private DocumentType documentType;
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="doc_id")
-    private Set<MovementDocument> movementDocumentSet;
+    @JoinColumn(name="product_id")
+    private List<Product> products;
+    private String currency;
 }

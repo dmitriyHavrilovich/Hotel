@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
@@ -13,12 +14,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import ua.iasa.config.View;
 import ua.iasa.entity.*;
-import ua.iasa.repository.*;
+import ua.iasa.repository.CurrencyRepository;
+import ua.iasa.repository.DocumentTypeRepository;
+import ua.iasa.repository.MovementDocumentRepository;
+import ua.iasa.repository.ProductRepository;
 import ua.iasa.ui.entity.GoodInTable;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor
@@ -26,10 +32,9 @@ public class NewDocumentController {
 
     @FXML
     public Button cancelButton;
-    @Autowired private ChooseContragentsController chooseContragentsController;
-    private static Stage primaryStage;
+
     private ObservableList<GoodInTable> goodsInTable;
-    private Long contragentId ;
+    private Long contragentId;
     @FXML
     public DatePicker datePicker;
     @FXML
@@ -111,22 +116,25 @@ public class NewDocumentController {
     }
 
     @FXML
-    public void clicked_ChooseContragentButton(ActionEvent actionEvent) throws IOException  {
+    public void clicked_ChooseContragentButton(ActionEvent actionEvent) throws IOException {
         //Stage stage;
         //Parent root;
-       // if(actionEvent.getSource()==chooseContragentButton){
-            //get reference to the button's stage
-            //stage=(Stage) chooseContragentButton.getScene().getWindow();
-            //load up OTHER FXML document
-            //root = FXMLLoader.load(getClass().getResource("../resources/fxml/chooseContragents.fxml"));
-            //create a new scene with root and set the stage
-           // Scene scene = new Scene(root);
-            //stage.setScene(scene);
-            //stage.show();
-    //}
+        // if(actionEvent.getSource()==chooseContragentButton){
+        //get reference to the button's stage
+        //stage=(Stage) chooseContragentButton.getScene().getWindow();
+        //load up OTHER FXML document
+        //root = FXMLLoader.load(getClass().getResource("../resources/fxml/chooseContragents.fxml"));
+        //create a new scene with root and set the stage
+        // Scene scene = new Scene(root);
+        //stage.setScene(scene);
+        //stage.show();
+        //}
         //ChooseContragentsController = this;
         //new Create_Contragents().start(Main.getPrimaryStage());
-
+        Stage stage = (Stage) chooseContragentButton.getScene().getWindow();
+        stage.setScene(new Scene(view.getView()));
+        stage.setResizable(true);
+        stage.show();
     }
 
     public void action_amountTextField(KeyEvent keyEvent) {
@@ -134,15 +142,16 @@ public class NewDocumentController {
 
     public void clicked_deleteGoodButton(ActionEvent actionEvent) {
     }
+
     @FXML
     public void addProduct(ActionEvent actionEvent) {
         //chosenGoodsTable.setItems(movdocdata);
 
         //Set<Product> productSet = new HashSet<>();
-       // Set<MovementDocument> documents = new HashSet<>();
-       // MovementDocument movdoc = new MovementDocument(null,
-         //     Long.parseLong(amountTextField.getText()), Double.parseDouble(priceTextField.getText()),
-           //     new Currency(null, currencyChoiceBox.getValue().toString()), null, null);
+        // Set<MovementDocument> documents = new HashSet<>();
+        // MovementDocument movdoc = new MovementDocument(null,
+        //     Long.parseLong(amountTextField.getText()), Double.parseDouble(priceTextField.getText()),
+        //     new Currency(null, currencyChoiceBox.getValue().toString()), null, null);
         //documents.add(movdoc);
         //Product pr = new Product(null, goodChoiceBox.getValue().toString(),null, documents);
         //productSet.add(pr);
@@ -152,10 +161,10 @@ public class NewDocumentController {
         //movdocdata = FXCollections.observableArrayList(p);
         //productdata = FXCollections.observableArrayList(proc);
         //goodColumn.setCellValueFactory(product ->new ReadOnlyStringWrapper
-          //      (product.getValue().getProduct().getNameType()));
+        //      (product.getValue().getProduct().getNameType()));
         //currencyColumn.setCellValueFactory(new PropertyValueFactory<>("currency.name"));
         //currencyColumn.setCellValueFactory(currency ->new ReadOnlyStringWrapper(currency.getValue()
-          //      .getCurrency().getName()));
+        //      .getCurrency().getName()));
         //priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         //amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
         //chosenGoodsTable.setItems(movdocdata);
@@ -167,24 +176,38 @@ public class NewDocumentController {
                 goodChoiceBox.getValue().toString()));
         chosenGoodsTable.setItems(goodsInTable);
     }
-    @FXML
-    public void clicked_cancelButton(ActionEvent actionEvent) throws IOException{
 
+    public void clicked_cancelButton(ActionEvent actionEvent) throws IOException {
+
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.setScene(view1.getView().getScene());
+        stage.show();
     }
 
     public void clicked_createButton(ActionEvent actionEvent) {
+        Set<MovementDocument> documents = new HashSet<>();
+        for (GoodInTable goodInTable : goodsInTable) {
+            Product product = new Product(null, goodInTable.getGood(), null, null);
+            MovementDocument document = new MovementDocument();
+            document.setAmount(goodInTable.getAmount());
+            document.setProduct(product);
+            document.setCurrency(new Currency(null, goodInTable.getCurrency()));
+            documents.add(document);
+        }
+        Document document = new Document(null, datePicker.getValue().toString()
+                , documentTypeChoiceBox.getValue().toString(), )
 
 
     }
 
-    private static boolean isGoodInGoodsTable(String good, ObservableList<GoodInTable> goodsInTable){
+    private static boolean isGoodInGoodsTable(String good, ObservableList<GoodInTable> goodsInTable) {
         for (int i = 0; i < goodsInTable.size(); i++)
             if (good.equals(goodsInTable.get(i).getGood()))
                 return true;
         return false;
     }
 
-    public void setContragent(String name, Long contragentId){
+    public void setContragent(String name, Long contragentId) {
         contragentTextField.setText(name);
         this.contragentId = contragentId;
     }

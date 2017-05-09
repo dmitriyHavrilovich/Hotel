@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Entity
@@ -21,4 +22,7 @@ public class Room implements Serializable {
     private String roomType;
     @Column(name = "number")
     private String roomNumber;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="product_id")
+    private List<Product> products;
 }

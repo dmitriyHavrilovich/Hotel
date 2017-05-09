@@ -4,12 +4,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,7 +19,6 @@ import ua.iasa.repository.JuridicalPersonRepository;
 import ua.iasa.repository.NaturalPersonRepository;
 
 import javax.annotation.PostConstruct;
-import javax.swing.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -137,8 +134,7 @@ public class ChooseContragentsController {
         try {
             newdoccontrooler.setContragent(data.getSurname() + " " + data.getName() + " " + data.getPatronymic(), data.getId());
             Stage stage = (Stage) choosePhysicalButton.getScene().getWindow();
-            stage.setScene(new Scene(view.getView()));
-            stage.setResizable(true);
+            stage.setScene(view.getView().getScene());
             stage.show();
             //stage.close();
         }catch (Exception e){
@@ -232,6 +228,23 @@ public class ChooseContragentsController {
     }
 
     public void clicked_chooseLegalButton(ActionEvent actionEvent) {
+        JuridicalPerson data = legalTable.getSelectionModel().getSelectedItem();
+        if (data == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please, choose contragent");
+            alert.show();
+        }
+
+        try {
+            newdoccontrooler.setContragent(data.getName() + " " + data.getEdrpou() , data.getId());
+            Stage stage = (Stage) chooseLegalButton.getScene().getWindow();
+            stage.setScene(view.getView().getScene());
+            stage.show();
+            //stage.close();
+        }catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Can't set contragent to the document");
+            alert.show();
+
+        }
 
     }
 

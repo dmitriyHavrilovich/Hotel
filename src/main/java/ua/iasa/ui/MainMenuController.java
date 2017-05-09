@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import ua.iasa.config.View;
 import ua.iasa.entity.Document;
 import ua.iasa.entity.JuridicalPerson;
-import ua.iasa.entity.MovementDocument;
 import ua.iasa.entity.NaturalPerson;
 import ua.iasa.repository.JuridicalPersonRepository;
 import ua.iasa.repository.NaturalPersonRepository;
