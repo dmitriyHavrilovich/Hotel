@@ -3,10 +3,10 @@ package ua.iasa.config;
 import javafx.fxml.FXMLLoader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ua.iasa.ui.ChooseContragentsController;
-import ua.iasa.ui.LoginController;
-import ua.iasa.ui.MainMenuController;
-import ua.iasa.ui.NewDocumentController;
+import ua.iasa.ui.controller.ChooseContragentsController;
+import ua.iasa.ui.controller.LoginController;
+import ua.iasa.ui.controller.MainMenuController;
+import ua.iasa.ui.controller.NewDocumentController;
 
 import java.io.IOException;
 import java.io.InputStream;

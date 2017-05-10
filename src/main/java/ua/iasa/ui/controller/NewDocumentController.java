@@ -1,4 +1,4 @@
-package ua.iasa.ui;
+package ua.iasa.ui.controller;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
