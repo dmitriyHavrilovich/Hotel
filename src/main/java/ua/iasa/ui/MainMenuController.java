@@ -52,7 +52,6 @@ public class MainMenuController{
     @Qualifier("newDocumentView")
     @Autowired
     private View view;
-    private static Stage primaryStage;
 
     @FXML
     public void initialize() {
@@ -238,13 +237,14 @@ public class MainMenuController{
     @Autowired
     private CheckSecurity checkSecurity;
     public void createDoc() {
-        try {
-            checkSecurity.checkAdmin();
-        } catch (RuntimeException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Access Denied!");
-            alert.show();
-            return;
-        }
+//        try {
+//            checkSecurity.checkAdmin();
+//        }
+//        catch (AccessDeniedException e) {
+//            Alert alert = new Alert(Alert.AlertType.ERROR, "Access Denied!");
+//            alert.show();
+//            return;
+//        }
         Stage stage = (Stage) addPhysicalButton.getScene().getWindow();
         stage.setScene(new Scene(view.getView()));
         stage.setResizable(true);
