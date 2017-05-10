@@ -10,14 +10,15 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import ua.iasa.config.View;
-import ua.iasa.ui.NewDocumentController;
 
 @SpringBootApplication
 @Lazy
 @EnableJpaRepositories(basePackages = "ua.iasa.repository")
 @ComponentScan(basePackages = "ua.iasa")
 @EntityScan(basePackages = "ua.iasa.entity")
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class DbExplorer extends AbstractJavaFxApplicationSupport {
 
     @Value("${ui.title:JavaFX приложение}")//
@@ -40,6 +41,5 @@ public class DbExplorer extends AbstractJavaFxApplicationSupport {
     public static void main(String[] args) {
         launchApp(DbExplorer.class, args);
     }
-
 
 }

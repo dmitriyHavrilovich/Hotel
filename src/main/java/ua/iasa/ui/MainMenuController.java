@@ -18,6 +18,7 @@ import ua.iasa.entity.JuridicalPerson;
 import ua.iasa.entity.NaturalPerson;
 import ua.iasa.repository.JuridicalPersonRepository;
 import ua.iasa.repository.NaturalPersonRepository;
+import ua.iasa.service.CheckSecurity;
 
 import javax.annotation.PostConstruct;
 import java.util.HashSet;
@@ -26,7 +27,7 @@ import java.util.Set;
 
 
 @NoArgsConstructor
-public class MainMenuController {
+public class MainMenuController{
     public TableView dovidnikDocumentsTable;
 
 
@@ -48,7 +49,6 @@ public class MainMenuController {
     private TableView<NaturalPerson> physicalTable;
     @FXML
     private TableColumn<NaturalPerson, String> physicalNameColumn;
-    //@FXML private javafx.scene.control.MenuItem createDocId;
     @Qualifier("newDocumentView")
     @Autowired
     private View view;
@@ -234,7 +234,17 @@ public class MainMenuController {
         legalTable.setItems(jurpersdata);
     }
 
+
+    @Autowired
+    private CheckSecurity checkSecurity;
     public void createDoc() {
+        try {
+            checkSecurity.checkAdmin();
+        } catch (RuntimeException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Access Denied!");
+            alert.show();
+            return;
+        }
         Stage stage = (Stage) addPhysicalButton.getScene().getWindow();
         stage.setScene(new Scene(view.getView()));
         stage.setResizable(true);
@@ -243,5 +253,4 @@ public class MainMenuController {
 
     public void keyTypedCode(KeyEvent keyEvent) {
     }
-
 }
