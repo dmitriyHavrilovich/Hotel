@@ -1,4 +1,4 @@
-package ua.iasa.ui.controller;
+package ua.iasa.ui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,7 +19,6 @@ import ua.iasa.entity.NaturalPerson;
 import ua.iasa.repository.JuridicalPersonRepository;
 import ua.iasa.repository.NaturalPersonRepository;
 import ua.iasa.service.CheckSecurity;
-import ua.iasa.ui.entity.ReferencesDocumentView;
 
 import javax.annotation.PostConstruct;
 import java.util.HashSet;
@@ -29,7 +28,7 @@ import java.util.Set;
 
 @NoArgsConstructor
 public class MainMenuController{
-
+    public TableView dovidnikDocumentsTable;
 
 
     //PART FOR NATURAL PERSON TAB
@@ -238,9 +237,14 @@ public class MainMenuController{
     @Autowired
     private CheckSecurity checkSecurity;
     public void createDoc() {
-
-            checkSecurity.checkAdmin();
-
+//        try {
+//            checkSecurity.checkAdmin();
+//        }
+//        catch (AccessDeniedException e) {
+//            Alert alert = new Alert(Alert.AlertType.ERROR, "Access Denied!");
+//            alert.show();
+//            return;
+//        }
         Stage stage = (Stage) addPhysicalButton.getScene().getWindow();
         stage.setScene(new Scene(view.getView()));
         stage.setResizable(true);
@@ -249,21 +253,4 @@ public class MainMenuController{
 
     public void keyTypedCode(KeyEvent keyEvent) {
     }
-    @FXML private TableView<ReferencesDocumentView> dovidnikDocumentsTable;
-
-    @FXML private TableColumn<ReferencesDocumentView, String> idDocumentColumn;
-    @FXML private TableColumn<ReferencesDocumentView, String> dateColumn;
-    @FXML private TableColumn<ReferencesDocumentView, String> goodsColumn;
-    @FXML private TableColumn<ReferencesDocumentView, String> unitsColumn;
-    @FXML private TableColumn<ReferencesDocumentView, Double> amountColumn;
-    @FXML private TableColumn<ReferencesDocumentView, String> currencyColumn;
-    @FXML private TableColumn<ReferencesDocumentView, Double> priceColumn;
-    @FXML private TableColumn<ReferencesDocumentView, String> documentTypeColumn;
-    @FXML private TableColumn<ReferencesDocumentView, String> contragentColumn;
-    @FXML private TableColumn<ReferencesDocumentView, String> employeeColumn;
-
-    @FXML private Button reportButton;
-
-    private ObservableList<ReferencesDocumentView> documents;
 }
-

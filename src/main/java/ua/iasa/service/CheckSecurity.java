@@ -1,18 +1,18 @@
 package ua.iasa.service;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Component;
 
 @Component
-@SuppressWarnings("duplicates")
 public class CheckSecurity {
 
     @Secured("admin")
-    public void checkAdmin() {
+    public void checkAdmin() throws AccessDeniedException{
     }
 
     @Secured("user")
-    public void checkUser() {
+    public void checkUser() throws AccessDeniedException{
     }
 
 }
