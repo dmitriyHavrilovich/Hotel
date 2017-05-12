@@ -5,11 +5,11 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.SmartInitializingSingleton;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Service;
 import ua.iasa.entity.*;
 import ua.iasa.repository.NaturalPersonRepository;
 import ua.iasa.repository.PostRepository;
+import ua.iasa.repository.ReferenceDocumentsDao;
 import ua.iasa.repository.RoomRepository;
 
 import javax.annotation.PostConstruct;
@@ -31,19 +31,15 @@ public class DataBean implements SmartInitializingSingleton {
     private final RoomRepository roomRepository;
     private final PostRepository postRepository;
     private final EntityManager em;
-    private final JdbcUserDetailsManager manager;
+    private final ReferenceDocumentsDao documentsDao;
 
     @PostConstruct
     public void init() {
         insertTestNperson();
-        //insertUsers();
         insertTestRoom();
         insertPost();
-    }
 
-    private void insertUsers() {
     }
-
 
     private void insertTestNperson() {
         NaturalPerson person = new NaturalPerson();
@@ -86,5 +82,6 @@ public class DataBean implements SmartInitializingSingleton {
         Query q = em.createNativeQuery(sql);
         q.executeUpdate();
     }
+
 }
 

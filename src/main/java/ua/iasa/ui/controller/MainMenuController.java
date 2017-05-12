@@ -18,7 +18,6 @@ import ua.iasa.entity.JuridicalPerson;
 import ua.iasa.entity.NaturalPerson;
 import ua.iasa.repository.JuridicalPersonRepository;
 import ua.iasa.repository.NaturalPersonRepository;
-import ua.iasa.service.CheckSecurity;
 
 import javax.annotation.PostConstruct;
 import java.util.HashSet;
@@ -49,6 +48,7 @@ public class MainMenuController{
     private TableView<NaturalPerson> physicalTable;
     @FXML
     private TableColumn<NaturalPerson, String> physicalNameColumn;
+
     @Qualifier("newDocumentView")
     @Autowired
     private View view;
@@ -233,9 +233,6 @@ public class MainMenuController{
         legalTable.setItems(jurpersdata);
     }
 
-
-    @Autowired
-    private CheckSecurity checkSecurity;
     public void createDoc() {
 //        try {
 //            checkSecurity.checkAdmin();
@@ -253,4 +250,6 @@ public class MainMenuController{
 
     public void keyTypedCode(KeyEvent keyEvent) {
     }
+
+
 }
