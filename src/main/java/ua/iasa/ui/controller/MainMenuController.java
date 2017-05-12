@@ -1,4 +1,4 @@
-package ua.iasa.ui;
+package ua.iasa.ui.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

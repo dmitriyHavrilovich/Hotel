@@ -3,7 +3,7 @@ package ua.iasa.ui.entity;
 import lombok.Data;
 
 @Data
-public class ReferencesDocumentView {
+public class ReferenceDocument {
     private Long doc_id;
     private String date;
     private String good;
