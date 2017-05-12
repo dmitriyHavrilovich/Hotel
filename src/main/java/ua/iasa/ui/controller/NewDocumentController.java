@@ -20,6 +20,8 @@ import ua.iasa.entity.Product;
 import ua.iasa.repository.ContractorRepository;
 import ua.iasa.repository.DocumentTypeRepository;
 import ua.iasa.repository.ProductRepository;
+import ua.iasa.repository.ReferenceDocumentsDao;
+import ua.iasa.ui.entity.ReferenceDocument;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -82,7 +84,10 @@ public class NewDocumentController {
     @Qualifier("mainView")
     @Autowired
     private View view1;
-
+    @Autowired
+    private MainMenuController mainMenuController;
+    private ObservableList<ReferenceDocument> documents;
+    @Autowired private ReferenceDocumentsDao referenceDocumentsDao;
     @FXML
     public void initialize() {
     }
@@ -160,9 +165,13 @@ public class NewDocumentController {
         documentSet.add(document);
         contractor.setDocument(documentSet);
         contractorRepository.save(contractor);
+        documents=FXCollections.observableArrayList(referenceDocumentsDao.getReferencesOfDocuments());
+        mainMenuController.setReferenceDocumentTable(documents);
         Stage stage = (Stage) createButton.getScene().getWindow();
         stage.setScene(view1.getView().getScene());
         stage.show();
+
+
     }
 
 

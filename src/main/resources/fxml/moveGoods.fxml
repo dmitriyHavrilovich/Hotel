@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="206.0" prefWidth="380.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.iasa.ui.controller.MainMenuController">
+   <children>
+      <Label layoutX="48.0" layoutY="55.0" prefHeight="17.0" prefWidth="34.0" text="From" />
+      <Label layoutX="48.0" layoutY="120.0" prefHeight="17.0" prefWidth="34.0" text="To" />
+      <ComboBox fx:id="FromRoomList" layoutX="115.0" layoutY="51.0" prefWidth="150.0" />
+      <ComboBox fx:id="ToRoomList" layoutX="114.0" layoutY="117.0" prefWidth="150.0" />
+      <Button fx:id="MoveGoodButton" layoutX="146.0" layoutY="159.0" mnemonicParsing="false" text="Move!" />
+   </children>
+</Pane>

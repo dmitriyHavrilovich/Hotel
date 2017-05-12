@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.hibernate.Session;
 import org.hibernate.transform.AliasToBeanResultTransformer;
+import org.hibernate.type.StandardBasicTypes;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ua.iasa.ui.entity.ReferenceDocument;
@@ -34,12 +35,17 @@ public class ReferenceDocumentsDao {
                 "  contractor.name,\n" +
                 "  product.name_type,\n" +
                 "  product.amount,\n" +
-                "  product.measure,\n" +
+               // "  product.measure,\n" +
                 "  product.price\n" +
                 "FROM document\n" +
                 "  LEFT JOIN contractor ON document.contr_id = contractor.id\n" +
                 "  LEFT JOIN product ON document.id = product.document_id\n" +
-                "LEFT JOIN type_of_document ON document.type_doc_id = type_of_document.id").setResultTransformer(new AliasToBeanResultTransformer(ReferenceDocument.class)).list();
+                "LEFT JOIN type_of_document ON document.type_doc_id = type_of_document.id").addScalar("id", StandardBasicTypes.LONG)
+                          .addScalar("doc_type").addScalar("currency").addScalar("date").
+                                  addScalar("name").addScalar("name_type")
+                .addScalar("amount",StandardBasicTypes.DOUBLE)
+             //   .addScalar("measure",StandardBasicTypes.DOUBLE)
+                .addScalar("price", StandardBasicTypes.DOUBLE).setResultTransformer(new AliasToBeanResultTransformer(ReferenceDocument.class)).list();
           return documents;
     }
 }

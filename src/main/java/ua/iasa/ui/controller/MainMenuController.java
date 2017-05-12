@@ -18,8 +18,11 @@ import ua.iasa.entity.JuridicalPerson;
 import ua.iasa.entity.NaturalPerson;
 import ua.iasa.repository.JuridicalPersonRepository;
 import ua.iasa.repository.NaturalPersonRepository;
+import ua.iasa.repository.ReferenceDocumentsDao;
+import ua.iasa.ui.entity.ReferenceDocument;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.Id;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,7 +30,7 @@ import java.util.Set;
 
 @NoArgsConstructor
 public class MainMenuController{
-    public TableView dovidnikDocumentsTable;
+
 
 
     //PART FOR NATURAL PERSON TAB
@@ -48,6 +51,7 @@ public class MainMenuController{
     private TableView<NaturalPerson> physicalTable;
     @FXML
     private TableColumn<NaturalPerson, String> physicalNameColumn;
+    @Autowired private ReferenceDocumentsDao referenceDocumentsDao;
 
     @Qualifier("newDocumentView")
     @Autowired
@@ -59,7 +63,20 @@ public class MainMenuController{
 
     @PostConstruct
     public void init() {
-        
+        documents=FXCollections.observableArrayList(referenceDocumentsDao.getReferencesOfDocuments());
+
+        //initialize columns
+       idDocumentColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, Long >("id"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("date"));;
+        goodsColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("name_type"));
+      //  unitsColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("currency"));
+        amountColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, Double>("amount"));
+        currencyColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("currency"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, Double>("price"));
+        documentTypeColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("doc_type"));
+        contragentColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("name"));
+        //employeeColumn.setCellValueFactory(new PropertyValueFactory<ReferencesDocumentView, String>("employee"));
+        dovidnikDocumentsTable.setItems(documents);
         
         
     }
@@ -125,9 +142,7 @@ public class MainMenuController{
 
     }
 
-    //TODO
-    public void clicked_choosePhysicalButton(ActionEvent actionEvent) {
-    }
+
 
 
     @FXML
@@ -188,9 +203,7 @@ public class MainMenuController{
         return (isJurNameFilled() || isEdrpouFilled());
     }
 
-    //TODO
-    public void clicked_chooseLegalButton(ActionEvent actionEvent) {
-    }
+
 
     @FXML
     public void addJuridicalPerson(ActionEvent actionEvent) {
@@ -251,5 +264,40 @@ public class MainMenuController{
     public void keyTypedCode(KeyEvent keyEvent) {
     }
 
+   //TAB FOR REFERENCE DOCUMENT
+
+    public void setReferenceDocumentTable(ObservableList<ReferenceDocument> documents) {
+        documents=FXCollections.observableArrayList(referenceDocumentsDao.getReferencesOfDocuments());
+
+        //initialize columns
+        idDocumentColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, Long >("id"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("date"));;
+        goodsColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("name_type"));
+        //  unitsColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("currency"));
+        amountColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, Double>("amount"));
+        currencyColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("currency"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, Double>("price"));
+        documentTypeColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("doc_type"));
+        contragentColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("name"));
+        //employeeColumn.setCellValueFactory(new PropertyValueFactory<ReferencesDocumentView, String>("employee"));
+        dovidnikDocumentsTable.setItems(documents);
+
+    }
+    @FXML private TableView<ReferenceDocument> dovidnikDocumentsTable;
+
+    @FXML private TableColumn<ReferenceDocument, Long> idDocumentColumn;
+    @FXML private TableColumn<ReferenceDocument, String> dateColumn;
+    @FXML private TableColumn<ReferenceDocument, String> goodsColumn;
+    @FXML private TableColumn<ReferenceDocument, String> unitsColumn;
+    @FXML private TableColumn<ReferenceDocument, Double> amountColumn;
+    @FXML private TableColumn<ReferenceDocument, String> currencyColumn;
+    @FXML private TableColumn<ReferenceDocument, Double> priceColumn;
+    @FXML private TableColumn<ReferenceDocument, String> documentTypeColumn;
+    @FXML private TableColumn<ReferenceDocument, String> contragentColumn;
+    @FXML private TableColumn<ReferenceDocument, String> employeeColumn;
+
+    @FXML private Button reportButton;
+
+    private ObservableList<ReferenceDocument> documents;
 
 }
