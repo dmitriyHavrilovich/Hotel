@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.hibernate.Session;
 import org.hibernate.transform.AliasToBeanResultTransformer;
+import org.hibernate.type.StandardBasicTypes;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ua.iasa.ui.entity.ReferenceDocument;
@@ -39,7 +40,13 @@ public class ReferenceDocumentsDao {
                 "FROM document\n" +
                 "  LEFT JOIN contractor ON document.contr_id = contractor.id\n" +
                 "  LEFT JOIN product ON document.id = product.document_id\n" +
-                "LEFT JOIN type_of_document ON document.type_doc_id = type_of_document.id").setResultTransformer(new AliasToBeanResultTransformer(ReferenceDocument.class)).list();
+                "LEFT JOIN type_of_document ON document.type_doc_id = type_of_document.id")
+                          .addScalar("id", StandardBasicTypes.LONG)
+                          .addScalar("amount",StandardBasicTypes.DOUBLE)
+                          .addScalar("measure",StandardBasicTypes.DOUBLE)
+                          .addScalar("price",StandardBasicTypes.DOUBLE)
+                          .setResultTransformer(new AliasToBeanResultTransformer(ReferenceDocument.class))
+                          .list();
           return documents;
     }
 }
