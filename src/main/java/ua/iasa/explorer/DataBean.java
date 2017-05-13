@@ -48,7 +48,7 @@ public class DataBean implements SmartInitializingSingleton {
         person.setPhone("00010230");
         List<Product> products = new ArrayList<>();
         Document document = new Document(null, "10/10/10",
-                new DocumentType(null, "purchase"), products, "uah");
+                new DocumentType(null, "purchase"), products, "uah", person);
         products.add(new Product(null, "water", "8", 10d, 100d, document));
         products.add(new Product(null, "soap", "4", 5d, 100d, document));
 

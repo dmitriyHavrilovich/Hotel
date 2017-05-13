@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "room")
+@Table
 @AllArgsConstructor
 @NoArgsConstructor
 public class Room implements Serializable {

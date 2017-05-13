@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 @Data
 @Entity
-@Table(name = "product")
+@Table
 @EqualsAndHashCode(exclude = "document")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,8 +24,7 @@ public class Product implements Serializable {
     private String measure;
     private Double amount;
     private Double price;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "document_id")
+    @ManyToOne(cascade = CascadeType.ALL)
     private Document document;
 
 }

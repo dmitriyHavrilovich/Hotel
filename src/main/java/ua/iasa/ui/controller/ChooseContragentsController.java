@@ -29,6 +29,7 @@ import java.util.Set;
 
 @NoArgsConstructor
 public class ChooseContragentsController {
+    public static Boolean isShown = false;
 
     //PART FOR NATURAL PERSON TAB
     private ObservableList<NaturalPerson> natpersdata;

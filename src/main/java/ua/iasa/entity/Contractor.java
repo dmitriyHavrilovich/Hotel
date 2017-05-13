@@ -10,9 +10,8 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "contractor")
+@Table
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "contractor_type")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Contractor implements Serializable {
@@ -23,8 +22,7 @@ public class Contractor implements Serializable {
     @Column(name = "contr_phone")
     private String phone;
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "contr_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "contractor")
     private Set<Document> document;
 
 

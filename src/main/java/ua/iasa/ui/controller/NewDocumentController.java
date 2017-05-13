@@ -3,13 +3,16 @@ package ua.iasa.ui.controller;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import ua.iasa.config.View;
@@ -17,23 +20,21 @@ import ua.iasa.entity.Contractor;
 import ua.iasa.entity.Document;
 import ua.iasa.entity.DocumentType;
 import ua.iasa.entity.Product;
-import ua.iasa.repository.ContractorRepository;
-import ua.iasa.repository.DocumentTypeRepository;
-import ua.iasa.repository.ProductRepository;
-import ua.iasa.repository.ReferenceDocumentsDao;
+import ua.iasa.repository.*;
 import ua.iasa.ui.entity.ReferenceDocument;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor
+@Slf4j
+@Data
 public class NewDocumentController {
-
+    public static Boolean isShown = false;
     @FXML
     public Button createButton;
     @FXML
@@ -86,8 +87,12 @@ public class NewDocumentController {
     private View view1;
     @Autowired
     private MainMenuController mainMenuController;
-    private ObservableList<ReferenceDocument> documents;
-    @Autowired private ReferenceDocumentsDao referenceDocumentsDao;
+    private ObservableSet<ReferenceDocument> documents;
+    @Autowired
+    private ReferenceDocumentsDao referenceDocumentsDao;
+    @Autowired
+    private EntityManager em;
+
     @FXML
     public void initialize() {
     }
@@ -119,10 +124,19 @@ public class NewDocumentController {
 
     @FXML
     public void clicked_ChooseContragentButton(ActionEvent actionEvent) throws IOException {
-        Stage stage = (Stage) chooseContragentButton.getScene().getWindow();
-        stage.setScene(new Scene(view.getView()));
-        stage.setResizable(true);
-        stage.show();
+        if (!ChooseContragentsController.isShown){
+            Stage stage = (Stage) chooseContragentButton.getScene().getWindow();
+            stage.setScene(new Scene(view.getView()));
+            stage.setResizable(true);
+            stage.show();
+            ChooseContragentsController.isShown = true;
+        }
+        else {
+            Stage stage = (Stage) chooseContragentButton.getScene().getWindow();
+            stage.setScene(view.getView().getScene());
+            stage.setResizable(true);
+            stage.show();
+        }
     }
 
     public void action_amountTextField(KeyEvent keyEvent) {
@@ -133,6 +147,7 @@ public class NewDocumentController {
 
     @FXML
     public void addProduct(ActionEvent actionEvent) {
+        log.info("Adding good into table");
         goodsInTable.add(new Product(null, goodChoiceBox.getValue().toString(),
                 "",
                 Double.parseDouble(amountTextField.getText()),
@@ -141,9 +156,10 @@ public class NewDocumentController {
                         datePicker.getValue().toString(),
                         new DocumentType(null, documentTypeChoiceBox.getValue().toString()),
                         null,
-                        currencyChoiceBox.getValue().toString()
-                )));
+                        currencyChoiceBox.getValue().toString(),
+                        new Contractor(null, "", contragentTextField.getText(), null))));
         chosenGoodsTable.setItems(goodsInTable);
+
     }
 
     public void clicked_cancelButton(ActionEvent actionEvent) throws IOException {
@@ -155,25 +171,27 @@ public class NewDocumentController {
 
     public void clicked_createButton(ActionEvent actionEvent) {
 
+        Contractor contractor = contractorRepository.findByName(contragentTextField.getText());
+        log.info("Creating document in create button");
         Document document = new Document(null,
                 datePicker.getValue().toString(),
                 new DocumentType(null, documentTypeChoiceBox.getValue().toString()),
-                goodsInTable,
-                currencyChoiceBox.getValue().toString());
-        Contractor contractor = contractorRepository.findByName(contragentTextField.getText());
-        Set<Document> documentSet = new HashSet<>();
-        documentSet.add(document);
-        contractor.setDocument(documentSet);
+                null,
+                currencyChoiceBox.getValue().toString(),
+                contractor);
+        for (Product p : goodsInTable) {
+            p.setDocument(document);
+        }
+        document.setProducts(goodsInTable);
+        contractor.getDocument().add(document);
         contractorRepository.save(contractor);
-        documents=FXCollections.observableArrayList(referenceDocumentsDao.getReferencesOfDocuments());
+
+        documents = FXCollections.observableSet(referenceDocumentsDao.getReferencesOfDocuments());
         mainMenuController.setReferenceDocumentTable(documents);
         Stage stage = (Stage) createButton.getScene().getWindow();
         stage.setScene(view1.getView().getScene());
         stage.show();
-
-
     }
-
 
 
     public void setContragent(String name, Long contragentId) {
@@ -181,5 +199,12 @@ public class NewDocumentController {
         this.contragentId = contragentId;
     }
 
+    public void clearAllFields(){
+        contragentTextField.clear();
+        amountTextField.clear();
+        priceTextField.clear();
+        goodsInTable.clear();
+
+    }
 
 }

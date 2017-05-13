@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Data
 @Entity
-@Table(name = "type_of_document")
+@Table
 @AllArgsConstructor
 @NoArgsConstructor
 public class DocumentType implements Serializable {

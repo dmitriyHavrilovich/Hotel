@@ -2,6 +2,7 @@ package ua.iasa.ui.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -22,15 +23,13 @@ import ua.iasa.repository.ReferenceDocumentsDao;
 import ua.iasa.ui.entity.ReferenceDocument;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.Id;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 
 @NoArgsConstructor
-public class MainMenuController{
-
+public class MainMenuController {
 
 
     //PART FOR NATURAL PERSON TAB
@@ -51,7 +50,8 @@ public class MainMenuController{
     private TableView<NaturalPerson> physicalTable;
     @FXML
     private TableColumn<NaturalPerson, String> physicalNameColumn;
-    @Autowired private ReferenceDocumentsDao referenceDocumentsDao;
+    @Autowired
+    private ReferenceDocumentsDao referenceDocumentsDao;
 
     @Qualifier("newDocumentView")
     @Autowired
@@ -63,13 +63,14 @@ public class MainMenuController{
 
     @PostConstruct
     public void init() {
-        documents=FXCollections.observableArrayList(referenceDocumentsDao.getReferencesOfDocuments());
+        documents = FXCollections.observableArrayList(referenceDocumentsDao.getReferencesOfDocuments());
 
         //initialize columns
-       idDocumentColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, Long >("id"));
-        dateColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("date"));;
+        idDocumentColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, Long>("id"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("date"));
+        ;
         goodsColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("name_type"));
-      //  unitsColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("currency"));
+        //  unitsColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("currency"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, Double>("amount"));
         currencyColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("currency"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, Double>("price"));
@@ -77,8 +78,8 @@ public class MainMenuController{
         contragentColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("name"));
         //employeeColumn.setCellValueFactory(new PropertyValueFactory<ReferencesDocumentView, String>("employee"));
         dovidnikDocumentsTable.setItems(documents);
-        
-        
+
+
     }
 
     private boolean isStringNotEmpty(String text) {
@@ -118,7 +119,7 @@ public class MainMenuController{
     public void AddNaturalPerson(ActionEvent actionEvent) {
         if (isAllPhysicalDataFilled()) {
             Set<Document> DocumentSet = new HashSet<>();
-            String name = physicalSurnameTextField.getText()+" "+physicalNameTextField.getText()+ " "+
+            String name = physicalSurnameTextField.getText() + " " + physicalNameTextField.getText() + " " +
                     physicalFathersNameTextField.getText();
             NaturalPerson pers = new NaturalPerson(null, null, name, DocumentSet, null);
             NaturalPerson p = natpersrepo.save(pers);
@@ -143,12 +144,10 @@ public class MainMenuController{
     }
 
 
-
-
     @FXML
     public void searchNaturalPerson(ActionEvent actionEvent) {
         if (isAnyPhysicalDataFilled()) {
-            String name = physicalSurnameTextField.getText()+" "+physicalNameTextField.getText()+ " "+
+            String name = physicalSurnameTextField.getText() + " " + physicalNameTextField.getText() + " " +
                     physicalFathersNameTextField.getText();
             NaturalPerson searchperson = natpersrepo.findByName(name);
             natpersdata = FXCollections.observableArrayList(searchperson);
@@ -177,7 +176,7 @@ public class MainMenuController{
     @FXML
     private Button addLegalButton;
 
-
+    @Autowired private NewDocumentController newDocumentController;
     @FXML
     private TableView<JuridicalPerson> legalTable;
 
@@ -204,13 +203,12 @@ public class MainMenuController{
     }
 
 
-
     @FXML
     public void addJuridicalPerson(ActionEvent actionEvent) {
         if (isAllJurDataFilled()) {
             Set<Document> DocumentSet = new HashSet<>();
             JuridicalPerson pers = new JuridicalPerson(null, null, JurNameTextField.getText(), DocumentSet
-                    ,edrpouTextField.getText());
+                    , edrpouTextField.getText());
             JuridicalPerson p = jurpersrepo.save(pers);
             jurpersdata.add(p);
             //refreshNaturalTable(actionEvent);
@@ -247,31 +245,34 @@ public class MainMenuController{
     }
 
     public void createDoc() {
-//        try {
-//            checkSecurity.checkAdmin();
-//        }
-//        catch (AccessDeniedException e) {
-//            Alert alert = new Alert(Alert.AlertType.ERROR, "Access Denied!");
-//            alert.show();
-//            return;
-//        }
-        Stage stage = (Stage) addPhysicalButton.getScene().getWindow();
-        stage.setScene(new Scene(view.getView()));
-        stage.setResizable(true);
-        stage.show();
+        if (!NewDocumentController.isShown){
+            Stage stage = (Stage) addPhysicalButton.getScene().getWindow();
+            stage.setScene(new Scene(view.getView()));
+            stage.setResizable(true);
+            stage.show();
+            NewDocumentController.isShown = true;
+        }
+        else {
+            newDocumentController.clearAllFields();
+            Stage stage = (Stage) addPhysicalButton.getScene().getWindow();
+            stage.setScene(view.getView().getScene());
+            stage.setResizable(true);
+            stage.show();
+        }
     }
 
     public void keyTypedCode(KeyEvent keyEvent) {
     }
 
-   //TAB FOR REFERENCE DOCUMENT
+    //TAB FOR REFERENCE DOCUMENT
 
-    public void setReferenceDocumentTable(ObservableList<ReferenceDocument> documents) {
-        documents=FXCollections.observableArrayList(referenceDocumentsDao.getReferencesOfDocuments());
+    public void setReferenceDocumentTable(ObservableSet<ReferenceDocument> documents) {
+        documents = FXCollections.observableSet(referenceDocumentsDao.getReferencesOfDocuments());
 
         //initialize columns
-        idDocumentColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, Long >("id"));
-        dateColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("date"));;
+        idDocumentColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, Long>("id"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("date"));
+        ;
         goodsColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("name_type"));
         //  unitsColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("currency"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, Double>("amount"));
@@ -280,23 +281,36 @@ public class MainMenuController{
         documentTypeColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("doc_type"));
         contragentColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("name"));
         //employeeColumn.setCellValueFactory(new PropertyValueFactory<ReferencesDocumentView, String>("employee"));
-        dovidnikDocumentsTable.setItems(documents);
+        dovidnikDocumentsTable.setItems(FXCollections.observableArrayList(documents));
 
     }
-    @FXML private TableView<ReferenceDocument> dovidnikDocumentsTable;
 
-    @FXML private TableColumn<ReferenceDocument, Long> idDocumentColumn;
-    @FXML private TableColumn<ReferenceDocument, String> dateColumn;
-    @FXML private TableColumn<ReferenceDocument, String> goodsColumn;
-    @FXML private TableColumn<ReferenceDocument, String> unitsColumn;
-    @FXML private TableColumn<ReferenceDocument, Double> amountColumn;
-    @FXML private TableColumn<ReferenceDocument, String> currencyColumn;
-    @FXML private TableColumn<ReferenceDocument, Double> priceColumn;
-    @FXML private TableColumn<ReferenceDocument, String> documentTypeColumn;
-    @FXML private TableColumn<ReferenceDocument, String> contragentColumn;
-    @FXML private TableColumn<ReferenceDocument, String> employeeColumn;
+    @FXML
+    private TableView<ReferenceDocument> dovidnikDocumentsTable;
 
-    @FXML private Button reportButton;
+    @FXML
+    private TableColumn<ReferenceDocument, Long> idDocumentColumn;
+    @FXML
+    private TableColumn<ReferenceDocument, String> dateColumn;
+    @FXML
+    private TableColumn<ReferenceDocument, String> goodsColumn;
+    @FXML
+    private TableColumn<ReferenceDocument, String> unitsColumn;
+    @FXML
+    private TableColumn<ReferenceDocument, Double> amountColumn;
+    @FXML
+    private TableColumn<ReferenceDocument, String> currencyColumn;
+    @FXML
+    private TableColumn<ReferenceDocument, Double> priceColumn;
+    @FXML
+    private TableColumn<ReferenceDocument, String> documentTypeColumn;
+    @FXML
+    private TableColumn<ReferenceDocument, String> contragentColumn;
+    @FXML
+    private TableColumn<ReferenceDocument, String> employeeColumn;
+
+    @FXML
+    private Button reportButton;
 
     private ObservableList<ReferenceDocument> documents;
 

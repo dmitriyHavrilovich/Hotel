@@ -9,12 +9,10 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
-@Table(name = "document")
+@Table
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-//@Inheritance(strategy = InheritanceType.JOINED)
-//@DiscriminatorColumn(name = "document_type")
 public class Document implements Serializable {
 
     @Id
@@ -25,8 +23,9 @@ public class Document implements Serializable {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "type_doc_id")
     private DocumentType documentType;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="product_id")
+    @OneToMany(mappedBy = "document", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Product> products;
     private String currency;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Contractor contractor;
 }
