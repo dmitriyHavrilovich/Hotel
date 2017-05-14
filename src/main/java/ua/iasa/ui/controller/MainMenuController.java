@@ -1,5 +1,7 @@
 package ua.iasa.ui.controller;
 
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
@@ -11,26 +13,41 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import ua.iasa.config.View;
 import ua.iasa.entity.Document;
 import ua.iasa.entity.JuridicalPerson;
 import ua.iasa.entity.NaturalPerson;
-import ua.iasa.repository.JuridicalPersonRepository;
+import ua.iasa.entity.Room;
+import ua.iasa.repository.*;
+
+
 import ua.iasa.repository.NaturalPersonRepository;
-import ua.iasa.repository.ReferenceDocumentsDao;
 import ua.iasa.ui.entity.ReferenceDocument;
+import ua.iasa.ui.entity.ReferenceRoom;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @NoArgsConstructor
 public class MainMenuController {
 
+    @FXML
+    private ComboBox ChooseRoomBox;
+    @FXML
+    private DatePicker datePicker;
+
+    private ObservableList<String> room;
+    @Autowired private RoomRepository roomrepo;
 
     //PART FOR NATURAL PERSON TAB
 
@@ -50,6 +67,8 @@ public class MainMenuController {
     private TableView<NaturalPerson> physicalTable;
     @FXML
     private TableColumn<NaturalPerson, String> physicalNameColumn;
+    @FXML
+    private TableColumn birthDateColumn;
     @Autowired
     private ReferenceDocumentsDao referenceDocumentsDao;
 
@@ -63,6 +82,8 @@ public class MainMenuController {
 
     @PostConstruct
     public void init() {
+
+        //set referenceDocumentTable
         documents = FXCollections.observableArrayList(referenceDocumentsDao.getReferencesOfDocuments());
 
         //initialize columns
@@ -79,6 +100,18 @@ public class MainMenuController {
         //employeeColumn.setCellValueFactory(new PropertyValueFactory<ReferencesDocumentView, String>("employee"));
         dovidnikDocumentsTable.setItems(documents);
 
+        //setRoomTab
+        idRoom.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, Long>("id"));
+        goods.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, String>("name_type"));
+        //  unitsColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("currency"));
+        amount.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, Double>("amount"));
+        currency.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, String>("currency"));
+        price.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, Double>("price"));
+
+        List<Room> rooms = (List) roomrepo.findAll();
+        room = FXCollections.observableArrayList(rooms.stream()
+                .map(Room::getRoomNumber).distinct().collect(Collectors.toList()));
+        ChooseRoomBox.setItems(room);
 
     }
 
@@ -170,11 +203,6 @@ public class MainMenuController {
     private TextField edrpouTextField;
     @FXML
     private TextField JurNameTextField;
-
-    @FXML
-    private Button searchLegalButton;
-    @FXML
-    private Button addLegalButton;
 
     @Autowired private NewDocumentController newDocumentController;
     @FXML
@@ -272,7 +300,7 @@ public class MainMenuController {
         //initialize columns
         idDocumentColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, Long>("id"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("date"));
-        ;
+
         goodsColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("name_type"));
         //  unitsColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("currency"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, Double>("amount"));
@@ -313,5 +341,55 @@ public class MainMenuController {
     private Button reportButton;
 
     private ObservableList<ReferenceDocument> documents;
+
+    @SneakyThrows
+   public String toCSV (Set<ReferenceDocument> listOfPojos){
+        CsvMapper mapper = new CsvMapper();
+        CsvSchema schema = mapper.schemaFor(ReferenceDocument.class).withHeader();
+
+        return mapper.writer(schema).writeValueAsString(referenceDocumentsDao.getReferencesOfDocuments());
+    }
+    @FXML
+    @SneakyThrows
+    public void Reporting(ActionEvent actionEvent) {
+        File file= new File("report.csv");
+        String report = toCSV(referenceDocumentsDao.getReferencesOfDocuments());
+        FileUtils.writeStringToFile(file, report);
+    }
+    @SneakyThrows
+    @FXML
+    public void Report(ActionEvent actionEvent) {
+       // File file= new File("report.txt");
+       // System.out.println(file.getAbsolutePath());
+        //String report = toCSV((List)referenceDocumentsDao.getReferencesOfDocuments());
+        //FileUtils.writeStringToFile(file, report);
+
+    }
+
+    //TAB FOR ROOM REFERENCE
+
+    @FXML
+    private TableView<ReferenceRoom> referenceRoomTable;
+
+    @FXML
+    private TableColumn<ReferenceRoom, Long> idRoom;
+    @FXML
+    private TableColumn<ReferenceRoom, String> goods;
+    @FXML
+    private TableColumn<ReferenceRoom, String> units;
+    @FXML
+    private TableColumn<ReferenceRoom, Double> amount;
+    @FXML
+    private TableColumn<ReferenceRoom, String> currency;
+    @FXML
+    private TableColumn<ReferenceRoom, Double> price;
+
+    private ObservableList<ReferenceRoom> rooms;
+
+
+
+
+    public void MoveGood(ActionEvent actionEvent) {
+    }
 
 }

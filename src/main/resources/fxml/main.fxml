@@ -12,7 +12,6 @@
                 <Menu mnemonicParsing="false" text="File">
                     <items>
                   <MenuItem fx:id="createDoc" mnemonicParsing="false" onAction="#createDoc" text="Create new document" />
-                  <MenuItem mnemonicParsing="false" text="Move goods in room" />
                   <MenuItem mnemonicParsing="false" text="Close" />
                   <Menu mnemonicParsing="false" text="ReferenсeBook">
                      <items>
@@ -72,14 +71,17 @@
                                  <content>
                                     <TableView fx:id="physicalTable" layoutX="266.0" layoutY="42.0" prefHeight="296.0" prefWidth="361.0">
                                        <columns>
-                                          <TableColumn fx:id="physicalNameColumn" editable="false" text="ПІБ" />
+                                          <TableColumn fx:id="physicalNameColumn" editable="false" prefWidth="182.0" text="ПІБ" />
+                                          <TableColumn fx:id="birthDateColumn" editable="false" prefWidth="178.0" text="Дата народження" />
                                        </columns>
                                     </TableView>
                                  </content>
                               </ScrollPane>
-                              <Button fx:id="addPhysicalButton" layoutX="166.0" layoutY="143.0" mnemonicParsing="false" onAction="#AddNaturalPerson" prefHeight="25.0" prefWidth="80.0" text="Додати" />
+                              <Button fx:id="addPhysicalButton" layoutX="16.0" layoutY="298.0" mnemonicParsing="false" onAction="#AddNaturalPerson" prefHeight="25.0" prefWidth="80.0" text="Додати" />
                               <Button fx:id="refreshPhysicalTable" layoutX="265.0" layoutY="335.0" mnemonicParsing="false" onAction="#refreshNaturalTable" prefHeight="25.0" prefWidth="125.0" text="Оновити таблицю" />
                               <Separator layoutX="253.0" layoutY="5.0" orientation="VERTICAL" prefHeight="442.0" prefWidth="3.0" />
+                              <DatePicker fx:id="datePicker" layoutX="16.0" layoutY="260.0" />
+                              <Label layoutX="21.0" layoutY="226.0" text="Дата народження" />
                            </children>
                         </AnchorPane>
                      </children>
@@ -99,14 +101,14 @@
                                     <TableView fx:id="legalTable" layoutX="266.0" layoutY="42.0" prefHeight="275.0" prefWidth="323.0">
                                        <columns>
                                           <TableColumn fx:id="legalNameColumn" editable="false" minWidth="0.0" prefWidth="164.0" text="Назва юр. особи" />
-                                          <TableColumn fx:id="legalCodeColumn" editable="false" minWidth="0.0" prefWidth="158.0" text="Код ЄДРПОУ" />
+                                          <TableColumn fx:id="edrpouColumn" editable="false" minWidth="0.0" prefWidth="158.0" text="Код ЄДРПОУ" />
                                        </columns>
                                     </TableView>
                                  </content>
                               </ScrollPane>
                               <Button fx:id="addLegalButton" layoutX="166.0" layoutY="143.0" mnemonicParsing="false" onAction="#addJuridicalPerson" prefHeight="25.0" prefWidth="80.0" text="Додати" />
-                              <TextField fx:id="legalNameTextField" layoutX="93.0" layoutY="42.0" />
-                              <TextField fx:id="legalCodeTextField" layoutX="93.0" layoutY="85.0" onKeyTyped="#keyTypedCode" />
+                              <TextField fx:id="JurNameTextField" layoutX="93.0" layoutY="42.0" />
+                              <TextField fx:id="edrpouTextField" layoutX="93.0" layoutY="85.0" onKeyTyped="#keyTypedCode" />
                               <Label layoutX="17.0" layoutY="93.0" text="Код ЄДРПОУ" />
                               <Label layoutX="15.0" layoutY="50.0" text="Назва" />
                               <Button fx:id="refreshLegalTable" layoutX="266.0" layoutY="310.0" mnemonicParsing="false" onAction="#refreshJuridicalTable" text="Оновити таблицю" />
@@ -138,7 +140,7 @@
                               </TableView>
                            </content>
                         </ScrollPane>
-                        <Button layoutX="525.0" layoutY="334.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="111.0" text="Звіт" />
+                        <Button fx:id="ReportBtn" layoutX="525.0" layoutY="334.0" mnemonicParsing="false" onAction="#Reporting" prefHeight="26.0" prefWidth="111.0" text="Звіт" />
                      </children>
                   </AnchorPane>
                </content>
@@ -151,25 +153,26 @@
                            <content>
                               <TableView fx:id="referenceRoomTable" layoutX="-1.0" layoutY="-2.0" prefHeight="322.0" prefWidth="656.0">
                                  <columns>
-                                    <TableColumn fx:id="idDocumentColumn1" prefWidth="48.0" text="id" />
-                                    <TableColumn fx:id="goodsColumn1" prefWidth="148.0" text="Товар" />
-                                    <TableColumn fx:id="unitsColumn1" prefWidth="59.0" text="Одиниці" />
-                                    <TableColumn fx:id="amountColumn1" prefWidth="99.0" text="Кількість" />
-                                    <TableColumn fx:id="currencyColumn1" prefWidth="55.0" text="Валюта" />
-                                    <TableColumn fx:id="priceColumn1" prefWidth="89.0" text="Ціна" />
+                                    <TableColumn fx:id="idRoom" prefWidth="48.0" text="id" />
+                                    <TableColumn fx:id="goods" prefWidth="148.0" text="Товар" />
+                                    <TableColumn fx:id="units" prefWidth="100.0" text="Одиниці" />
+                                    <TableColumn fx:id="amount" prefWidth="101.0" text="Кількість" />
+                                    <TableColumn fx:id="currency" prefWidth="107.0" text="Валюта" />
+                                    <TableColumn fx:id="price" prefWidth="151.0" text="Ціна" />
                                  </columns>
                               </TableView>
                            </content>
                         </ScrollPane>
-                        <Button layoutX="519.0" layoutY="348.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="111.0" text="Звіт" />
+                        <Button fx:id="ReportButton" layoutX="519.0" layoutY="348.0" mnemonicParsing="false" onAction="#Report" prefHeight="26.0" prefWidth="111.0" text="Звіт" />
                         <Label layoutX="51.0" layoutY="347.0" prefHeight="23.0" prefWidth="57.0" text="Кімната" />
                         <ComboBox fx:id="ChooseRoomBox" layoutX="120.0" layoutY="348.0" prefWidth="150.0" />
+                        <Button fx:id="MoveButton" layoutX="306.0" layoutY="349.0" mnemonicParsing="false" onAction="#MoveGood" prefHeight="23.0" prefWidth="145.0" text="Перемістити" />
                      </children>
                   </AnchorPane>
                </content>
             </Tab>
          </tabs>
       </TabPane>
-      <Label alignment="CENTER" layoutX="227.0" layoutY="39.0" prefHeight="23.0" prefWidth="190.0" text="Довідник" textAlignment="CENTER" />
+      <Label alignment="CENTER" layoutX="246.0" layoutY="39.0" prefHeight="23.0" prefWidth="190.0" text="Довідник" textAlignment="CENTER" />
     </children>
 </Pane>
