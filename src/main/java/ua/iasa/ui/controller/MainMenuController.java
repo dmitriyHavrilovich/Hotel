@@ -22,16 +22,15 @@ import ua.iasa.entity.Document;
 import ua.iasa.entity.JuridicalPerson;
 import ua.iasa.entity.NaturalPerson;
 import ua.iasa.entity.Room;
-import ua.iasa.repository.*;
-
-
+import ua.iasa.repository.JuridicalPersonRepository;
 import ua.iasa.repository.NaturalPersonRepository;
+import ua.iasa.repository.ReferenceDocumentsDao;
+import ua.iasa.repository.RoomRepository;
 import ua.iasa.ui.entity.ReferenceDocument;
 import ua.iasa.ui.entity.ReferenceRoom;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -346,13 +345,12 @@ public class MainMenuController {
    public String toCSV (Set<ReferenceDocument> listOfPojos){
         CsvMapper mapper = new CsvMapper();
         CsvSchema schema = mapper.schemaFor(ReferenceDocument.class).withHeader();
-
         return mapper.writer(schema).writeValueAsString(referenceDocumentsDao.getReferencesOfDocuments());
     }
     @FXML
     @SneakyThrows
     public void Reporting(ActionEvent actionEvent) {
-        File file= new File("report.csv");
+        File file = new File("report.csv");
         String report = toCSV(referenceDocumentsDao.getReferencesOfDocuments());
         FileUtils.writeStringToFile(file, report);
     }

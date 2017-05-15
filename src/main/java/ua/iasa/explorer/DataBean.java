@@ -63,7 +63,7 @@ public class DataBean implements SmartInitializingSingleton {
     private void insertTestRoom() {
         Room room1 = roomRepository.save(new Room(null, "Store", "1", null));
         log.info("Room added", room1);
-        Room room2 = roomRepository.save(new Room(null, "Luks", "1", null));
+        Room room2 = roomRepository.save(new Room(null, "Luks", "2", null));
         log.info("Room added", room2);
     }
 
