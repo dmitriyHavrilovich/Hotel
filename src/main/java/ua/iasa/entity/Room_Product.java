@@ -18,9 +18,7 @@ public class Room_Product implements Serializable{
     private Long id;
     @Column(name = "name_type")
     private String nameType;
-    private String measure;
     private Double amount;
-    private Double price;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Room room;
 }

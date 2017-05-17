@@ -24,29 +24,6 @@ VALUES ('user', 'user', TRUE);
 INSERT INTO authorities (username, authority)
 VALUES ('user', 'user');
 
-CREATE OR REPLACE FUNCTION product_room() RETURNS
-  TRIGGER AS $$
-DECLARE id_room BIGINT;
-DECLARE idid BIGINT;
-BEGIN
-  SELECT nextval
-  ('hibernate_sequence') INTO idid;
-  SELECT
-    room.id FROM room WHERE room_type='Store' INTO id_room;
-  INSERT INTO
-    room_product(id, amount, measure,
-    name_type, price, room_id) VALUES(idid, new.amount, new.measure,
-  new.name_type, new.price, id_room);
-  RETURN new;
-END;
-$$
-LANGUAGE plpgsql;
-
-CREATE TRIGGER insert_prod_room
-AFTER INSERT OR UPDATE ON product
-FOR EACH ROW
-EXECUTE PROCEDURE product_room();
-
 CREATE OR REPLACE FUNCTION move_product(
 sourceRoom VARCHAR(255),
 targetRoom VARCHAR(255),
@@ -108,3 +85,34 @@ SELECT id FROM room WHERE room_type = targetRoom INTO target_id;
  END;
 $$
 LANGUAGE plpgsql;
+
+
+
+CREATE OR REPLACE FUNCTION product_room() RETURNS
+  TRIGGER AS $$
+DECLARE id_room BIGINT;
+  DECLARE idid BIGINT;
+BEGIN
+  SELECT nextval
+  ('hibernate_sequence') INTO idid;
+  SELECT
+    room.id FROM room WHERE room_type='Store' INTO id_room;
+  IF (SELECT name_type FROM room_product WHERE
+       name_type =new.name_type )IS NULL THEN
+  INSERT INTO
+    room_product(id, amount,
+                 name_type, room_id) VALUES(idid, new.amount,
+                                                   new.name_type, id_room);
+    ELSE
+      UPDATE room_product SET amount = amount+new.amount WHERE room_id=id_room
+        AND name_type=new.name_type;
+     END IF;
+  RETURN new;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER insert_prod_room
+AFTER INSERT OR UPDATE ON product
+FOR EACH ROW
+EXECUTE PROCEDURE product_room();

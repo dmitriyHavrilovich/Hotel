@@ -45,7 +45,7 @@ public class MainMenuController {
     @FXML
     private DatePicker datePicker;
 
-    private ObservableList<String> room;
+    private ObservableList<String> roome;
     @Autowired private RoomRepository roomrepo;
 
     //PART FOR NATURAL PERSON TAB
@@ -88,7 +88,6 @@ public class MainMenuController {
         //initialize columns
         idDocumentColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, Long>("id"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("date"));
-        ;
         goodsColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("name_type"));
         //  unitsColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("currency"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, Double>("amount"));
@@ -104,13 +103,14 @@ public class MainMenuController {
         goods.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, String>("name_type"));
         //  unitsColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("currency"));
         amount.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, Double>("amount"));
-        currency.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, String>("currency"));
-        price.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, Double>("price"));
+        //currency.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, String>("currency"));
+        //price.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, Double>("price"));
 
-        List<Room> rooms = (List) roomrepo.findAll();
-        room = FXCollections.observableArrayList(rooms.stream()
+        List<Room> roomes = (List) roomrepo.findAll();
+        roome = FXCollections.observableArrayList(roomes.stream()
                 .map(Room::getRoomNumber).distinct().collect(Collectors.toList()));
-        ChooseRoomBox.setItems(room);
+        ChooseRoomBox.setItems(roome);
+        ChooseRoomBox.setValue(roomrepo.findByRoomType("Store").getRoomNumber());
 
     }
 

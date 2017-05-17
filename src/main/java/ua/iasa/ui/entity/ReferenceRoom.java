@@ -13,6 +13,6 @@ public class ReferenceRoom {
     private String number;
     private String name_type;
     private Double amount;
-    private Double measure;
-    private Double price;
+    //private Double measure;
+    //private Double price;
 }
