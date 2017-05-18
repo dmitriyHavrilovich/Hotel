@@ -93,7 +93,7 @@ public class NewDocumentController {
     private ReferenceDocumentsDao referenceDocumentsDao;
     @Autowired
     private ReferenceRoomDao referenceRoomDao;
-    private ObservableSet<ReferenceRoom> rooms;
+    private ObservableList<ReferenceRoom> rooms;
     @Autowired
     private EntityManager em;
 
@@ -192,7 +192,7 @@ public class NewDocumentController {
 
         documents = FXCollections.observableSet(referenceDocumentsDao.getReferencesOfDocuments());
         mainMenuController.setReferenceDocumentTable(documents);
-        rooms =  FXCollections.observableSet(referenceRoomDao.getReferencesOfRoom());
+        rooms =  FXCollections.observableArrayList(referenceRoomDao.getReferencesOfRoom());
         mainMenuController.setReferenceRoomTable(rooms);
         Stage stage = (Stage) createButton.getScene().getWindow();
         stage.setScene(view1.getView().getScene());

@@ -2,15 +2,21 @@ package ua.iasa.ui.controller;
 
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
@@ -32,6 +38,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 
@@ -72,9 +79,11 @@ public class MainMenuController {
     @Autowired
     private ReferenceRoomDao referenceRoomDao;
 
+
     @Qualifier("newDocumentView")
     @Autowired
     private View view;
+    ObjectProperty<Predicate<ReferenceRoom>> roomFilter = new SimpleObjectProperty<>();
 
     @FXML
     public void initialize() {
@@ -107,15 +116,31 @@ public class MainMenuController {
         amount.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, Double>("amount"));
         //currency.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, String>("currency"));
         //price.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, Double>("price"));
-        referenceRoomTable.setItems(rooms);
-        List<Room> roomes =(List<Room>) roomrepo.findAll();
+
+        // 1. Wrap the ObservableList in a FilteredList (initially display all data).
+
+        List<Room> roomes = (List<Room>) roomrepo.findAll();
         roome = FXCollections.observableArrayList(roomes.stream()
                 .map(Room::getRoomNumber).distinct().collect(Collectors.toList()));
         ChooseRoomBox.setItems(roome);
         ChooseRoomBox.setValue(roomrepo.findByRoomType("Store").getRoomNumber());
+        roomFilter.bind(Bindings.createObjectBinding(() ->
+                        roomn -> ChooseRoomBox.getValue()
+                                == null || ChooseRoomBox.getValue()
+                                == roomn.getNumber(),
+                ChooseRoomBox.valueProperty()));
+        FilteredList<ReferenceRoom> filteredData = new FilteredList<>(rooms);
+        filteredData.predicateProperty().bind(Bindings.createObjectBinding(
+                () -> roomFilter.get(),
+                roomFilter));
+        // 3. Wrap the FilteredList in a SortedList.
+        SortedList<ReferenceRoom> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(referenceRoomTable.comparatorProperty());
+        referenceRoomTable.setItems(sortedData);
 
     }
-
     private boolean isStringNotEmpty(String text) {
         if (text.equals("") || text.length() == 0 || isStringContainsOnlySpaces(text))
             return false;
@@ -403,16 +428,32 @@ public class MainMenuController {
             stage.show();
         }
     }
-    public void setReferenceRoomTable(ObservableSet<ReferenceRoom> rooms) {
-
-        rooms = FXCollections.observableSet(referenceRoomDao.getReferencesOfRoom());
+    public void setReferenceRoomTable(ObservableList<ReferenceRoom> rooms) {
+        rooms = FXCollections.observableArrayList(referenceRoomDao.getReferencesOfRoom());
+        //rooms = FXCollections.observableSet(referenceRoomDao.getReferencesOfRoom());
         idRoom.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, Long>("id"));
         goods.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, String>("name_type"));
         //  unitsColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("currency"));
         amount.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, Double>("amount"));
         //currency.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, String>("currency"));
         //price.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, Double>("price"));
-        referenceRoomTable.setItems(FXCollections.observableArrayList(rooms));
+        //referenceRoomTable.setItems(FXCollections.observableArrayList(rooms));
+        roomFilter.bind(Bindings.createObjectBinding(() ->
+                        roomn -> ChooseRoomBox.getValue()
+                                == null || ChooseRoomBox.getValue()
+                                == roomn.getNumber(),
+                ChooseRoomBox.valueProperty()));
+       FilteredList<ReferenceRoom> filteredData = new FilteredList<>(rooms);
+        filteredData.predicateProperty().bind(Bindings.createObjectBinding(
+                () -> roomFilter.get(),
+                roomFilter));
+        // 3. Wrap the FilteredList in a SortedList.
+        SortedList<ReferenceRoom> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(referenceRoomTable.comparatorProperty());
+        referenceRoomTable.setItems(sortedData);
+
 
     }
 
