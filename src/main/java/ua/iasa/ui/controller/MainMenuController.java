@@ -86,6 +86,9 @@ public class MainMenuController {
     @Autowired
     private View view;
     private ObjectProperty<Predicate<ReferenceRoom>> roomFilter = new SimpleObjectProperty<>();
+    @Qualifier("moveGoodRoomView")
+    @Autowired
+    private View view1;
 
     @FXML
     public void initialize() {
@@ -110,7 +113,8 @@ public class MainMenuController {
 
         //setRoomTab
         ObservableList<ReferenceRoom> rooms = FXCollections.observableArrayList(referenceRoomDao.getReferencesOfRoom());
-        idRoom.setCellValueFactory(new PropertyValueFactory<>("id"));
+        RoomNumberColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
+        RoomTypeColumn.setCellValueFactory(new PropertyValueFactory<>("room_type"));
         goods.setCellValueFactory(new PropertyValueFactory<>("name_type"));
         amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
 
@@ -332,7 +336,8 @@ public class MainMenuController {
     //TAB FOR REFERENCE DOCUMENT
 
     public void setReferenceDocumentTable() {
-        ObservableSet<ReferenceDocument> documents = FXCollections.observableSet(referenceDocumentsDao.getReferencesOfDocuments());
+        ObservableSet<ReferenceDocument> documents =
+                FXCollections.observableSet(referenceDocumentsDao.getReferencesOfDocuments());
 
         //initialize columns
         idDocumentColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -406,12 +411,13 @@ public class MainMenuController {
     private TableView<ReferenceRoom> referenceRoomTable;
 
     @FXML
-    private TableColumn<ReferenceRoom, Long> idRoom;
-    @FXML
     private TableColumn<ReferenceRoom, String> goods;
     @FXML
     private TableColumn<ReferenceRoom, Double> amount;
-
+    @FXML
+    private TableColumn<ReferenceRoom, String> RoomNumberColumn;
+    @FXML
+    private TableColumn<ReferenceRoom, String> RoomTypeColumn;
 
     @FXML
     public Button MoveButton;
@@ -421,13 +427,13 @@ public class MainMenuController {
     public void MoveGood(ActionEvent actionEvent) throws IOException {
         if (!MoveGoodRoomController.isShown) {
             Stage stage = (Stage) MoveButton.getScene().getWindow();
-            stage.setScene(new Scene(view.getView()));
+            stage.setScene(new Scene(view1.getView()));
             stage.setResizable(true);
             stage.show();
-            ChooseContragentsController.isShown = true;
+            MoveGoodRoomController.isShown = true;
         } else {
             Stage stage = (Stage) MoveButton.getScene().getWindow();
-            stage.setScene(view.getView().getScene());
+            stage.setScene(view1.getView().getScene());
             stage.setResizable(true);
             stage.show();
         }
@@ -435,7 +441,8 @@ public class MainMenuController {
 
     public void setReferenceRoomTable(ObservableList<ReferenceRoom> rooms) {
         rooms = FXCollections.observableArrayList(referenceRoomDao.getReferencesOfRoom());
-        idRoom.setCellValueFactory(new PropertyValueFactory<>("id"));
+        RoomNumberColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
+        RoomTypeColumn.setCellValueFactory(new PropertyValueFactory<>("room_type"));
         goods.setCellValueFactory(new PropertyValueFactory<>("name_type"));
         amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
         roomFilter.bind(Bindings.createObjectBinding(() ->

@@ -37,11 +37,11 @@ DECLARE
   DECLARE source_id BIGINT;
   DECLARE target_id BIGINT;
 BEGIN
-  SELECT id FROM room WHERE room_type = sourceRoom INTO source_id;
+  SELECT id FROM room WHERE "number" = sourceRoom INTO source_id;
   IF (source_id) IS NULL THEN
     RAISE EXCEPTION 'Source Room doesnt exist' ;
   END IF;
-SELECT id FROM room WHERE room_type = targetRoom INTO target_id;
+SELECT id FROM room WHERE "number" = targetRoom INTO target_id;
   IF (target_id) IS NULL THEN
     RAISE EXCEPTION 'Target Room doesnt exist' ;
   END IF;
