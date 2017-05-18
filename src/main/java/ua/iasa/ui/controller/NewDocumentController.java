@@ -22,6 +22,7 @@ import ua.iasa.entity.DocumentType;
 import ua.iasa.entity.Product;
 import ua.iasa.repository.*;
 import ua.iasa.ui.entity.ReferenceDocument;
+import ua.iasa.ui.entity.ReferenceRoom;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
@@ -90,6 +91,9 @@ public class NewDocumentController {
     private ObservableSet<ReferenceDocument> documents;
     @Autowired
     private ReferenceDocumentsDao referenceDocumentsDao;
+    @Autowired
+    private ReferenceRoomDao referenceRoomDao;
+    private ObservableSet<ReferenceRoom> rooms;
     @Autowired
     private EntityManager em;
 
@@ -188,6 +192,8 @@ public class NewDocumentController {
 
         documents = FXCollections.observableSet(referenceDocumentsDao.getReferencesOfDocuments());
         mainMenuController.setReferenceDocumentTable(documents);
+        rooms =  FXCollections.observableSet(referenceRoomDao.getReferencesOfRoom());
+        mainMenuController.setReferenceRoomTable(rooms);
         Stage stage = (Stage) createButton.getScene().getWindow();
         stage.setScene(view1.getView().getScene());
         stage.show();

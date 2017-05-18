@@ -27,7 +27,7 @@
                               <content>
                                  <TableView fx:id="physicalTable" layoutX="266.0" layoutY="42.0" prefHeight="275.0" prefWidth="323.0">
                                    <columns>
-                                     <TableColumn fx:id="physicalNameColumn" editable="false" prefWidth="249.0" text="ПІБ" />
+                                     <TableColumn fx:id="physicalNameColumn" editable="false" prefWidth="322.0" text="ПІБ" />
                                    </columns>
                                  </TableView>
                               </content>

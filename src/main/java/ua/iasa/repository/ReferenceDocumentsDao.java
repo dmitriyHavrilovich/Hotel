@@ -50,7 +50,9 @@ public class ReferenceDocumentsDao {
                         .addScalar("name_type")
                         .addScalar("amount", StandardBasicTypes.DOUBLE)
                         //   .addScalar("measure",StandardBasicTypes.DOUBLE)
-                        .addScalar("price", StandardBasicTypes.DOUBLE).setResultTransformer(new AliasToBeanResultTransformer(ReferenceDocument.class)).list();
+                        .addScalar("price", StandardBasicTypes.DOUBLE).
+                                setResultTransformer(new AliasToBeanResultTransformer
+                                        (ReferenceDocument.class)).list();
         return new HashSet<>(documents);
     }
 

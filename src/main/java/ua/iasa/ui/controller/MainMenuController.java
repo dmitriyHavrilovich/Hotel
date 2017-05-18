@@ -22,15 +22,13 @@ import ua.iasa.entity.Document;
 import ua.iasa.entity.JuridicalPerson;
 import ua.iasa.entity.NaturalPerson;
 import ua.iasa.entity.Room;
-import ua.iasa.repository.JuridicalPersonRepository;
-import ua.iasa.repository.NaturalPersonRepository;
-import ua.iasa.repository.ReferenceDocumentsDao;
-import ua.iasa.repository.RoomRepository;
+import ua.iasa.repository.*;
 import ua.iasa.ui.entity.ReferenceDocument;
 import ua.iasa.ui.entity.ReferenceRoom;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,6 +37,7 @@ import java.util.stream.Collectors;
 
 @NoArgsConstructor
 public class MainMenuController {
+
 
     @FXML
     private ComboBox ChooseRoomBox;
@@ -67,9 +66,11 @@ public class MainMenuController {
     @FXML
     private TableColumn<NaturalPerson, String> physicalNameColumn;
     @FXML
-    private TableColumn birthDateColumn;
+    private TableColumn<NaturalPerson, String> birthDateColumn;
     @Autowired
     private ReferenceDocumentsDao referenceDocumentsDao;
+    @Autowired
+    private ReferenceRoomDao referenceRoomDao;
 
     @Qualifier("newDocumentView")
     @Autowired
@@ -99,14 +100,15 @@ public class MainMenuController {
         dovidnikDocumentsTable.setItems(documents);
 
         //setRoomTab
+        rooms = FXCollections.observableArrayList(referenceRoomDao.getReferencesOfRoom());
         idRoom.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, Long>("id"));
         goods.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, String>("name_type"));
         //  unitsColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("currency"));
         amount.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, Double>("amount"));
         //currency.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, String>("currency"));
         //price.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, Double>("price"));
-
-        List<Room> roomes = (List) roomrepo.findAll();
+        referenceRoomTable.setItems(rooms);
+        List<Room> roomes =(List<Room>) roomrepo.findAll();
         roome = FXCollections.observableArrayList(roomes.stream()
                 .map(Room::getRoomNumber).distinct().collect(Collectors.toList()));
         ChooseRoomBox.setItems(roome);
@@ -153,7 +155,8 @@ public class MainMenuController {
             Set<Document> DocumentSet = new HashSet<>();
             String name = physicalSurnameTextField.getText() + " " + physicalNameTextField.getText() + " " +
                     physicalFathersNameTextField.getText();
-            NaturalPerson pers = new NaturalPerson(null, null, name, DocumentSet, null);
+            NaturalPerson pers = new NaturalPerson(null, null, name, DocumentSet,
+                    datePicker.getValue().toString());
             NaturalPerson p = natpersrepo.save(pers);
             natpersdata.add(p);
             //refreshNaturalTable(actionEvent);
@@ -171,6 +174,7 @@ public class MainMenuController {
         natpersdata = FXCollections.observableArrayList(natpersons);
         //TableColumn<NaturalPerson, String> NameColumn = new TableColumn<>("Ім я");
         physicalNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        birthDateColumn.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
         physicalTable.setItems(natpersdata);
 
     }
@@ -248,7 +252,8 @@ public class MainMenuController {
     @FXML
     public void searchJuridicalPerson(ActionEvent actionEvent) {
         if (isAnyJurlDataFilled()) {
-            JuridicalPerson searchperson = jurpersrepo.findByNameAndEdrpou(JurNameTextField.getText(), edrpouTextField.getText());
+            JuridicalPerson searchperson = jurpersrepo.findByNameAndEdrpou(JurNameTextField.getText(),
+                    edrpouTextField.getText());
             jurpersdata = FXCollections.observableArrayList(searchperson);
             legalNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
             edrpouColumn.setCellValueFactory(new PropertyValueFactory<>("edrpou"));
@@ -374,20 +379,41 @@ public class MainMenuController {
     @FXML
     private TableColumn<ReferenceRoom, String> goods;
     @FXML
-    private TableColumn<ReferenceRoom, String> units;
-    @FXML
     private TableColumn<ReferenceRoom, Double> amount;
-    @FXML
-    private TableColumn<ReferenceRoom, String> currency;
-    @FXML
-    private TableColumn<ReferenceRoom, Double> price;
+
 
     private ObservableList<ReferenceRoom> rooms;
+    @FXML public Button MoveButton;
 
 
 
+    @FXML
+    public void MoveGood(ActionEvent actionEvent) throws IOException{
+        if (!MoveGoodRoomController.isShown){
+            Stage stage = (Stage) MoveButton.getScene().getWindow();
+            stage.setScene(new Scene(view.getView()));
+            stage.setResizable(true);
+            stage.show();
+            ChooseContragentsController.isShown = true;
+        }
+        else {
+            Stage stage = (Stage) MoveButton.getScene().getWindow();
+            stage.setScene(view.getView().getScene());
+            stage.setResizable(true);
+            stage.show();
+        }
+    }
+    public void setReferenceRoomTable(ObservableSet<ReferenceRoom> rooms) {
 
-    public void MoveGood(ActionEvent actionEvent) {
+        rooms = FXCollections.observableSet(referenceRoomDao.getReferencesOfRoom());
+        idRoom.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, Long>("id"));
+        goods.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, String>("name_type"));
+        //  unitsColumn.setCellValueFactory(new PropertyValueFactory<ReferenceDocument, String>("currency"));
+        amount.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, Double>("amount"));
+        //currency.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, String>("currency"));
+        //price.setCellValueFactory(new PropertyValueFactory<ReferenceRoom, Double>("price"));
+        referenceRoomTable.setItems(FXCollections.observableArrayList(rooms));
+
     }
 
 }

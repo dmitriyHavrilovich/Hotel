@@ -37,17 +37,17 @@ public class ReferenceRoomDao {
                         "  room.room_type,\n" +
                         "  room.number,\n" +
                         "  room_product.name_type,\n" +
-                        "  room_product.amount,\n" +
+                        "  room_product.amount\n" +
                        // "  product.measure,\n" +
-                        "  room_product.price\n" +
-                        "FROM room\n" +
-                        "  LEFT JOIN room_product" +
-                        " ON room.id = room_product.room_id")
+                       // "  room_product.price\n" +
+                        "FROM room \n" +
+                        "  LEFT JOIN room_product \n" +
+                        " ON room.id = room_product.room_id \n")
                         .addScalar("id", StandardBasicTypes.LONG)
                         .addScalar("amount",StandardBasicTypes.DOUBLE)
                         .addScalar("room_type").addScalar("number").addScalar("name_type")
                        // .addScalar("measure",StandardBasicTypes.DOUBLE)
-                        .addScalar("price", StandardBasicTypes.DOUBLE)
+                       // .addScalar("price", StandardBasicTypes.DOUBLE)
                         .setResultTransformer(new AliasToBeanResultTransformer
                                 (ReferenceRoom.class)).list();
         return new HashSet<>(rooms);

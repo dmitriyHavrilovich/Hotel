@@ -80,8 +80,8 @@
                               <Button fx:id="addPhysicalButton" layoutX="16.0" layoutY="298.0" mnemonicParsing="false" onAction="#AddNaturalPerson" prefHeight="25.0" prefWidth="80.0" text="Додати" />
                               <Button fx:id="refreshPhysicalTable" layoutX="265.0" layoutY="335.0" mnemonicParsing="false" onAction="#refreshNaturalTable" prefHeight="25.0" prefWidth="125.0" text="Оновити таблицю" />
                               <Separator layoutX="253.0" layoutY="5.0" orientation="VERTICAL" prefHeight="442.0" prefWidth="3.0" />
-                              <DatePicker fx:id="datePicker" layoutX="16.0" layoutY="260.0" />
-                              <Label layoutX="21.0" layoutY="226.0" text="Дата народження" />
+                              <DatePicker fx:id="datePicker" layoutX="10.0" layoutY="214.0" prefHeight="23.0" prefWidth="213.0" />
+                              <Label layoutX="16.0" layoutY="189.0" text="Дата народження" />
                            </children>
                         </AnchorPane>
                      </children>
@@ -153,12 +153,9 @@
                            <content>
                               <TableView fx:id="referenceRoomTable" layoutX="-1.0" layoutY="-2.0" prefHeight="322.0" prefWidth="656.0">
                                  <columns>
-                                    <TableColumn fx:id="idRoom" prefWidth="48.0" text="id" />
-                                    <TableColumn fx:id="goods" prefWidth="148.0" text="Товар" />
-                                    <TableColumn fx:id="units" prefWidth="100.0" text="Одиниці" />
-                                    <TableColumn fx:id="amount" prefWidth="101.0" text="Кількість" />
-                                    <TableColumn fx:id="currency" prefWidth="107.0" text="Валюта" />
-                                    <TableColumn fx:id="price" prefWidth="151.0" text="Ціна" />
+                                    <TableColumn fx:id="idRoom" prefWidth="174.0" text="id" />
+                                    <TableColumn fx:id="goods" prefWidth="296.0" text="Товар" />
+                                    <TableColumn fx:id="amount" prefWidth="185.0" text="Кількість" />
                                  </columns>
                               </TableView>
                            </content>
