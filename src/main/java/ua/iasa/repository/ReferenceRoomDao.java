@@ -51,14 +51,28 @@ public class ReferenceRoomDao {
         return new HashSet<>(rooms);
     }
 
-    public void MoveProduct(String sourceRoom, String targetRoom,
+    public void moveProduct(String sourceRoom, String targetRoom,
                             String product, Double amount) {
-        getSession().createSQLQuery("SELECT move_product(:sourceRoom," +
-                ":targetRoom, :product, :amount);")
+        entityManager.createNativeQuery("SELECT move_product(:sourceRoom, :targetRoom, :product, :amount) as text")
                 .setParameter("sourceRoom", sourceRoom)
                 .setParameter("targetRoom", targetRoom)
                 .setParameter("product", product)
-                .setParameter("amount", amount);
-
+                .setParameter("amount", amount).getSingleResult();
+//        StoredProcedureQuery query = entityManager
+//                .createStoredProcedureQuery("move_product")
+//                .registerStoredProcedureParameter("sourceRoom",
+//                        String.class, ParameterMode.IN)
+//                .registerStoredProcedureParameter("targetRoom",
+//                        String.class, ParameterMode.IN)
+//                .registerStoredProcedureParameter("product_name",
+//                        String.class, ParameterMode.IN)
+//                .registerStoredProcedureParameter("amounts",
+//                        Double.class, ParameterMode.IN)
+//                .registerStoredProcedureParameter(Void.class, ParameterMode.OUT)
+//                .setParameter("sourceRoom", sourceRoom)
+//                .setParameter("targetRoom", targetRoom)
+//                .setParameter("product_name",product)
+//                .setParameter("amounts", amount);
+//        query.execute();
     }
 }

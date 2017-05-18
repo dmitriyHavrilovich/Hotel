@@ -50,6 +50,7 @@ public class MoveGoodRoomController {
     @Autowired
     private MainMenuController mainMenuController;
     private ObservableList<ReferenceRoom> rooms;
+
     @FXML
     public void initialize() {
     }
@@ -57,7 +58,7 @@ public class MoveGoodRoomController {
     @PostConstruct
     public void init() {
         List<Room> rooms = (List) roomrepo.findAll();
-         room = FXCollections.observableArrayList(rooms.stream()
+        room = FXCollections.observableArrayList(rooms.stream()
                 .map(Room::getRoomNumber).distinct().collect(Collectors.toList()));
         fromRoomList.setItems(room);
         toRoomList.setItems(room);
@@ -69,14 +70,14 @@ public class MoveGoodRoomController {
 
     @FXML
     public void moveGood(ActionEvent actionEvent) {
-       // try {
-            referenceRoomDao.MoveProduct(fromRoomList.getValue().toString(),
-                    toRoomList.getValue().toString(),
-                    goodChoiceBox.getValue().toString(),
-                    Double.parseDouble(amountTextField.getText()));
+        // try {
+        referenceRoomDao.moveProduct(fromRoomList.getValue(),
+                toRoomList.getValue(),
+                goodChoiceBox.getValue().toString(),
+                Double.parseDouble(amountTextField.getText()));
         //} catch (Exception e) {
-          //  Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot move product");
-           // alert.show();
+        //  Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot move product");
+        // alert.show();
         //}
         rooms = FXCollections.observableArrayList(referenceRoomDao.getReferencesOfRoom());
         mainMenuController.setReferenceRoomTable(rooms);
