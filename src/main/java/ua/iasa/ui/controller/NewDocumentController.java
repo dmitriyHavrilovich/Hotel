@@ -128,14 +128,13 @@ public class NewDocumentController {
 
     @FXML
     public void clicked_ChooseContragentButton(ActionEvent actionEvent) throws IOException {
-        if (!ChooseContragentsController.isShown){
+        if (!ChooseContragentsController.isShown) {
             Stage stage = (Stage) chooseContragentButton.getScene().getWindow();
             stage.setScene(new Scene(view.getView()));
             stage.setResizable(true);
             stage.show();
             ChooseContragentsController.isShown = true;
-        }
-        else {
+        } else {
             Stage stage = (Stage) chooseContragentButton.getScene().getWindow();
             stage.setScene(view.getView().getScene());
             stage.setResizable(true);
@@ -191,8 +190,8 @@ public class NewDocumentController {
         contractorRepository.save(contractor);
 
         documents = FXCollections.observableSet(referenceDocumentsDao.getReferencesOfDocuments());
-        mainMenuController.setReferenceDocumentTable(documents);
-        rooms =  FXCollections.observableArrayList(referenceRoomDao.getReferencesOfRoom());
+        mainMenuController.setReferenceDocumentTable();
+        rooms = FXCollections.observableArrayList(referenceRoomDao.getReferencesOfRoom());
         mainMenuController.setReferenceRoomTable(rooms);
         Stage stage = (Stage) createButton.getScene().getWindow();
         stage.setScene(view1.getView().getScene());
@@ -205,7 +204,7 @@ public class NewDocumentController {
         this.contragentId = contragentId;
     }
 
-    public void clearAllFields(){
+    public void clearAllFields() {
         contragentTextField.clear();
         amountTextField.clear();
         priceTextField.clear();

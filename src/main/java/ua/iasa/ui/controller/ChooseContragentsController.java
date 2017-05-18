@@ -23,34 +23,43 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by Mahaon on 07.05.2017.
- */
-
 @NoArgsConstructor
 public class ChooseContragentsController {
     public static Boolean isShown = false;
 
     //PART FOR NATURAL PERSON TAB
-    private ObservableList<NaturalPerson> natpersdata;
+    private ObservableList<NaturalPerson> naturalPerson;
     @Autowired
-    private NaturalPersonRepository natpersrepo;
-    @FXML private TextField physicalSurnameTextField;
-    @FXML private TextField physicalNameTextField;
-    @FXML private TextField physicalFathersNameTextField;
+    private NaturalPersonRepository naturalPersonRepository;
+    @FXML
+    private TextField physicalSurnameTextField;
+    @FXML
+    private TextField physicalNameTextField;
+    @FXML
+    private TextField physicalFathersNameTextField;
 
-    @FXML private Button searchPhysicalButton;
-    @FXML private Button choosePhysicalButton;
-    @FXML private Button addPhysicalButton;
-    @FXML private Button editPhysicalButton;
-    @FXML private Button deletePhysicalButton;
-    @FXML private Button closeButton1;
-    @FXML private Button refreshPhysicalTable;
-    @FXML private Button refreshLegalTable;
+    @FXML
+    private Button searchPhysicalButton;
+    @FXML
+    private Button choosePhysicalButton;
+    @FXML
+    private Button addPhysicalButton;
+    @FXML
+    private Button editPhysicalButton;
+    @FXML
+    private Button deletePhysicalButton;
+    @FXML
+    private Button closeButton1;
+    @FXML
+    private Button refreshPhysicalTable;
+    @FXML
+    private Button refreshLegalTable;
 
-    @FXML private TableView<NaturalPerson> physicalTable;
+    @FXML
+    private TableView<NaturalPerson> physicalTable;
 
-    @FXML private TableColumn<NaturalPerson, String> physicalNameColumn;
+    @FXML
+    private TableColumn<NaturalPerson, String> physicalNameColumn;
 
 
     @Autowired
@@ -66,17 +75,15 @@ public class ChooseContragentsController {
     @PostConstruct
     public void init() {
         //initialize columns
-        physicalNameColumn.setCellValueFactory(new PropertyValueFactory<NaturalPerson, String>("name"));
+        physicalNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        legalNameColumn.setCellValueFactory(new PropertyValueFactory<JuridicalPerson, String>("name"));
-        legalCodeColumn.setCellValueFactory(new PropertyValueFactory<JuridicalPerson, Integer>("edrpou"));
+        legalNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        legalCodeColumn.setCellValueFactory(new PropertyValueFactory<>("edrpou"));
 
     }
 
     private boolean isStringNotEmpty(String text) {
-        if (text.equals("") || text.length() == 0 || isStringContainsOnlySpaces(text))
-            return false;
-        return true;
+        return !(text.equals("") || text.length() == 0 || isStringContainsOnlySpaces(text));
     }
 
     private boolean isStringContainsOnlySpaces(String string) {
@@ -105,25 +112,27 @@ public class ChooseContragentsController {
     private boolean isAnyPhysicalDataFilled() {
         return (isPhysicalNameFilled() || isPhysicalFathersNameFilled() || isPhysicalSurnameFilled());
     }
+
     public void clicked_searchPhysicalButton(ActionEvent actionEvent) {
         if (isAnyPhysicalDataFilled()) {
-            String name = physicalSurnameTextField.getText()+" "+physicalNameTextField.getText()+ " "+
+            String name = physicalSurnameTextField.getText() + " " + physicalNameTextField.getText() + " " +
                     physicalFathersNameTextField.getText();
-            NaturalPerson searchperson = natpersrepo.findByName(name);
-            natpersdata = FXCollections.observableArrayList(searchperson);
+            NaturalPerson searchperson = naturalPersonRepository.findByName(name);
+            naturalPerson = FXCollections.observableArrayList(searchperson);
             physicalNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-            physicalTable.setItems(natpersdata);
+            physicalTable.setItems(naturalPerson);
 
 
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Empty fields");
             alert.show();
-    }}
+        }
+    }
 
     public void clicked_choosePhysicalButton(ActionEvent actionEvent) {
 
         NaturalPerson data = physicalTable.getSelectionModel().getSelectedItem();
-        if (data == null){
+        if (data == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Please, choose contragent");
             alert.show();
         }
@@ -134,7 +143,7 @@ public class ChooseContragentsController {
             stage.setScene(view.getView().getScene());
             stage.show();
             //stage.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Can't set contragent to the document");
             alert.show();
 
@@ -144,11 +153,11 @@ public class ChooseContragentsController {
     public void clicked_addPhysicalButton(ActionEvent actionEvent) {
         if (isAllPhysicalDataFilled()) {
             Set<Document> DocumentSet = new HashSet<>();
-            String name = physicalSurnameTextField.getText()+" "+physicalNameTextField.getText()+ " "+
+            String name = physicalSurnameTextField.getText() + " " + physicalNameTextField.getText() + " " +
                     physicalFathersNameTextField.getText();
             NaturalPerson pers = new NaturalPerson(null, null, name, DocumentSet, null);
-            NaturalPerson p = natpersrepo.save(pers);
-            natpersdata.add(p);
+            NaturalPerson p = naturalPersonRepository.save(pers);
+            naturalPerson.add(p);
             //refreshNaturalTable(actionEvent);
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Empty fields");
@@ -157,32 +166,44 @@ public class ChooseContragentsController {
     }
 
     public void clicked_refreshPhysicalTable(ActionEvent actionEvent) {
-        List<NaturalPerson> natpersons = (List) natpersrepo.findAll();
-        natpersdata = FXCollections.observableArrayList(natpersons);
+        List<NaturalPerson> naturalPersonList = (List<NaturalPerson>) naturalPersonRepository.findAll();
+        naturalPerson = FXCollections.observableArrayList(naturalPersonList);
         // Столбцы таблицы
         //TableColumn<NaturalPerson, String> NameColumn = new TableColumn<>("Ім я");
         physicalNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        physicalTable.setItems(natpersdata);
+        physicalTable.setItems(naturalPerson);
     }
+
     //PART FOR JURIDICAL PERSON TAB
-    private ObservableList<JuridicalPerson> jurpersdata;
+    private ObservableList<JuridicalPerson> juridicalPersons;
     @Autowired
-    private JuridicalPersonRepository jurpersrepo;
+    private JuridicalPersonRepository juridicalPersonRepository;
 
-    @FXML private TextField legalCodeTextField;
-    @FXML private TextField legalNameTextField;
+    @FXML
+    private TextField legalCodeTextField;
+    @FXML
+    private TextField legalNameTextField;
 
-    @FXML private Button searchLegalButton;
-    @FXML private Button chooseLegalButton;
-    @FXML private Button addLegalButton;
-    @FXML private Button editLegalButton;
-    @FXML private Button deleteLegalButton;
-    @FXML private Button closeButton2;
+    @FXML
+    private Button searchLegalButton;
+    @FXML
+    private Button chooseLegalButton;
+    @FXML
+    private Button addLegalButton;
+    @FXML
+    private Button editLegalButton;
+    @FXML
+    private Button deleteLegalButton;
+    @FXML
+    private Button closeButton2;
 
-    @FXML private TableView <JuridicalPerson> legalTable;
+    @FXML
+    private TableView<JuridicalPerson> legalTable;
 
-    @FXML private TableColumn<JuridicalPerson, String> legalNameColumn;
-    @FXML private TableColumn<JuridicalPerson, Integer> legalCodeColumn;
+    @FXML
+    private TableColumn<JuridicalPerson, String> legalNameColumn;
+    @FXML
+    private TableColumn<JuridicalPerson, Integer> legalCodeColumn;
 
     private boolean isJurNameFilled() {
         return isStringNotEmpty(legalNameTextField.getText());
@@ -200,15 +221,16 @@ public class ChooseContragentsController {
     private boolean isAnyJurlDataFilled() {
         return (isJurNameFilled() || isEdrpouFilled());
     }
+
     public void clicked_searchLegalButton(ActionEvent actionEvent) {
 
         if (isAnyJurlDataFilled()) {
-            JuridicalPerson searchperson = jurpersrepo.findByNameAndEdrpou(legalNameTextField.getText(),
+            JuridicalPerson searchperson = juridicalPersonRepository.findByNameAndEdrpou(legalNameTextField.getText(),
                     legalCodeTextField.getText());
-            jurpersdata = FXCollections.observableArrayList(searchperson);
+            juridicalPersons = FXCollections.observableArrayList(searchperson);
             legalNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
             legalCodeColumn.setCellValueFactory(new PropertyValueFactory<>("edrpou"));
-            legalTable.setItems(jurpersdata);
+            legalTable.setItems(juridicalPersons);
 
 
         } else {
@@ -219,18 +241,18 @@ public class ChooseContragentsController {
 
     public void clicked_chooseLegalButton(ActionEvent actionEvent) {
         JuridicalPerson data = legalTable.getSelectionModel().getSelectedItem();
-        if (data == null){
+        if (data == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Please, choose contragent");
             alert.show();
         }
 
         try {
-            newdoccontrooler.setContragent(data.getName() + " " + data.getEdrpou() , data.getId());
+            newdoccontrooler.setContragent(data.getName() + " " + data.getEdrpou(), data.getId());
             Stage stage = (Stage) chooseLegalButton.getScene().getWindow();
             stage.setScene(view.getView().getScene());
             stage.show();
             //stage.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Can't set contragent to the document");
             alert.show();
 
@@ -242,9 +264,9 @@ public class ChooseContragentsController {
         if (isAllJurDataFilled()) {
             Set<Document> DocumentSet = new HashSet<>();
             JuridicalPerson pers = new JuridicalPerson(null, null, legalNameTextField.getText(), DocumentSet
-                    ,legalCodeTextField.getText());
-            JuridicalPerson p = jurpersrepo.save(pers);
-            jurpersdata.add(p);
+                    , legalCodeTextField.getText());
+            JuridicalPerson p = juridicalPersonRepository.save(pers);
+            juridicalPersons.add(p);
             //refreshNaturalTable(actionEvent);
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Empty fields");
@@ -257,12 +279,12 @@ public class ChooseContragentsController {
 
     public void clicked_refreshLegalTable(ActionEvent actionEvent) {
 
-        List<JuridicalPerson> jurpersons = (List) jurpersrepo.findAll();
-        jurpersdata = FXCollections.observableArrayList(jurpersons);
+        List<JuridicalPerson> juridicalPersons = (List<JuridicalPerson>) juridicalPersonRepository.findAll();
+        this.juridicalPersons = FXCollections.observableArrayList(juridicalPersons);
         // Столбцы таблицы
         legalNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         legalCodeColumn.setCellValueFactory(new PropertyValueFactory<>("edrpou"));
-        legalTable.setItems(jurpersdata);
+        legalTable.setItems(this.juridicalPersons);
     }
 
 
