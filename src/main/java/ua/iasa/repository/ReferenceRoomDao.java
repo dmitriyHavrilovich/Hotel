@@ -7,11 +7,9 @@ import org.hibernate.transform.AliasToBeanResultTransformer;
 import org.hibernate.type.StandardBasicTypes;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ua.iasa.ui.entity.ReferenceDocument;
 import ua.iasa.ui.entity.ReferenceRoom;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,7 +21,7 @@ import java.util.Set;
 public class ReferenceRoomDao {
     private final EntityManager entityManager;
 
-    private Session getSession(){
+    private Session getSession() {
         return (Session) entityManager.getDelegate();
     }
 
@@ -38,29 +36,29 @@ public class ReferenceRoomDao {
                         "  room.number,\n" +
                         "  room_product.name_type,\n" +
                         "  room_product.amount\n" +
-                       // "  product.measure,\n" +
-                       // "  room_product.price\n" +
+                        // "  product.measure,\n" +
+                        // "  room_product.price\n" +
                         "FROM room \n" +
                         "  LEFT JOIN room_product \n" +
                         " ON room.id = room_product.room_id \n")
                         .addScalar("id", StandardBasicTypes.LONG)
-                        .addScalar("amount",StandardBasicTypes.DOUBLE)
+                        .addScalar("amount", StandardBasicTypes.DOUBLE)
                         .addScalar("room_type").addScalar("number").addScalar("name_type")
-                       // .addScalar("measure",StandardBasicTypes.DOUBLE)
-                       // .addScalar("price", StandardBasicTypes.DOUBLE)
+                        // .addScalar("measure",StandardBasicTypes.DOUBLE)
+                        // .addScalar("price", StandardBasicTypes.DOUBLE)
                         .setResultTransformer(new AliasToBeanResultTransformer
                                 (ReferenceRoom.class)).list();
         return new HashSet<>(rooms);
     }
 
     public void MoveProduct(String sourceRoom, String targetRoom,
-                            String product, Double amount){
-         getSession().createSQLQuery("SELECT move_product(:sourceRoom," +
+                            String product, Double amount) {
+        getSession().createSQLQuery("SELECT move_product(:sourceRoom," +
                 ":targetRoom, :product, :amount);")
-                 .setParameter(sourceRoom, sourceRoom)
-                 .setParameter(targetRoom, targetRoom)
-                 .setParameter(product, product)
-                 .setParameter(amount.toString(), amount);
+                .setParameter("sourceRoom", sourceRoom)
+                .setParameter("targetRoom", targetRoom)
+                .setParameter("product", product)
+                .setParameter("amount", amount);
 
     }
 }
