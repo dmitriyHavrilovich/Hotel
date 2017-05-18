@@ -22,12 +22,14 @@ import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.AccessDeniedException;
 import ua.iasa.config.View;
 import ua.iasa.entity.Document;
 import ua.iasa.entity.JuridicalPerson;
 import ua.iasa.entity.NaturalPerson;
 import ua.iasa.entity.Room;
 import ua.iasa.repository.*;
+import ua.iasa.service.CheckSecurity;
 import ua.iasa.ui.entity.ReferenceDocument;
 import ua.iasa.ui.entity.ReferenceRoom;
 
@@ -196,7 +198,6 @@ public class MainMenuController {
 
     }
 
-
     @FXML
     public void searchNaturalPerson(ActionEvent actionEvent) {
         if (isAnyPhysicalDataFilled()) {
@@ -237,7 +238,6 @@ public class MainMenuController {
     private boolean isJurNameFilled() {
         return isStringNotEmpty(JurNameTextField.getText());
     }
-
 
     private boolean isEdrpouFilled() {
         return isStringNotEmpty(edrpouTextField.getText());
@@ -294,19 +294,35 @@ public class MainMenuController {
         legalTable.setItems(this.juridicalPeople);
     }
 
+    @Autowired
+    private CheckSecurity checkSecurity;
+    @FXML
     public void createDoc() {
-        if (!NewDocumentController.isShown) {
-            Stage stage = (Stage) addPhysicalButton.getScene().getWindow();
-            stage.setScene(new Scene(view.getView()));
-            stage.setResizable(true);
-            stage.show();
-            NewDocumentController.isShown = true;
-        } else {
-            newDocumentController.clearAllFields();
-            Stage stage = (Stage) addPhysicalButton.getScene().getWindow();
-            stage.setScene(view.getView().getScene());
-            stage.setResizable(true);
-            stage.show();
+        Boolean access = true;
+        try {
+            checkSecurity.checkAdmin();
+        }
+        catch (AccessDeniedException exception){
+            access = false;
+        }
+        if(access) {
+            if (!NewDocumentController.isShown) {
+                Stage stage = (Stage) addPhysicalButton.getScene().getWindow();
+                stage.setScene(new Scene(view.getView()));
+                stage.setResizable(true);
+                stage.show();
+                NewDocumentController.isShown = true;
+            } else {
+                newDocumentController.clearAllFields();
+                Stage stage = (Stage) addPhysicalButton.getScene().getWindow();
+                stage.setScene(view.getView().getScene());
+                stage.setResizable(true);
+                stage.show();
+            }
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Users can't create documents");
+            alert.show();
         }
     }
 

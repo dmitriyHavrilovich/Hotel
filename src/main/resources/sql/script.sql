@@ -16,13 +16,13 @@ CREATE UNIQUE INDEX ix_auth_username
 INSERT INTO users (username, password, enabled)
 VALUES ('admin', 'admin', TRUE);
 INSERT INTO authorities (username, authority)
-VALUES ('admin', 'admin');
+VALUES ('admin', 'ROLE_ADMIN');
 INSERT INTO authorities (username, authority)
-VALUES ('admin', 'user');
+VALUES ('admin', 'ROLE_USER');
 INSERT INTO users (username, password, enabled)
 VALUES ('user', 'user', TRUE);
 INSERT INTO authorities (username, authority)
-VALUES ('user', 'user');
+VALUES ('user', 'ROLE_USER');
 
 CREATE OR REPLACE FUNCTION move_product(
 sourceRoom VARCHAR(255),

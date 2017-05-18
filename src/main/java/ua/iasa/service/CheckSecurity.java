@@ -7,12 +7,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class CheckSecurity {
 
-    @Secured("admin")
+    @Secured({"ROLE_ADMIN"})
     public void checkAdmin() throws AccessDeniedException{
-    }
-
-    @Secured("user")
-    public void checkUser() throws AccessDeniedException{
     }
 
 }
