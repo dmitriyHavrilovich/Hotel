@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import ua.iasa.config.View;
@@ -19,7 +20,6 @@ import ua.iasa.repository.RoomRepository;
 import ua.iasa.ui.entity.ReferenceRoom;
 
 import javax.annotation.PostConstruct;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,23 +63,27 @@ public class MoveGoodRoomController {
                 .map(Room::getRoomNumber).distinct().collect(Collectors.toList()));
         fromRoomList.setItems(room);
         toRoomList.setItems(room);
+        refreshProductComboBox();
+    }
+
+    public void refreshProductComboBox() {
         List<Product> prods = (List<Product>) procrepo.findAll();
-        ObservableList<String> productnamedata = FXCollections.observableArrayList(prods.stream()
+        ObservableList<String> productNameData = FXCollections.observableArrayList(prods.stream()
                 .map(Product::getNameType).distinct().collect(Collectors.toList()));
-        goodChoiceBox.setItems(productnamedata);
+        goodChoiceBox.setItems(productNameData);
     }
 
     @FXML
+    @SneakyThrows
     public void moveGood(ActionEvent actionEvent) {
          try {
         referenceRoomDao.moveProduct(fromRoomList.getValue(),
                 toRoomList.getValue(),
                 goodChoiceBox.getValue(),
                 Double.parseDouble(amountTextField.getText()));
-        } catch (Exception e) {
-          Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot move product");
+        } catch (RuntimeException e) {
+          Alert alert = new Alert(Alert.AlertType.ERROR, "Bad input data");
           alert.show();
-            // e.getMessage();
         }
         ObservableList<ReferenceRoom> rooms =
                 FXCollections.observableArrayList(referenceRoomDao.getReferencesOfRoom());

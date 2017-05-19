@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.iasa.ui.entity.ReferenceRoom;
 
 import javax.persistence.EntityManager;
-import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,30 +52,13 @@ public class ReferenceRoomDao {
     }
 
     public void moveProduct(String sourceRoom, String targetRoom,
-                            String product, Double amount) throws SQLException{
+                            String product, Double amount) {
 
-            entityManager.createNativeQuery("SELECT move_product(:sourceRoom, :targetRoom, :product, :amount) as text")
-                    .setParameter("sourceRoom", sourceRoom)
-                    .setParameter("targetRoom", targetRoom)
-                    .setParameter("product", product)
-                    .setParameter("amount", amount).getSingleResult();
+        entityManager.createNativeQuery("SELECT move_product(:sourceRoom, :targetRoom, :product, :amount) AS text")
+                .setParameter("sourceRoom", sourceRoom)
+                .setParameter("targetRoom", targetRoom)
+                .setParameter("product", product)
+                .setParameter("amount", amount).getSingleResult();
 
-
-//        StoredProcedureQuery query = entityManager
-//                .createStoredProcedureQuery("move_product")
-//                .registerStoredProcedureParameter("sourceRoom",
-//                        String.class, ParameterMode.IN)
-//                .registerStoredProcedureParameter("targetRoom",
-//                        String.class, ParameterMode.IN)
-//                .registerStoredProcedureParameter("product_name",
-//                        String.class, ParameterMode.IN)
-//                .registerStoredProcedureParameter("amounts",
-//                        Double.class, ParameterMode.IN)
-//                .registerStoredProcedureParameter(Void.class, ParameterMode.OUT)
-//                .setParameter("sourceRoom", sourceRoom)
-//                .setParameter("targetRoom", targetRoom)
-//                .setParameter("product_name",product)
-//                .setParameter("amounts", amount);
-//        query.execute();
     }
 }

@@ -456,7 +456,8 @@ public class MainMenuController {
     @FXML
     public Button MoveButton;
 
-
+    @Autowired
+    private MoveGoodRoomController moveGoodRoomController;
     @FXML
     public void MoveGood(ActionEvent actionEvent) throws IOException {
         Boolean access = true;
@@ -468,12 +469,14 @@ public class MainMenuController {
         }
         if(access) {
         if (!MoveGoodRoomController.isShown) {
+            moveGoodRoomController.refreshProductComboBox();
             Stage stage = (Stage) MoveButton.getScene().getWindow();
             stage.setScene(new Scene(view1.getView()));
             stage.setResizable(true);
             stage.show();
             MoveGoodRoomController.isShown = true;
         } else {
+            moveGoodRoomController.refreshProductComboBox();
             Stage stage = (Stage) MoveButton.getScene().getWindow();
             stage.setScene(view1.getView().getScene());
             stage.setResizable(true);

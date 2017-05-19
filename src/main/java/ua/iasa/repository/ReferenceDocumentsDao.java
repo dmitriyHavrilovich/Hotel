@@ -30,15 +30,14 @@ public class ReferenceDocumentsDao {
     public Set<ReferenceDocument> getReferencesOfDocuments() {
         List<ReferenceDocument> documents =
                 (List<ReferenceDocument>) getSession().createSQLQuery("SELECT\n" +
-                        "  document.id,\n" +
-                        "  document_type.doc_type,\n" +
-                        "  document.currency,\n" +
-                        "  document.date,\n" +
-                        "  contractor.name,\n" +
-                        "  product.name_type,\n" +
-                        "  product.amount,\n" +
-                        // "  product.measure,\n" +
-                        "  product.price,\n" +
+                        " document.id,\n" +
+                        " document_type.doc_type,\n" +
+                        " document.currency,\n" +
+                        " document.date,\n" +
+                        " contractor.name,\n" +
+                        " product.name_type,\n" +
+                        " product.amount,\n" +
+                        " product.price,\n" +
                         " personal.namep\n " +
                         "FROM document\n" +
                         "  LEFT JOIN contractor ON document.contractor_id = contractor.id\n" +
@@ -52,11 +51,10 @@ public class ReferenceDocumentsDao {
                         .addScalar("name")
                         .addScalar("name_type")
                         .addScalar("amount", StandardBasicTypes.DOUBLE)
-
-                        //   .addScalar("measure",StandardBasicTypes.DOUBLE)
-                        .addScalar("price", StandardBasicTypes.DOUBLE).addScalar("namep").
-                                setResultTransformer(new AliasToBeanResultTransformer
-                                        (ReferenceDocument.class)).list();
+                        .addScalar("price", StandardBasicTypes.DOUBLE)
+                        .addScalar("namep")
+                        .setResultTransformer(new AliasToBeanResultTransformer
+                                (ReferenceDocument.class)).list();
         return new HashSet<>(documents);
     }
 

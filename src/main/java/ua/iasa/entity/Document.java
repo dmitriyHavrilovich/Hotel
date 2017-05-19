@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @Table
 @Entity
-@EqualsAndHashCode(exclude = "personal")
+@EqualsAndHashCode(exclude = {"products", "personal"})
 @AllArgsConstructor
 @NoArgsConstructor
 public class Document implements Serializable {
@@ -28,8 +28,8 @@ public class Document implements Serializable {
     @OneToMany(mappedBy = "document", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Product> products;
     private String currency;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private Contractor contractor;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private Personal personal;
 }

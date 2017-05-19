@@ -23,7 +23,6 @@ import ua.iasa.ui.entity.ReferenceRoom;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
-import javax.swing.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -154,32 +153,33 @@ public class NewDocumentController {
     @FXML
     public void addProduct(ActionEvent actionEvent) {
         if (priceTextField.getText().equals("") || amountTextField.getText().equals("") || productField.getText().equals("") || currencyChoiceBox.getValue() == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Please, fill all fields in goods section!" );
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please, fill all fields in goods section!");
             alert.show();
-        } else if(isGoodInGoodsBasket(productField.getText(), goodsInTable)){
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Such good is already present in basket!" );
+        } else if (isGoodInGoodsBasket(productField.getText(), goodsInTable)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Such good is already present in basket!");
             alert.show();
-        }else
+        } else
             try {
-        log.info("Adding good into table");
-        goodsInTable.add(new Product(null, productField.getText(),
-                "",
-                Double.parseDouble(amountTextField.getText()),
-                Double.parseDouble(priceTextField.getText()),
-                new Document(null,
-                        datePicker.getValue().toString(),
-                        new DocumentType(null, documentTypeChoiceBox.getValue().toString()),
-                        null,
-                        currencyChoiceBox.getValue().toString(),
-                        new Contractor(null, "", contragentTextField.getText(), null),
-                        new Personal(null, employeeChoiceBox.getValue(), null))));
-            }catch (Exception e){
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Problems with fields data!" );
+                log.info("Adding good into table");
+                goodsInTable.add(new Product(null, productField.getText(),
+                        "",
+                        Double.parseDouble(amountTextField.getText()),
+                        Double.parseDouble(priceTextField.getText()),
+                        new Document(null,
+                                datePicker.getValue().toString(),
+                                new DocumentType(null, documentTypeChoiceBox.getValue().toString()),
+                                null,
+                                currencyChoiceBox.getValue().toString(),
+                                new Contractor(null, "", contragentTextField.getText(), null),
+                                new Personal(null, employeeChoiceBox.getValue(), null))));
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Problems with fields data!");
                 alert.show();
-            }try {
+            }
+        try {
             chosenGoodsTable.setItems(goodsInTable);
-        }catch (Exception e){
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Can't refresh the table!" );
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Can't refresh the table!");
             alert.show();
         }
     }
@@ -194,40 +194,34 @@ public class NewDocumentController {
     public void clicked_createButton(ActionEvent actionEvent) {
         if (isAllFieldsAreFilled()) {
             if (isDateOkay(datePicker)) {
-               // try {
-        Contractor contractor = contractorRepository.findByName(contragentTextField.getText());
-        Personal per = personalRepository.findByNamep(employeeChoiceBox.getValue());
-         log.info("Creating document in create button");
-        Document document = new Document(null,
-                datePicker.getValue().toString(),
-                new DocumentType(null, documentTypeChoiceBox.getValue().toString()),
-                null,
-                currencyChoiceBox.getValue().toString(),
-                contractor, per);
-        for (Product p : goodsInTable) {
-            p.setDocument(document);
-        }
-        document.setProducts(goodsInTable);
-        contractor.getDocument().add(document);
-        per.getDocument().add(document);
-        contractorRepository.save(contractor);
-        personalRepository.save(per);
+                Contractor contractor = contractorRepository.findByName(contragentTextField.getText());
+                Personal per = personalRepository.findByNamep(employeeChoiceBox.getValue());
+                log.info("Creating document in create button");
+                Document document = new Document(null,
+                        datePicker.getValue().toString(),
+                        new DocumentType(null, documentTypeChoiceBox.getValue().toString()),
+                        null,
+                        currencyChoiceBox.getValue().toString(),
+                        contractor, per);
+                for (Product p : goodsInTable) {
+                    p.setDocument(document);
+                }
+                document.setProducts(goodsInTable);
+                contractor.getDocument().add(document);
+                per.getDocument().add(document);
+                contractorRepository.save(contractor);
+                //personalRepository.save(per);
 
-         Alert alert = new Alert(Alert.AlertType.INFORMATION, "New document was added.");
-         alert.show();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "New document was added.");
+                alert.show();
 
-        documents = FXCollections.observableSet(referenceDocumentsDao.getReferencesOfDocuments());
-        mainMenuController.setReferenceDocumentTable();
-        rooms = FXCollections.observableArrayList(referenceRoomDao.getReferencesOfRoom());
-        mainMenuController.setReferenceRoomTable(rooms);
-        Stage stage = (Stage) createButton.getScene().getWindow();
-        stage.setScene(view1.getView().getScene());
-        stage.show();
-              //  } catch (Exception e) {
-                //    Alert alert = new Alert(Alert.AlertType.ERROR,
-                  //          "Can't insert data to the database. Please, contact developer.");
-                   // alert.show();
-                //}
+                documents = FXCollections.observableSet(referenceDocumentsDao.getReferencesOfDocuments());
+                mainMenuController.setReferenceDocumentTable();
+                rooms = FXCollections.observableArrayList(referenceRoomDao.getReferencesOfRoom());
+                mainMenuController.setReferenceRoomTable(rooms);
+                Stage stage = (Stage) createButton.getScene().getWindow();
+                stage.setScene(view1.getView().getScene());
+                stage.show();
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR,
                         "Please, insert correct date!");
@@ -243,18 +237,18 @@ public class NewDocumentController {
 
     @FXML
     public void clicked_deleteGoodButton() {
-        if (!goodsInTable.isEmpty()){
+        if (!goodsInTable.isEmpty()) {
             try {
                 int goodInBasketId = chosenGoodsTable.getSelectionModel().getSelectedIndex();
                 goodsInTable.remove(goodInBasketId);
                 chosenGoodsTable.setItems(goodsInTable);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Product deleted from list.");
                 alert.show();
-            }catch (Exception e){
+            } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Unknown error during deletion of good from basket!");
                 alert.show();
             }
-        }else {
+        } else {
             Alert alert = new Alert(Alert.AlertType.ERROR, "You can't delete an item from empty list!");
             alert.show();
         }
@@ -273,18 +267,20 @@ public class NewDocumentController {
         goodsInTable.clear();
 
     }
-    private static boolean isDateOkay(DatePicker datePicker){
+
+    private static boolean isDateOkay(DatePicker datePicker) {
         return !datePicker.getValue().isAfter(LocalDate.now());
 
     }
 
-    private static boolean isGoodInGoodsBasket(String good, ObservableList<Product> goodsInBasket){
+    private static boolean isGoodInGoodsBasket(String good, ObservableList<Product> goodsInBasket) {
         for (int i = 0; i < goodsInBasket.size(); i++)
             if (good.equals(goodsInBasket.get(i).getNameType()))
                 return true;
         return false;
     }
-    private boolean isAllFieldsAreFilled(){
+
+    private boolean isAllFieldsAreFilled() {
         return !(goodsInTable.isEmpty()
                 || datePicker.getEditor().getText().isEmpty()
                 || contragentTextField.getText().isEmpty());
