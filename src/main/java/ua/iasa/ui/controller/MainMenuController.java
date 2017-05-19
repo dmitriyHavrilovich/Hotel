@@ -36,6 +36,7 @@ import ua.iasa.ui.entity.ReferenceRoom;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -140,6 +141,21 @@ public class MainMenuController {
         sortedData.comparatorProperty().bind(referenceRoomTable.comparatorProperty());
         referenceRoomTable.setItems(sortedData);
 
+        //SET CONTRACTORS TAB
+        //NATURAL
+        List<NaturalPerson> natpersons = (List<NaturalPerson>) natpersrepo.findAll();
+        natpersdata = FXCollections.observableArrayList(natpersons);
+        physicalNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        birthDateColumn.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
+        physicalTable.setItems(natpersdata);
+        //JURIDICAL
+        List<JuridicalPerson> juridicalPeople = (List<JuridicalPerson>) juridicalPersonRepository.findAll();
+        this.juridicalPeople = FXCollections.observableArrayList(juridicalPeople);
+        // Столбцы таблицы
+        legalNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        edrpouColumn.setCellValueFactory(new PropertyValueFactory<>("edrpou"));
+        legalTable.setItems(this.juridicalPeople);
+
     }
 
     private boolean isStringNotEmpty(String text) {
@@ -178,14 +194,20 @@ public class MainMenuController {
     @FXML
     public void AddNaturalPerson(ActionEvent actionEvent) {
         if (isAllPhysicalDataFilled()) {
-            Set<Document> DocumentSet = new HashSet<>();
-            String name = physicalSurnameTextField.getText() + " " + physicalNameTextField.getText() + " " +
-                    physicalFathersNameTextField.getText();
-            NaturalPerson pers = new NaturalPerson(null, null, name, DocumentSet,
-                    datePicker.getValue().toString());
-            NaturalPerson p = natpersrepo.save(pers);
-            natpersdata.add(p);
-            //refreshNaturalTable(actionEvent);
+            if(isDateOkay(datePicker)) {
+                Set<Document> DocumentSet = new HashSet<>();
+                String name = physicalSurnameTextField.getText() + " " + physicalNameTextField.getText() + " " +
+                        physicalFathersNameTextField.getText();
+                NaturalPerson pers = new NaturalPerson(null, null, name, DocumentSet,
+                        datePicker.getValue().toString());
+                NaturalPerson p = natpersrepo.save(pers);
+                natpersdata.add(p);
+                //refreshNaturalTable(actionEvent);
+            }
+            else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Only adults, please!");
+                alert.show();
+            }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Empty fields");
             alert.show();
@@ -217,6 +239,10 @@ public class MainMenuController {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Empty fields");
             alert.show();
         }
+    }
+    private static boolean isDateOkay(DatePicker datePicker){
+        return !(LocalDate.now().getYear()-datePicker.getValue().getYear()<18);
+
     }
 
     //PART FOR JURIDICAL PERSON TAB
@@ -258,6 +284,7 @@ public class MainMenuController {
 
     @FXML
     public void addJuridicalPerson(ActionEvent actionEvent) {
+        try{
         if (isAllJurDataFilled()) {
             Set<Document> DocumentSet = new HashSet<>();
             JuridicalPerson pers = new JuridicalPerson(null, null, JurNameTextField.getText(), DocumentSet
@@ -267,6 +294,11 @@ public class MainMenuController {
             //refreshNaturalTable(actionEvent);
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Empty fields");
+            alert.show();
+        }}
+        catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Alreade exists " +
+                    "or contact developer");
             alert.show();
         }
     }
@@ -425,6 +457,14 @@ public class MainMenuController {
 
     @FXML
     public void MoveGood(ActionEvent actionEvent) throws IOException {
+        Boolean access = true;
+        try {
+            checkSecurity.checkAdmin();
+        }
+        catch (AccessDeniedException exception){
+            access = false;
+        }
+        if(access) {
         if (!MoveGoodRoomController.isShown) {
             Stage stage = (Stage) MoveButton.getScene().getWindow();
             stage.setScene(new Scene(view1.getView()));
@@ -436,6 +476,11 @@ public class MainMenuController {
             stage.setScene(view1.getView().getScene());
             stage.setResizable(true);
             stage.show();
+        }
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Access denied!");
+            alert.show();
         }
     }
 
@@ -459,7 +504,6 @@ public class MainMenuController {
         // 4. Bind the SortedList comparator to the TableView comparator.
         sortedData.comparatorProperty().bind(referenceRoomTable.comparatorProperty());
         referenceRoomTable.setItems(sortedData);
-
 
     }
 

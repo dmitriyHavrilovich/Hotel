@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.iasa.ui.entity.ReferenceRoom;
 
 import javax.persistence.EntityManager;
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -52,12 +53,15 @@ public class ReferenceRoomDao {
     }
 
     public void moveProduct(String sourceRoom, String targetRoom,
-                            String product, Double amount) {
-        entityManager.createNativeQuery("SELECT move_product(:sourceRoom, :targetRoom, :product, :amount) as text")
-                .setParameter("sourceRoom", sourceRoom)
-                .setParameter("targetRoom", targetRoom)
-                .setParameter("product", product)
-                .setParameter("amount", amount).getSingleResult();
+                            String product, Double amount) throws SQLException{
+
+            entityManager.createNativeQuery("SELECT move_product(:sourceRoom, :targetRoom, :product, :amount) as text")
+                    .setParameter("sourceRoom", sourceRoom)
+                    .setParameter("targetRoom", targetRoom)
+                    .setParameter("product", product)
+                    .setParameter("amount", amount).getSingleResult();
+
+
 //        StoredProcedureQuery query = entityManager
 //                .createStoredProcedureQuery("move_product")
 //                .registerStoredProcedureParameter("sourceRoom",
