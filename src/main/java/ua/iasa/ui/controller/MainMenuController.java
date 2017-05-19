@@ -110,6 +110,7 @@ public class MainMenuController {
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         documentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("doc_type"));
         contragentColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        employeeColumn.setCellValueFactory(new PropertyValueFactory<>("namep"));
         dovidnikDocumentsTable.setItems(documents);
 
         //setRoomTab
@@ -381,6 +382,7 @@ public class MainMenuController {
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         documentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("doc_type"));
         contragentColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        employeeColumn.setCellValueFactory(new PropertyValueFactory<>("namep"));
         dovidnikDocumentsTable.setItems(FXCollections.observableArrayList(documents));
 
     }

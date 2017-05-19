@@ -2,6 +2,7 @@ package ua.iasa.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.List;
 @Data
 @Table
 @Entity
+@EqualsAndHashCode(exclude = "personal")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Document implements Serializable {
@@ -28,4 +30,6 @@ public class Document implements Serializable {
     private String currency;
     @ManyToOne(cascade = CascadeType.ALL)
     private Contractor contractor;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Personal personal;
 }

@@ -7,10 +7,7 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.stereotype.Service;
 import ua.iasa.entity.*;
-import ua.iasa.repository.NaturalPersonRepository;
-import ua.iasa.repository.PostRepository;
-import ua.iasa.repository.ReferenceDocumentsDao;
-import ua.iasa.repository.RoomRepository;
+import ua.iasa.repository.*;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
@@ -31,6 +28,7 @@ public class DataBean implements SmartInitializingSingleton {
     private final RoomRepository roomRepository;
     private final PostRepository postRepository;
     private final EntityManager em;
+    private final PersonalRepository personalRepository;
     private final ReferenceDocumentsDao documentsDao;
 
     @PostConstruct
@@ -43,12 +41,14 @@ public class DataBean implements SmartInitializingSingleton {
 
     private void insertTestNperson() {
         NaturalPerson person = new NaturalPerson();
+        Personal personal = new Personal();
+        personal.setNamep("Babich Maria Pavlivna");
         person.setName("Babich Maria Pavlivna");
         person.setBirthDate("098765");
         person.setPhone("00010230");
         List<Product> products = new ArrayList<>();
         Document document = new Document(null, "10/10/10",
-                new DocumentType(null, "purchase"), products, "uah", person);
+                new DocumentType(null, "purchase"), products, "uah", person, personal);
         products.add(new Product(null, "water", "8", 10d, 100d, document));
         products.add(new Product(null, "soap", "4", 5d, 100d, document));
 
@@ -56,8 +56,9 @@ public class DataBean implements SmartInitializingSingleton {
         Set<Document> documents = new HashSet<>();
         documents.add(document);
         person.setDocument(documents);
+        personal.setDocument(documents);
         NaturalPerson p = naturalPersonRepository.save(person);
-
+        Personal personal1=personalRepository.save(personal);
     }
 
     private void insertTestRoom() {

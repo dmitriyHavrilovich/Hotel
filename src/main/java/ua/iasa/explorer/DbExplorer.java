@@ -21,7 +21,7 @@ import ua.iasa.config.View;
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class DbExplorer extends AbstractJavaFxApplicationSupport {
 
-    @Value("${ui.title:JavaFX приложение}")//
+    @Value("${ui.title:Welcome to the Hotel California!}")//
     private String windowTitle;
 
     @Qualifier("loginView")

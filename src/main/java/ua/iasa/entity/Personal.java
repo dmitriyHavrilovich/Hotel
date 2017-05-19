@@ -18,13 +18,10 @@ public class Personal implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
-    private String surname;
-    private String patronymic;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "personal_id")
+    private String namep;
+    //@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    //@JoinColumn(name = "personal_id")
+   // private Set<PersonOnPost> personOnPosts;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "personal")
     private Set<Document> document;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn( name = "personal_id")
-    private Set<PersonOnPost> personOnPosts;
 }

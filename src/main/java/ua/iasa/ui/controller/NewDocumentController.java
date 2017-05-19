@@ -16,10 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import ua.iasa.config.View;
-import ua.iasa.entity.Contractor;
-import ua.iasa.entity.Document;
-import ua.iasa.entity.DocumentType;
-import ua.iasa.entity.Product;
+import ua.iasa.entity.*;
 import ua.iasa.repository.*;
 import ua.iasa.ui.entity.ReferenceDocument;
 import ua.iasa.ui.entity.ReferenceRoom;
@@ -42,6 +39,8 @@ public class NewDocumentController {
     public Button createButton;
     @FXML
     public TextField productField;
+    @FXML
+    public ChoiceBox<String> employeeChoiceBox;
     @FXML
     private Button cancelButton;
     private ObservableList<Product> goodsInTable;
@@ -80,6 +79,8 @@ public class NewDocumentController {
     @Autowired
     private ProductRepository procrepo;
     @Autowired
+    private PersonalRepository personalRepository;
+    @Autowired
     private DocumentTypeRepository doctyperepo;
     @Autowired
     private ContractorRepository contractorRepository;
@@ -117,6 +118,10 @@ public class NewDocumentController {
                 .map(DocumentType::getType).distinct().collect(Collectors.toList()));
         documentTypeChoiceBox.setItems(doctypedata);
 
+        List<Personal> personalList = (List<Personal>) personalRepository.findAll();
+        ObservableList<String> pers = FXCollections.observableArrayList(personalList.stream()
+                .map(Personal::getNamep).distinct().collect(Collectors.toList()));
+        employeeChoiceBox.setItems(pers);
         //initialize array of data
         goodsInTable = FXCollections.observableArrayList();
         //initialize columns
@@ -166,7 +171,8 @@ public class NewDocumentController {
                         new DocumentType(null, documentTypeChoiceBox.getValue().toString()),
                         null,
                         currencyChoiceBox.getValue().toString(),
-                        new Contractor(null, "", contragentTextField.getText(), null))));
+                        new Contractor(null, "", contragentTextField.getText(), null),
+                        new Personal(null, employeeChoiceBox.getValue(), null))));
             }catch (Exception e){
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Problems with fields data!" );
                 alert.show();
@@ -188,21 +194,24 @@ public class NewDocumentController {
     public void clicked_createButton(ActionEvent actionEvent) {
         if (isAllFieldsAreFilled()) {
             if (isDateOkay(datePicker)) {
-                try {
+               // try {
         Contractor contractor = contractorRepository.findByName(contragentTextField.getText());
-        log.info("Creating document in create button");
+        Personal per = personalRepository.findByNamep(employeeChoiceBox.getValue());
+         log.info("Creating document in create button");
         Document document = new Document(null,
                 datePicker.getValue().toString(),
                 new DocumentType(null, documentTypeChoiceBox.getValue().toString()),
                 null,
                 currencyChoiceBox.getValue().toString(),
-                contractor);
+                contractor, per);
         for (Product p : goodsInTable) {
             p.setDocument(document);
         }
         document.setProducts(goodsInTable);
         contractor.getDocument().add(document);
+        per.getDocument().add(document);
         contractorRepository.save(contractor);
+        personalRepository.save(per);
 
          Alert alert = new Alert(Alert.AlertType.INFORMATION, "New document was added.");
          alert.show();
@@ -214,11 +223,11 @@ public class NewDocumentController {
         Stage stage = (Stage) createButton.getScene().getWindow();
         stage.setScene(view1.getView().getScene());
         stage.show();
-                } catch (Exception e) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR,
-                            "Can't insert data to the database. Please, contact developer.");
-                    alert.show();
-                }
+              //  } catch (Exception e) {
+                //    Alert alert = new Alert(Alert.AlertType.ERROR,
+                  //          "Can't insert data to the database. Please, contact developer.");
+                   // alert.show();
+                //}
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR,
                         "Please, insert correct date!");

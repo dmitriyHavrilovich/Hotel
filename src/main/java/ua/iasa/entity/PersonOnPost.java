@@ -25,8 +25,8 @@ public class PersonOnPost implements Serializable{
     @Column
     private String endDate;
     private Double salary;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Personal personal;
+   // @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+   // private Personal personal;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Post post;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

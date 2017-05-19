@@ -21,4 +21,5 @@ public class ReferenceDocument {
     private Double amount;
     private String measure;
     private Double price;
+    private String namep;
 }

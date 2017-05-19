@@ -38,19 +38,23 @@ public class ReferenceDocumentsDao {
                         "  product.name_type,\n" +
                         "  product.amount,\n" +
                         // "  product.measure,\n" +
-                        "  product.price\n" +
+                        "  product.price,\n" +
+                        " personal.namep\n " +
                         "FROM document\n" +
                         "  LEFT JOIN contractor ON document.contractor_id = contractor.id\n" +
+                        "LEFT JOIN personal ON document.personal_id = personal.id\n" +
                         "  LEFT JOIN product ON document.id = product.document_id\n" +
-                        "LEFT JOIN document_type ON document.type_doc_id = document_type.id").addScalar("id", StandardBasicTypes.LONG)
+                        "LEFT JOIN document_type ON document.type_doc_id = document_type.id")
+                        .addScalar("id", StandardBasicTypes.LONG)
                         .addScalar("doc_type")
                         .addScalar("currency")
                         .addScalar("date")
                         .addScalar("name")
                         .addScalar("name_type")
                         .addScalar("amount", StandardBasicTypes.DOUBLE)
+
                         //   .addScalar("measure",StandardBasicTypes.DOUBLE)
-                        .addScalar("price", StandardBasicTypes.DOUBLE).
+                        .addScalar("price", StandardBasicTypes.DOUBLE).addScalar("namep").
                                 setResultTransformer(new AliasToBeanResultTransformer
                                         (ReferenceDocument.class)).list();
         return new HashSet<>(documents);
