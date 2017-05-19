@@ -152,8 +152,14 @@ public class NewDocumentController {
 
     @FXML
     public void addProduct(ActionEvent actionEvent) {
-        if (priceTextField.getText().equals("") || amountTextField.getText().equals("") || productField.getText().equals("") || currencyChoiceBox.getValue() == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Please, fill all fields in goods section!");
+        if (priceTextField.getText().equals("")
+                || amountTextField.getText().equals("")
+                || Double.parseDouble(amountTextField.getText())<0
+                || Double.parseDouble(priceTextField.getText())<0
+                || productField.getText().equals("")
+                || currencyChoiceBox.getValue() == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Please, fill all fields in goods section or input right amount or price!");
             alert.show();
         } else if (isGoodInGoodsBasket(productField.getText(), goodsInTable)) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Such good is already present in basket!");

@@ -9,6 +9,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
+import org.hibernate.JDBCException;
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import ua.iasa.config.View;
@@ -20,6 +22,8 @@ import ua.iasa.repository.RoomRepository;
 import ua.iasa.ui.entity.ReferenceRoom;
 
 import javax.annotation.PostConstruct;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +41,8 @@ public class MoveGoodRoomController {
     public ChoiceBox<String> goodChoiceBox;
     @FXML
     public TextField amountTextField;
+    @FXML
+    public Button Cancel;
     @Autowired
     private RoomRepository roomrepo;
     @Autowired
@@ -77,14 +83,19 @@ public class MoveGoodRoomController {
     @SneakyThrows
     public void moveGood(ActionEvent actionEvent) {
          try {
-        referenceRoomDao.moveProduct(fromRoomList.getValue(),
-                toRoomList.getValue(),
-                goodChoiceBox.getValue(),
-                Double.parseDouble(amountTextField.getText()));
-        } catch (RuntimeException e) {
-          Alert alert = new Alert(Alert.AlertType.ERROR, "Bad input data");
-          alert.show();
-        }
+             referenceRoomDao.moveProduct(fromRoomList.getValue(),
+                     toRoomList.getValue(),
+                     goodChoiceBox.getValue(),
+                     Double.parseDouble(amountTextField.getText()));
+         } catch(RuntimeException e) {
+             //InvocationTargetException exception = e.
+                // SQLException sqlException = e.getSQLException();
+                 //if (sqlException instanceof PSQLException) {
+                   //  PSQLException psqlException = (PSQLException) sqlException;
+                     Alert alert = new Alert(Alert.AlertType.ERROR,
+                             "No such product in room or wrong amount!");
+                     alert.show();
+                 }
         ObservableList<ReferenceRoom> rooms =
                 FXCollections.observableArrayList(referenceRoomDao.getReferencesOfRoom());
         mainMenuController.setReferenceRoomTable(rooms);
@@ -94,5 +105,11 @@ public class MoveGoodRoomController {
     }
 
     public void action_amountTextField(KeyEvent keyEvent) {
+    }
+    @FXML
+    public void CancelMove(ActionEvent actionEvent) {
+        Stage stage = (Stage) Cancel.getScene().getWindow();
+        stage.setScene(view1.getView().getScene());
+        stage.show();
     }
 }

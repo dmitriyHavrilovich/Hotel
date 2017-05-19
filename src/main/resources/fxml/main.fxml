@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="682.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.iasa.ui.controller.MainMenuController">
+<Pane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="497.0" prefWidth="682.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.iasa.ui.controller.MainMenuController">
     <children>
         <MenuBar layoutY="2.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="29.0" prefWidth="682.0">
             <menus>
@@ -66,7 +66,7 @@
                               <TextField fx:id="physicalSurnameTextField" layoutX="97.0" layoutY="42.0" />
                               <TextField fx:id="physicalNameTextField" layoutX="97.0" layoutY="74.0" />
                               <TextField fx:id="physicalFathersNameTextField" layoutX="97.0" layoutY="104.0" prefHeight="25.0" prefWidth="149.0" />
-                              <Button fx:id="searchPhysicalButton" layoutX="16.0" layoutY="143.0" mnemonicParsing="false" onAction="#searchNaturalPerson" prefHeight="25.0" prefWidth="80.0" text="Пошук" />
+                              <Button fx:id="searchPhysicalButton" layoutX="88.0" layoutY="148.0" mnemonicParsing="false" onAction="#searchNaturalPerson" prefHeight="25.0" prefWidth="80.0" text="Пошук" />
                               <ScrollPane layoutX="256.0" layoutY="10.0" prefHeight="300.0" prefViewportHeight="275.0" prefViewportWidth="323.0" prefWidth="363.0">
                                  <content>
                                     <TableView fx:id="physicalTable" layoutX="266.0" layoutY="42.0" prefHeight="296.0" prefWidth="361.0">
@@ -77,10 +77,10 @@
                                     </TableView>
                                  </content>
                               </ScrollPane>
-                              <Button fx:id="addPhysicalButton" layoutX="16.0" layoutY="298.0" mnemonicParsing="false" onAction="#AddNaturalPerson" prefHeight="25.0" prefWidth="80.0" text="Додати" />
+                              <Button fx:id="addPhysicalButton" layoutX="88.0" layoutY="270.0" mnemonicParsing="false" onAction="#AddNaturalPerson" prefHeight="25.0" prefWidth="80.0" text="Додати" />
                               <Button fx:id="refreshPhysicalTable" layoutX="265.0" layoutY="335.0" mnemonicParsing="false" onAction="#refreshNaturalTable" prefHeight="25.0" prefWidth="125.0" text="Оновити таблицю" />
                               <Separator layoutX="253.0" layoutY="5.0" orientation="VERTICAL" prefHeight="442.0" prefWidth="3.0" />
-                              <DatePicker fx:id="datePicker" layoutX="10.0" layoutY="214.0" prefHeight="23.0" prefWidth="213.0" />
+                              <DatePicker fx:id="datePicker" layoutX="22.0" layoutY="214.0" prefHeight="23.0" prefWidth="213.0" />
                               <Label layoutX="16.0" layoutY="189.0" text="Дата народження" />
                            </children>
                         </AnchorPane>
@@ -96,7 +96,7 @@
                            <children>
                               <Button fx:id="searchLegalButton" layoutX="16.0" layoutY="143.0" mnemonicParsing="false" onAction="#searchJuridicalPerson" prefHeight="25.0" prefWidth="80.0" text="Пошук" />
                               <Separator layoutX="253.0" layoutY="-26.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="5.0" />
-                              <ScrollPane layoutX="266.0" layoutY="5.0" prefViewportHeight="275.0" prefViewportWidth="323.0">
+                              <ScrollPane layoutX="299.0" prefHeight="271.0" prefViewportHeight="275.0" prefViewportWidth="323.0" prefWidth="323.0">
                                  <content>
                                     <TableView fx:id="legalTable" layoutX="266.0" layoutY="42.0" prefHeight="275.0" prefWidth="323.0">
                                        <columns>
@@ -111,7 +111,7 @@
                               <TextField fx:id="edrpouTextField" layoutX="93.0" layoutY="85.0" onKeyTyped="#keyTypedCode" />
                               <Label layoutX="17.0" layoutY="93.0" text="Код ЄДРПОУ" />
                               <Label layoutX="15.0" layoutY="50.0" text="Назва" />
-                              <Button fx:id="refreshLegalTable" layoutX="266.0" layoutY="310.0" mnemonicParsing="false" onAction="#refreshJuridicalTable" text="Оновити таблицю" />
+                              <Button fx:id="refreshLegalTable" layoutX="403.0" layoutY="287.0" mnemonicParsing="false" onAction="#refreshJuridicalTable" text="Оновити таблицю" />
                            </children>
                         </AnchorPane>
                      </children>
@@ -129,7 +129,6 @@
                                     <TableColumn fx:id="idDocumentColumn" prefWidth="48.0" text="id" />
                                     <TableColumn fx:id="dateColumn" prefWidth="103.0" text="Дата" />
                                     <TableColumn fx:id="goodsColumn" prefWidth="148.0" text="Товар" />
-                                    <TableColumn fx:id="unitsColumn" prefWidth="59.0" text="Одиниці" />
                                     <TableColumn fx:id="amountColumn" prefWidth="99.0" text="Кількість" />
                                     <TableColumn fx:id="currencyColumn" prefWidth="55.0" text="Валюта" />
                                     <TableColumn fx:id="priceColumn" prefWidth="73.0" text="Ціна" />
@@ -161,7 +160,6 @@
                               </TableView>
                            </content>
                         </ScrollPane>
-                        <Button fx:id="ReportButton" layoutX="519.0" layoutY="348.0" mnemonicParsing="false" onAction="#Report" prefHeight="26.0" prefWidth="111.0" text="Звіт" />
                         <Label layoutX="51.0" layoutY="347.0" prefHeight="23.0" prefWidth="57.0" text="Кімната" />
                         <ComboBox fx:id="ChooseRoomBox" layoutX="120.0" layoutY="348.0" prefWidth="150.0" />
                         <Button fx:id="MoveButton" layoutX="306.0" layoutY="349.0" mnemonicParsing="false" onAction="#MoveGood" prefHeight="23.0" prefWidth="145.0" text="Перемістити" />

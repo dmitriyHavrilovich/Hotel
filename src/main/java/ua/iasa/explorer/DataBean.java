@@ -26,7 +26,7 @@ public class DataBean implements SmartInitializingSingleton {
 
     private final NaturalPersonRepository naturalPersonRepository;
     private final RoomRepository roomRepository;
-    private final PostRepository postRepository;
+
     private final EntityManager em;
     private final PersonalRepository personalRepository;
     private final ReferenceDocumentsDao documentsDao;
@@ -35,14 +35,14 @@ public class DataBean implements SmartInitializingSingleton {
     public void init() {
         insertTestNperson();
         insertTestRoom();
-        insertPost();
+
 
     }
 
     private void insertTestNperson() {
         NaturalPerson person = new NaturalPerson();
         Personal personal = new Personal();
-        personal.setNamep("Babich Maria Pavlivna");
+        personal.setNamep("Babich MP");
         person.setName("Babich Maria Pavlivna");
         person.setBirthDate("098765");
         person.setPhone("00010230");
@@ -66,14 +66,16 @@ public class DataBean implements SmartInitializingSingleton {
         log.info("Room added", room1);
         Room room2 = roomRepository.save(new Room(null, "Luks", "2", null));
         log.info("Room added", room2);
+        Room room3 = roomRepository.save(new Room(null, "Poluluks", "3", null));
+        log.info("Room added", room3);
+        Room room4 = roomRepository.save(new Room(null, "Econom", "4", null));
+        log.info("Room added", room4);
+        Room room5 = roomRepository.save(new Room(null, "Bisness_class", "5", null));
+        log.info("Room added", room5);
     }
 
 
-    private void insertPost() {
-        Set<PersonOnPost> personOnPosts = new HashSet<>();
-        Post post1 = postRepository.save(new Post(null, "Cleaner", 3, personOnPosts));
-        log.info("Post added {}", post1);
-    }
+
 
     @Override
     @SneakyThrows

@@ -397,8 +397,6 @@ public class MainMenuController {
     @FXML
     private TableColumn<ReferenceDocument, String> goodsColumn;
     @FXML
-    private TableColumn<ReferenceDocument, String> unitsColumn;
-    @FXML
     private TableColumn<ReferenceDocument, Double> amountColumn;
     @FXML
     private TableColumn<ReferenceDocument, String> currencyColumn;
@@ -420,11 +418,17 @@ public class MainMenuController {
         CsvSchema schema = mapper.schemaFor(ReferenceDocument.class).withHeader();
         return mapper.writer(schema).writeValueAsString(referenceDocumentsDao.getReferencesOfDocuments());
     }
+    @SneakyThrows
+    public String toCSVRoom(Set<ReferenceRoom> referencesOfDocuments) {
+        CsvMapper mapper = new CsvMapper();
+        CsvSchema schema = mapper.schemaFor(ReferenceDocument.class).withHeader();
+        return mapper.writer(schema).writeValueAsString(referenceRoomDao.getReferencesOfRoom());
+    }
 
     @FXML
     @SneakyThrows
     public void Reporting(ActionEvent actionEvent) {
-        File file = new File("report.csv");
+        File file = new File("reportDocument.csv");
         String report = toCSV(referenceDocumentsDao.getReferencesOfDocuments());
         FileUtils.writeStringToFile(file, report);
     }
@@ -432,10 +436,9 @@ public class MainMenuController {
     @SneakyThrows
     @FXML
     public void Report(ActionEvent actionEvent) {
-        // File file= new File("report.txt");
-        // System.out.println(file.getAbsolutePath());
-        //String report = toCSV((List)referenceDocumentsDao.getReferencesOfDocuments());
-        //FileUtils.writeStringToFile(file, report);
+         File file= new File("reportRoom.txt");
+        String report = toCSVRoom(referenceRoomDao.getReferencesOfRoom());
+        FileUtils.writeStringToFile(file, report);
 
     }
 

@@ -134,3 +134,13 @@ LANGUAGE 'plpgsql' VOLATILE;
 
 CREATE TRIGGER CheckPJTrigger BEFORE INSERT ON juridical_person FOR EACH ROW
 EXECUTE PROCEDURE Juridical_check();
+
+CREATE OR REPLACE VIEW Product_in_room
+AS SELECT
+ room.id,  room.room_type,
+                       room.number,
+                        room_product.name_type,
+                       room_product.amount
+                        FROM room
+                         LEFT JOIN room_product
+                       ON room.id = room_product.room_id ORDER BY room.number;

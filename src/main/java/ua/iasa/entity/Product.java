@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Data
 @Entity
 @Table
-@EqualsAndHashCode(exclude = "document")
+@EqualsAndHashCode(exclude = {"document","personal","contractor"})
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product implements Serializable {

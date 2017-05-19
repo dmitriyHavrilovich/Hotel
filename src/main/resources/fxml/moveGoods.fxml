@@ -10,10 +10,11 @@
       <Label layoutX="18.0" layoutY="120.0" prefHeight="17.0" prefWidth="34.0" text="To" />
       <ComboBox fx:id="fromRoomList" layoutX="85.0" layoutY="51.0" prefWidth="150.0" />
       <ComboBox fx:id="toRoomList" layoutX="84.0" layoutY="117.0" prefWidth="150.0" />
-      <Button fx:id="MoveGoodButton" layoutX="236.0" layoutY="180.0" mnemonicParsing="false" onAction="#moveGood" text="Move!" />
+      <Button fx:id="MoveGoodButton" layoutX="135.0" layoutY="177.0" mnemonicParsing="false" onAction="#moveGood" text="Move!" />
       <Label layoutX="261.0" layoutY="125.0" prefHeight="17.0" prefWidth="99.0" text="Кількість товару" />
       <Label layoutX="252.0" layoutY="55.0" prefHeight="17.0" prefWidth="174.0" text="Товар" />
       <TextField fx:id="amountTextField" layoutX="377.0" layoutY="121.0" onKeyTyped="#action_amountTextField" prefHeight="25.0" prefWidth="99.0" />
       <ChoiceBox fx:id="goodChoiceBox" layoutX="333.0" layoutY="51.0" prefHeight="25.0" prefWidth="174.0" />
+      <Button fx:id="Cancel" layoutX="285.0" layoutY="177.0" mnemonicParsing="false" onAction="#CancelMove" text="Відміна" />
    </children>
 </Pane>

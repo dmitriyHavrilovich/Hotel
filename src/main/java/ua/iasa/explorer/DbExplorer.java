@@ -1,6 +1,7 @@
 package ua.iasa.explorer;
 
 import javafx.scene.Scene;
+import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,6 +35,8 @@ public class DbExplorer extends AbstractJavaFxApplicationSupport {
         stage.setScene(new Scene(view.getView()));
         stage.setResizable(true);
         stage.centerOnScreen();
+        //ImagePattern pattern = new ImagePattern(myImage);
+        //stage.setFill(pattern);
         stage.show();
     }
 

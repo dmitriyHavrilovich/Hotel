@@ -75,6 +75,10 @@ public class ChooseContragentsController {
     @PostConstruct
     public void init() {
         //initialize columns
+        List<NaturalPerson> natpersons = (List<NaturalPerson>) naturalPersonRepository.findAll();
+        naturalPerson = FXCollections.observableArrayList(natpersons);
+        physicalNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        physicalTable.setItems(naturalPerson);
         physicalNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
         legalNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
