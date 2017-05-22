@@ -2,6 +2,17 @@ package ua.iasa.ui.controller;
 
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import com.haulmont.yarg.loaders.factory.DefaultLoaderFactory;
+import com.haulmont.yarg.loaders.impl.SqlDataLoader;
+import com.haulmont.yarg.reporting.ReportOutputDocument;
+import com.haulmont.yarg.reporting.Reporting;
+import com.haulmont.yarg.reporting.RunParams;
+import com.haulmont.yarg.structure.Report;
+import com.haulmont.yarg.structure.ReportBand;
+import com.haulmont.yarg.structure.ReportOutputType;
+import com.haulmont.yarg.structure.impl.BandBuilder;
+import com.haulmont.yarg.structure.impl.ReportBuilder;
+import com.haulmont.yarg.structure.impl.ReportTemplateBuilder;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -19,6 +30,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.swing.JRViewer;
+import net.sf.jasperreports.view.JasperViewer;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,7 +48,10 @@ import ua.iasa.ui.entity.ReferenceDocument;
 import ua.iasa.ui.entity.ReferenceRoom;
 
 import javax.annotation.PostConstruct;
+import javax.swing.*;
+import javax.swing.text.DefaultFormatterFactory;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -428,9 +445,63 @@ public class MainMenuController {
     @FXML
     @SneakyThrows
     public void Reporting(ActionEvent actionEvent) {
-        File file = new File("reportDocument.csv");
-        String report = toCSV(referenceDocumentsDao.getReferencesOfDocuments());
-        FileUtils.writeStringToFile(file, report);
+        ReportBuilder reportBuilder = new ReportBuilder();
+        ReportTemplateBuilder reportTemplateBuilder = new ReportTemplateBuilder()
+                .documentPath("./src/main/resources/sql/Document_report.xls")
+                .documentName("Document_report.xls")
+                .outputType(ReportOutputType.xls)
+                .readFileFromPath();
+        reportBuilder.template(reportTemplateBuilder.build());
+        BandBuilder bandBuilder = new BandBuilder();
+        ReportBand documents= bandBuilder.name("Documents")
+                .query("Documents", "SELECT"+
+                        " document.id,\n" +
+                                " document_type.doc_type,\n" +
+                                " document.currency,\n" +
+                                " document.date,\n" +
+                                " contractor.name,\n" +
+                                " product.name_type,\n" +
+                                " product.amount,\n" +
+                                " product.price,\n" +
+                                " personal.namep\n " +
+                                "FROM document\n" +
+                                "  LEFT JOIN contractor ON document.contractor_id = contractor.id\n" +
+                                "LEFT JOIN personal ON document.personal_id = personal.id\n" +
+                                "  LEFT JOIN product ON document.id = product.document_id\n" +
+                                "LEFT JOIN document_type ON document.type_doc_id = document_type.id", "sql")
+                .build();
+        reportBuilder.band(documents);
+        Report report = reportBuilder.build();
+
+        Reporting reporting = new Reporting();
+        reporting.setFormatterFactory(new DefaultFormatterFactory());
+        reporting.setLoaderFactory(
+                new DefaultLoaderFactory().setSqlDataLoader(
+                new SqlDataLoader(referenceDocumentsDao.getReferencesOfDocuments())));
+
+        ReportOutputDocument reportOutputDocument = reporting.runReport(
+                new RunParams(report), new FileOutputStream("./src/main/resources/sql/Document_report.xls"));
+      //  File file = new File("reportDocument.csv");
+       // String report = toCSV(referenceDocumentsDao.getReferencesOfDocuments());
+        //FileUtils.writeStringToFile(file, report);*/
+
+      /* String reportPath = "src/Report.jrxml";
+        try {
+            JasperReport jr = JasperCompileManager.compileReport(reportPath);
+            //JasperReport jr = JasperCompileManager.compileReport(inputStream);
+           // JasperPrint jp = JasperFillManager.fillReport(jr, null, referenceDocumentsDao.getReferencesOfDocuments());
+            //JasperViewer.viewReport(jp);
+            //JasperViewer viewer = new JasperViewer(jp, false);
+            //viewer.viewReport(jp, false);
+          //  JFrame frame = new JFrame("Report window title");
+           // frame.getContentPane().add(new JRViewer(jp));
+           // frame.pack();
+           // frame.setVisible(true);
+        } catch (JRException ex) {
+            //Logger.getLoggRExceptioner(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Can't open report, problems with JasperReport!\n" + ex.getMessage());
+            alert.show();
+        }*/
     }
 
     @SneakyThrows

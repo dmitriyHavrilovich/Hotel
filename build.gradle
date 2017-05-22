@@ -17,6 +17,9 @@ dependencies {
     compile group: 'org.postgresql', name: 'postgresql', version: '42.0.0'
     compile group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
     compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: '2.8.8'
+    compile group: 'com.haulmont.yarg', name: 'yarg-api', version: '1.0.70'
+    compile group: 'com.haulmont.yarg', name: 'yarg', version: '1.0.70'
+    compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.4.0'
 
     testCompile("org.springframework.boot:spring-boot-starter-test:1.5.2.RELEASE")
 }
