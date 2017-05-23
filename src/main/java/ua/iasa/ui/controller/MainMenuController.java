@@ -447,7 +447,7 @@ public class MainMenuController {
     public void Reporting(ActionEvent actionEvent) {
         ReportBuilder reportBuilder = new ReportBuilder();
         ReportTemplateBuilder reportTemplateBuilder = new ReportTemplateBuilder()
-                .documentPath("./src/main/resources/sql/Document_report.xls")
+                .documentPath("./src/main/resources/Document_report.xls")
                 .documentName("Document_report.xls")
                 .outputType(ReportOutputType.xls)
                 .readFileFromPath();
@@ -474,13 +474,12 @@ public class MainMenuController {
         Report report = reportBuilder.build();
 
         Reporting reporting = new Reporting();
-        reporting.setFormatterFactory(new DefaultFormatterFactory());
-        reporting.setLoaderFactory(
-                new DefaultLoaderFactory().setSqlDataLoader(
+        reporting.setFormatterFactory(new com.haulmont.yarg.formatters.factory.DefaultFormatterFactory());
+        reporting.setLoaderFactory(new DefaultLoaderFactory().setSqlDataLoader(
                 new SqlDataLoader(referenceDocumentsDao.getReferencesOfDocuments())));
 
         ReportOutputDocument reportOutputDocument = reporting.runReport(
-                new RunParams(report), new FileOutputStream("./src/main/resources/sql/Document_report.xls"));
+                new RunParams(report), new FileOutputStream("./src/main/resources/Document_report.xls"));
       //  File file = new File("reportDocument.csv");
        // String report = toCSV(referenceDocumentsDao.getReferencesOfDocuments());
         //FileUtils.writeStringToFile(file, report);*/
